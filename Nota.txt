@@ -1,0 +1,17 @@
+Para que seja possível distribuir o jogo com os elementos da pasta Build, algumas alterações no código devem ser feitas, conforme segue:
+
+No arquivo DatabaseConnection.cs:
+
+linha 13 deve estar da seguinte forma:
+string filePath = Directory.GetCurrentDirectory() + @"\Data\data.txt";
+
+No arquivo MenuController.cs:
+
+linha 35 deve estar da seguinte forma:
+if(File.Exists(Directory.GetCurrentDirectory() + @"\Data\data.txt") && isUserAuthenticated == false) {
+
+linha 70 deve estar da seguinte forma:
+Process.Start(Directory.GetCurrentDirectory() + @"\Scripts\first_login.exe", username + " " + password);
+
+
+De maneira resumida, todos os acessos ao script first_login.exe e ao arquivo data.txt devem ser referenciados sem "\Assets\", uma vez que essa pasta só existe no contexto de desenvolvimento do jogo.
