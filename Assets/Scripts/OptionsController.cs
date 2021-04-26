@@ -127,7 +127,7 @@ public class OptionsController : MonoBehaviour {
         else
             developer.SetActive(false);
 
-        if(functionsVoted >= 2)
+        if(functionsVoted >= 3)
             PhotonNetwork.LoadLevel("MainScene");
     }
 

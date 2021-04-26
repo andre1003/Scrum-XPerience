@@ -1,0 +1,5 @@
+Implementar Requisitos
+Realizar Testes
+Comunicar Erros
+Desenvolver em Pares
+Reparar Erros

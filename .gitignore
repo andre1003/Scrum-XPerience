@@ -69,3 +69,10 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+/[Aa]ssets/[Dd]ata/**/*.meta
+/[Aa]ssets/[Ss]cripts/**/*.meta
+
+/[Aa]ssets/[Dd]ata/hits.txt
+/[Aa]ssets/[Dd]ata/mistakes.txt
+/[Aa]ssets/[Dd]ata/score.txt

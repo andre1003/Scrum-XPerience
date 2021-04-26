@@ -1,0 +1,3 @@
+Planejar Desenvolvimento do Incremento
+Discutir Possíveis Testes
+Revisão do Incremento

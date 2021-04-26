@@ -1,0 +1,4 @@
+Definir Testes
+Automatizar Testes
+Verificar Implementação
+Validar Resultados dos Testes

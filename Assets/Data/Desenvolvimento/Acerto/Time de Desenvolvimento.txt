@@ -1,0 +1,4 @@
+Implementar Requisitos
+Realizar Testes
+Corrigir Erros
+Documentar Código

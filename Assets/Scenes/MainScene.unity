@@ -131,6 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 60764500}
   - component: {fileID: 60764501}
+  - component: {fileID: 60764502}
   m_Layer: 0
   m_Name: DevelopmentRoom
   m_TagString: Untagged
@@ -173,6 +174,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 11.132292, y: 5.541749, z: 17.238102}
   m_Center: {x: -4.565448, y: 0.4348626, z: 4.562642}
+--- !u!114 &60764502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60764499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb8c26629dde834db8cdf0ad1d16fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &151276657
 PrefabInstance:
   m_ObjectHideFlags: 0

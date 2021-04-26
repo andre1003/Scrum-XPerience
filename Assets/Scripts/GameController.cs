@@ -14,6 +14,9 @@ public class GameController : Photon.MonoBehaviour {
 
     private List<string> choices;
 
+    private MouseController mouseController;
+    private MovementController movementController;
+
     private void Awake() {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
@@ -33,6 +36,9 @@ public class GameController : Photon.MonoBehaviour {
 
         GameObject spawnedPlayerGO = PhotonNetwork.Instantiate(playerPrefab.name, spawnSpot.transform.position, Quaternion.identity, 0);
 
+        movementController = spawnedPlayerGO.GetComponent<MovementController>();
+        mouseController = spawnedPlayerGO.GetComponentInChildren<MouseController>();
+
         spawnedPlayerGO.GetComponent<MovementController>().enabled = true;
         spawnedPlayerGO.GetComponentInChildren<MouseController>().enabled = true;
         spawnedPlayerGO.GetComponentInChildren<Camera>().enabled = true;
@@ -41,6 +47,11 @@ public class GameController : Photon.MonoBehaviour {
         Cursor.visible = false;
 
         gameCanvas.SetActive(false);
+    }
+
+    public void LockOrUnlockPlayer() {
+        movementController.enabled = !movementController.enabled;
+        mouseController.enabled = !mouseController.enabled;
     }
 
     private List<string> GetPlayerChoicesByFunction(string function) {

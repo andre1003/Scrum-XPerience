@@ -1,0 +1,4 @@
+Definir Requisitos
+Definir Sequência de Desenvolvimento
+Apresentar Incremento
+Comunicar Desenvolvimento
