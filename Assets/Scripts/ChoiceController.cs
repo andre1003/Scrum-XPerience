@@ -10,6 +10,8 @@ public class ChoiceController : MonoBehaviour {
     public string scene;
 
     public List<Text> list;
+    public List<Text> descriptionList;
+
     public Text sceneName;
     public Text functionName;
     public Text scoreText;
@@ -21,9 +23,12 @@ public class ChoiceController : MonoBehaviour {
     private int individualHits;
     private int individualMistakes;
 
+    private List<string> passedScenes;
+
     private void Awake() {
         individualHits = 0;
         individualMistakes = 0;
+        passedScenes = new List<string>();
     }
 
     public void GetChoices() {
@@ -37,21 +42,25 @@ public class ChoiceController : MonoBehaviour {
 
         for(int i = 0; i < lenght; i++) {
             if(i == rightChoice) {
-                ChangeTextByFunction(list[i], true);
+                ChangeTextByFunction(list[i], true, i);
             }
             else {
-                ChangeTextByFunction(list[i], false);
+                ChangeTextByFunction(list[i], false, i);
             }
         }
     }
 
-    void ChangeTextByFunction(Text btnText, bool right) {
+    void ChangeTextByFunction(Text btnText, bool right, int index) {
         if(right) {
-            btnText.text = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Acerto\" + function + @".txt")[1];
+            string line = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Acerto\" + function + @".txt")[0];
+            string[] split = line.Split(';');
+            btnText.text = split[0];
+            descriptionList[index].text = split[1];
         }
         else {
             //btnText.text = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Erro\" + function + @".txt")[0];
             btnText.text = "Erro";
+            descriptionList[index].text = "Erro";
         }
     }
 
@@ -70,14 +79,12 @@ public class ChoiceController : MonoBehaviour {
     public void CheckHit(int buttonID) {
         if(buttonID == rightChoice) {
             individualHits++;
-            Debug.Log("Acertou! Total de acertos: " + individualHits);
             using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\hits.txt", true)) {
                 writer.WriteLine(list[buttonID].text);
             }
         }
         else {
             individualMistakes++;
-            Debug.Log("Errou! Total de erros: " + individualMistakes);
             using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt", true)) {
                 writer.WriteLine(list[buttonID].text);
             }
@@ -89,5 +96,17 @@ public class ChoiceController : MonoBehaviour {
             string scoreJson = "{\"hits\": " + individualHits + ", \"mistakes\": " + individualMistakes + "}";
             writer.Write(scoreJson);
         }
+    }
+
+    public List<string> GetPassedScenesList() {
+        return passedScenes;
+    }
+
+    public void AddPassedScene() {
+        passedScenes.Add(scene);
+    }
+
+    public void ClearPassedScenesList() {
+        passedScenes.Clear();
     }
 }

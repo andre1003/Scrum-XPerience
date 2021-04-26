@@ -11,8 +11,10 @@ public class MenuController : MonoBehaviour {
     public InputField usernameInputField;
     public InputField passwordInputField;
 
-    public InputField joinGameInputField;
-    public InputField createGameInputField;
+    /*public InputField joinGameInputField;
+    public InputField createGameInputField;*/
+
+    public InputField roomNameInputField;
 
     public GameObject startButton;
     public GameObject usernameInputCanvas;
@@ -54,7 +56,7 @@ public class MenuController : MonoBehaviour {
     /* TEST ONLY METHOD */
     public void SetUsername() {
         roomOptionsCanvas.SetActive(true);
-        joinGameInputField.Select();
+        roomNameInputField.Select();
         usernameInputCanvas.SetActive(false);
         PhotonNetwork.playerName = usernameInputField.text;
     }
@@ -72,17 +74,17 @@ public class MenuController : MonoBehaviour {
 
     public void SetUsernameFromDB(string username) {
         roomOptionsCanvas.SetActive(true);
-        joinGameInputField.Select();
+        roomNameInputField.Select();
         usernameInputCanvas.SetActive(false);
         PhotonNetwork.playerName = username;
     }
 
     public void CreateGame() {
-        PhotonNetwork.CreateRoom(createGameInputField.text, new RoomOptions() { MaxPlayers = 4 }, null);
+        PhotonNetwork.CreateRoom(roomNameInputField.text, new RoomOptions() { MaxPlayers = 4 }, null);
     }
 
     public void JoinGame() {
-        PhotonNetwork.JoinOrCreateRoom(joinGameInputField.text, new RoomOptions() { MaxPlayers = 4 }, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom(roomNameInputField.text, new RoomOptions() { MaxPlayers = 4 }, TypedLobby.Default);
     }
 
     private void OnJoinedRoom() {

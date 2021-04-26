@@ -12,11 +12,13 @@ public class CollideController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         //gameController.LockOrUnlockPlayer();
-        choiceController.LockOrUnlockPlayer(); // TEST-ONLY METHOD CALL
-        choiceController.scene = scene;
-        choiceController.GetChoices();
-        choiceCanvas.SetActive(true);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
+        if(!choiceController.GetPassedScenesList().Contains(scene)) {
+            choiceController.LockOrUnlockPlayer(); // TEST-ONLY METHOD CALL
+            choiceController.scene = scene;
+            choiceController.GetChoices();
+            choiceCanvas.SetActive(true);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
     }
 }
