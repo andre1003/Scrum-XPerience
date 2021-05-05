@@ -1,3 +1,3 @@
-Definir Requisitos
-Produzir Backlog do Produto
-Comunicar Desenvolvimento
+Definir Requisitos;Conduzir o processo de Engenharia de Requisitos. Ou seja, conversar com o cliente de modo a obter os requisitos funcionais e não funcionais do software a ser desenvolvido
+Produzir Backlog do Produto;Definir uma ordem de prioridade dos requisitos definidos, de modo a produzir o Backlog do Produto
+Comunicar Desenvolvimento;Notificar o cliente sobre o desenvolvimento do software. Isso pode ser interessante para mantê-lo ciente do que está sendo implementado

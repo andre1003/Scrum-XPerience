@@ -1,3 +1,3 @@
-Reportar Problemas
-Planejamento do Dia
-Revisão do Incremento
+Reportar Problemas;Reportar quais são os problemas encontrados durante o desenvolvimento
+Planejamento do Dia;Planejar o que será feito no dia de hoje
+Revisão do Incremento;Revisar o que foi feito, incluindo os testes conduzidos

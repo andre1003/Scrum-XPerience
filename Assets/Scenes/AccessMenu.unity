@@ -420,7 +420,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Insira um nome de usu\xE1rio:"
+  m_Text: "Nome de usu\xE1rio:"
 --- !u!222 &38634173
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1608,7 +1608,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Insira a senha:'
+  m_Text: 'Senha:'
 --- !u!222 &1390368643
 CanvasRenderer:
   m_ObjectHideFlags: 0

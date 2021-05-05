@@ -441,27 +441,27 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: be93d0cbb65b894408f63b279819cbca,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: be93d0cbb65b894408f63b279819cbca,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: be93d0cbb65b894408f63b279819cbca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.3652868
+      value: 3.15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: be93d0cbb65b894408f63b279819cbca,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.371256
+      value: -5.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: be93d0cbb65b894408f63b279819cbca,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.3396885
+      value: 3.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: be93d0cbb65b894408f63b279819cbca,
         type: 3}
@@ -1036,22 +1036,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.657264
+      value: -6.47
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.71
+      value: 3.67
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.0634637
+      value: 8.41
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.740238
+      value: 0.0029986186
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
@@ -1061,7 +1061,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.6723449
+      value: 0.9999956
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
@@ -1076,7 +1076,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 84.497
+      value: 179.656
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e7dc7ba5949e444894b10d0bb62ea87,
         type: 3}
@@ -2409,7 +2409,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1
+  m_Text: Escolha 1
 --- !u!222 &872451530
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2650,7 +2650,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Cenario
+  m_Text: <Nome do Cenario>
 --- !u!222 &1076624313
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3068,7 +3068,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 3
+  m_Text: Escolha 3
 --- !u!222 &1177392145
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4501,7 +4501,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Papel
+  m_Text: <Papel>
 --- !u!222 &1550477146
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5389,7 +5389,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2
+  m_Text: Escolha 2
 --- !u!222 &1900934632
 CanvasRenderer:
   m_ObjectHideFlags: 0

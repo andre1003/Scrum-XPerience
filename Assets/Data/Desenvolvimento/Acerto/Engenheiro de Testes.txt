@@ -1,4 +1,4 @@
-Definir Testes
-Automatizar Testes
-Verificar Implementação
-Validar Resultados dos Testes
+Definir Testes;Definir quais testes serão realizados, bem como os softwares utilizados para a automatização deles
+Automatizar Testes;Produzir a automatização dos testes
+Verificar Implementação;Verificar se os requisitos implementados estão de acordo com a vontade do cliente
+Validar Resultados dos Testes;Validar os resultados dos testes executados, de modo a identificar erros no sistema

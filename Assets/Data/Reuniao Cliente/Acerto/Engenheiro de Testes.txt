@@ -1,2 +1,2 @@
-Revisar Requisitos
-Apresentar Resultados dos Testes
+Revisar Requisitos;Auxiliar o Gerente de Projetos na definição dos requisitos do sistema
+Apresentar Resultados dos Testes;Notificar o cliente sobre os resultados dos testes, de modo a apontar se o desenvolvimento está sendo conduzido de forma correta ou não

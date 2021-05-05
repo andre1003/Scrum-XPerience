@@ -1,4 +1,4 @@
-Definir Requisitos
-Definir Sequência de Desenvolvimento
-Apresentar Incremento
-Comunicar Desenvolvimento
+Definir Requisitos;Conduzir o processo de Engenharia de Requisitos, de modo a definir quais funcionalidade devem estar contidas no software
+Definir Sequência de Desenvolvimento;Definir uma sequência de desenvolvimento dos requisitos, com base em uma classificação de importância da funcionalidade para o sistema
+Apresentar Incremento;Apresentar o incremento produzido para o cliente, de modo a obter seu feedback
+Comunicar Desenvolvimento;Comunicar a condução do desenvolvimento do sistema

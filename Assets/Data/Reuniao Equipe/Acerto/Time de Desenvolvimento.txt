@@ -1,4 +1,4 @@
-Daily Scrum
-Planejamento da Sprint
-Revisão da Sprint
-Retrospectiva da Sprint
+Daily Scrum;Responder as questões do Scrum Master, identificando o que foi feito ontem, o que será feito hoje e quais os impedimentos encontrados
+Planejamento da Sprint;Realizar o planejamento da Sprint, identificando as funcionalidades mais importantes para este incremento
+Revisão da Sprint;Revisar o que foi feito nesta Sprint
+Retrospectiva da Sprint;Identificar como foi conduzida a Sprint, de modo a apontar problemas e sugestões de melhorias em futuras Sprints

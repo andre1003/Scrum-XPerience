@@ -1,5 +1,5 @@
-Implementar Requisitos
-Realizar Testes
-Comunicar Erros
-Desenvolver em Pares
-Reparar Erros
+Implementar Requisitos;Implementar os requisitos definidos para este incremento
+Realizar Testes;Realizar os testes de unidade para as funcionalidades implementadas
+Comunicar Erros;Comunicar ao Gerente de Projetos e Engenheiro de Testes os erros encontrados pelos testes aplicados
+Desenvolver em Pares;Realizar o desenvolvimento e depuração do códugo em par com outro desenvolvedor
+Reparar Erros;Realizar a correção dos erros que foram identificados
