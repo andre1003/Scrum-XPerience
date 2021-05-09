@@ -32,22 +32,21 @@ public class TimeController : MonoBehaviour {
                 choiceTimeText.text = "Tempo: " + Mathf.Round(time).ToString();
             }
             else {
-                gameOver.SetActive(true);
-                choiceController.LockOrUnlockPlayer();
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
                 timeLeft = false;
             }
         }
 
-        if(choiceController.GetPassedScenesList().Count == 4) { // New round
+        if(choiceController.GetPassedScenesList().Count == 4 || !timeLeft) { // New round
             round++;
             roundText.text = "Rodada: " + round.ToString();
-            choiceController.ClearPassedScenesList();
+
+            choiceController.EndRound();
+
             time = maxTime;
-            timeLeft = true;
             timeText.text = "Tempo: " + Mathf.Round(time).ToString();
             choiceTimeText.text = "Tempo: " + Mathf.Round(time).ToString();
+            
+            timeLeft = true;
         }
     }
 }

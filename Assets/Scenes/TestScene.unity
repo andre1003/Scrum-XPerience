@@ -954,7 +954,7 @@ MonoBehaviour:
   roundText: {fileID: 1608147264}
   choiceController: {fileID: 941011726}
   gameOver: {fileID: 1216992126}
-  maxTime: 40
+  maxTime: 5
 --- !u!4 &423180256
 Transform:
   m_ObjectHideFlags: 0

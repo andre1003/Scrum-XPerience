@@ -90,6 +90,10 @@ public class ChoiceController : MonoBehaviour {
             }
         }
 
+        UpdateScore();
+    }
+
+    void UpdateScore() {
         scoreText.text = "Acertos: " + individualHits + "\nErros: " + individualMistakes;
 
         using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\score.txt")) {
@@ -106,7 +110,24 @@ public class ChoiceController : MonoBehaviour {
         passedScenes.Add(scene);
     }
 
-    public void ClearPassedScenesList() {
+    void ClearPassedScenesList() {
         passedScenes.Clear();
+    }
+
+    public void EndRound() {
+        int errors = 4 - passedScenes.Count;
+        individualMistakes += errors;
+
+        UpdateScore();
+
+        while(errors > 0) {
+            using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt", true)) {
+                writer.WriteLine("Tempo Esgotado");
+            }
+
+            errors--;
+        }
+
+        ClearPassedScenesList();
     }
 }
