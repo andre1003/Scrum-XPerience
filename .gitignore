@@ -77,4 +77,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Dd]ata/hits.txt
 /[Aa]ssets/[Dd]ata/mistakes.txt
 /[Aa]ssets/[Dd]ata/score.txt
+/[Aa]ssets/[Dd]ata/individual_feedback.txt
 **/*.blend1

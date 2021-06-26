@@ -21,11 +21,15 @@ public class ChoiceController : MonoBehaviour {
 
     public ErrorManager errorManager;
 
+    private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
+    private string hitFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\hits.txt";
+
     private int rightChoice;
     private int individualHits;
     private int individualMistakes;
 
     private int round;
+    private int turn;
 
     private bool nothingToDo = false;
 
@@ -35,6 +39,11 @@ public class ChoiceController : MonoBehaviour {
         individualHits = 0;
         individualMistakes = 0;
         passedScenes = new List<string>();
+    }
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Space))
+            GetStats();
     }
 
     public bool GetChoices() {
@@ -128,7 +137,12 @@ public class ChoiceController : MonoBehaviour {
 
     public void SetRound(int round) {
         this.round = round;
-        Debug.Log(this.round);
+        //Debug.Log(this.round);
+    }
+
+    public void SetTurn(int turn) {
+        this.turn = turn;
+        //Debug.Log(this.round);
     }
 
     public void EndRound() {
@@ -138,7 +152,7 @@ public class ChoiceController : MonoBehaviour {
         UpdateScore();
 
         while(errors > 0) {
-            using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt", true)) {
+            using(StreamWriter writer = new StreamWriter(mistakeFilePath, true)) {
                 writer.WriteLine("Tempo Esgotado");
             }
 
@@ -146,5 +160,72 @@ public class ChoiceController : MonoBehaviour {
         }
 
         ClearPassedScenesList();
+    }
+
+    void GetStats() {
+        string[] lines = File.ReadAllLines(hitFilePath);
+        int teamMeeting = 0;
+        int clientMeeting = 0;
+        int development = 0;
+
+        foreach(string line in lines) {
+            if(line.Split(';')[0].Equals("Reuniao Equipe")) {
+                teamMeeting++;
+            }
+
+            // Client Meeting
+            else if(line.Split(';')[0].Equals("Reuniao Cliente")) {
+                clientMeeting++;
+            }
+
+            // Development Room
+            else {
+                development++;
+            }
+        }
+
+        lines = File.ReadAllLines(mistakeFilePath);
+
+        foreach(string line in lines) {
+            if(line.Split(';')[0].Equals("Reuniao Equipe")) {
+                teamMeeting--;
+            }
+
+            // Client Meeting
+            else if(line.Split(';')[0].Equals("Reuniao Cliente")) {
+                clientMeeting--;
+            }
+
+            // Development Room
+            else {
+                development--;
+            }
+        }
+
+        // Team stats
+        if(teamMeeting >= 3) {
+            Debug.Log("A equipe está feliz!");
+        }
+        else if(teamMeeting <= -3) {
+            Debug.Log("A equipe está triste!");
+        }
+        else {
+            Debug.Log("A equipe está neutra.");
+        }
+
+        // Client stats
+        if(clientMeeting >= 3) {
+            Debug.Log("O cliente está feliz!");
+        }
+        else if(clientMeeting <= 3) {
+            Debug.Log("O cliente está triste!");
+        }
+        else {
+            Debug.Log("O cliente está neutro.");
+        }
+
+        //Debug.Log(turn);
+        double progress = ((((turn - 1f) * 4f) + round) / 20f) * 100f; // In %
+        //Debug.Log(progress.ToString());
     }
 }

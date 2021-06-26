@@ -7,7 +7,6 @@ public class TimeController : MonoBehaviour {
     public Text timeText;
     public Text choiceTimeText;
     public Text roundText;
-    public Text turnText;
 
     public ChoiceController choiceController;
     public GameObject gameOver;
@@ -46,9 +45,12 @@ public class TimeController : MonoBehaviour {
             }
 
             choiceController.SetRound(round);
+            
 
             CheckTurnsEnd();
         }
+
+        choiceController.SetTurn(turn);
     }
 
     void CheckTurnsEnd() {

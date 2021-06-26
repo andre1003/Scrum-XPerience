@@ -8,68 +8,117 @@ using System.Linq;
 public class FeedbackManager : MonoBehaviour {
     public Text feedbackText;
     public ErrorManager errorManager;
+    public GameObject continueButton;
 
     private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
+    private string individualFeedbackFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\individual_feedback.txt";
     private string[] lines;
 
-    private List<string> concepts;
+    private string timeoutText = "Você demorou muito para tomar as decisões! Mais atenção!";
+    private string teamMeetingText = "Sua comunicação com a equipe foi falha! Muito cuidado, pois essa é uma etapa fundamental para o desenvolvimento ágil.";
+    private string clientMeetingText = "A comunicação com o cliente é essencial para os métodos ágeis! Lembre-se sempre disso...";
+    private string developmentRoomText = "Apesar de tudo, o desenvolvimento do software não foi dos melhores... Busque estudar mais sobre o desenvolvimento utilizando metodologias ágeis. Isso vai te ajudar bastante!";
 
-    private int timeoutCount;
-    private int teamMeetingCount;
-    private int clientMeetingCount;
-    private int developmentRoomCount;
+    private List<string> feedback = new List<string>();
 
-    private string timeoutText = "Demorou muito para tomar as decisões! Mais atenção!\n";
-    private string teamMeetingText = "Sua comunicação com a equipe foi falha! Muito cuidado, pois essa é uma etapa fundamental para o desenvolvimento ágil.\n";
-    private string clientMeetingText = "A comunicação com o cliente é essencial para os métodos ágeis! Lembre-se sempre disso...\n";
-    private string developmentRoomText = "Apesar de tudo, o desenvolvimento do software não foi dos melhores... Busque estudar mais sobre o desenvolvimento utilizando metodologias ágeis. Isso vai te ajudar bastante!\n";
+    private bool canContinue = false;
+
+    private short count = 0;
 
     // Start is called before the first frame update
     void Start() {
-        SetAuxiliarFeedback();
-
-        timeoutCount = 0;
-        teamMeetingCount = 0;
-        clientMeetingCount = 0;
-        developmentRoomCount = 0;
+        ShowStats();
     }
 
-    void SetAuxiliarFeedback() {
+    private void Update() {
+        if(canContinue) {
+            if(Input.GetKeyDown(KeyCode.Return)) {
+                if(count == 1)
+                    ShowFeedback();
+                else {
+                    canContinue = false;
+                    continueButton.SetActive(canContinue);
+                    feedbackText.text = "";
+                }
+            }
+        }
+    }
+
+    void ShowStats() {
         List<string> aux = new List<string>();
         lines = File.ReadAllLines(mistakeFilePath);
 
         foreach(string line in lines) {
             // Timeout
             if(line.Equals("Tempo Esgotado")) {
-                timeoutCount++;
+                errorManager.IncreaseMistakes(4);
                 aux.Add(timeoutText);
             }
 
             // Team Meeting
             else if(line.Split(';')[0].Equals("Reuniao Equipe")) {
-                teamMeetingCount++;
+                errorManager.IncreaseMistakes(0);
                 aux.Add(teamMeetingText);
             }
 
             // Client Meeting
             else if(line.Split(';')[0].Equals("Reuniao Cliente")) {
-                clientMeetingCount++;
+                errorManager.IncreaseMistakes(1);
                 aux.Add(clientMeetingText);
             }
 
             // Development Room
             else {
-                developmentRoomCount++;
+                errorManager.IncreaseMistakes(2);
                 aux.Add(developmentRoomText);
             }
         }
 
-        aux = aux.Distinct().ToList();
+        feedback = aux.Distinct().ToList();
 
-        feedbackText.text = "Erros em Reunião de Equipe: " + teamMeetingCount + "\nErros em Reunião com Cliente: " + clientMeetingCount + "\nErros de Desenvolvimento: " + developmentRoomCount + "\n";
+        StartCoroutine(TypewriterEffect(errorManager.GetAllMistakes(), feedbackText));
+    }
 
-        foreach(string item in aux) {
-            feedbackText.text += item;
+    void ShowFeedback() {
+        feedbackText.text = "";
+        canContinue = false;
+        continueButton.SetActive(canContinue);
+        string aux = "";
+        int index = 0;
+        int lenght = feedback.Count();
+
+        foreach(string item in feedback) {
+            if(index + 1 != lenght)
+                aux += item + "\n\n";
+            else
+                aux += item;
+            index++;
+        }
+
+        StartCoroutine(TypewriterEffect(aux, feedbackText));
+
+        using(StreamWriter streamWriter = new StreamWriter(individualFeedbackFilePath)) {
+            streamWriter.WriteLine(aux);
+        }
+    }
+
+    IEnumerator TypewriterEffect(string text, Text uiText) {
+        foreach(char character in text) {
+            uiText.text += character;
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        yield return new WaitForSeconds(2f);
+
+        canContinue = true;
+        continueButton.SetActive(canContinue);
+        count++;
+    }
+
+    IEnumerator TypewriterEffect2(string text, Text uiText) {
+        foreach(char character in text) {
+            uiText.text += character;
+            yield return new WaitForSeconds(0.02f);
         }
     }
 }

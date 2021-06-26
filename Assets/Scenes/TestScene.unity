@@ -952,7 +952,6 @@ MonoBehaviour:
   timeText: {fileID: 2146227998}
   choiceTimeText: {fileID: 1091305381}
   roundText: {fileID: 1608147264}
-  turnText: {fileID: 0}
   choiceController: {fileID: 941011726}
   gameOver: {fileID: 1216992126}
   maxTime: 5
