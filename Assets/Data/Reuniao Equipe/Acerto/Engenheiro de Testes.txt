@@ -1,3 +1,4 @@
 Planejar Desenvolvimento do Incremento;Planejar os requisitos que serão desenvolvidos neste incremento
-Discutir Possíveis Testes;Definir quais os testes devem ser conduzidos para este incremento
+Verificar Implementação;Verificar se os requisitos implementados estão de acordo com a vontade do cliente
+Discutir Possíveis Testes;Discutir quais tipos de testes podem ser conduzidos para este incremento
 Revisão do Incremento;Revisar o que foi desenvolvido neste incremento, apontando também os resultados dos testes conduzidos

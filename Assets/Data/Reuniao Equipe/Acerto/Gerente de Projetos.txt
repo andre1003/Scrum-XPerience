@@ -1,3 +1,3 @@
-Conduzir a Reunião;Conduzir uma reunião informal com todos os membros da equipe, de modo a identificar o que será feito e quais são os problemas encontrados
+Conduzir a Reunião;Conduzir uma reunião informal com todos os membros da equipe, de modo a identificar o que será feito hoje e quais são os problemas encontrados
 Planejar Desenvolvimento do Incremento;Realizar um planejamento do que será desenvolvido no incremento, identificando quais são os requisitos mais importantes para este momento
 Revisão do Incremento;Revisar todo o desenvolvimento, de modo a identificar os problemas ocorridos e sugestões de melhorias para os próximos incrementos

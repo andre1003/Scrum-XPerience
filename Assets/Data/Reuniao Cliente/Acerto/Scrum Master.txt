@@ -1,2 +1,2 @@
 Revisar Requisitos;Revisar os requisitos que o Product Owner definiu, de modo a ajudá-lo a definir quais são realmente interessantes e quais podem ser removidos
-Comunicar Desenvolvimento;Auxiliar o Product Owner a notificar o cliente sobre o desenvolvimento do software
+Comunicar Desenvolvimento;Auxiliar o Product Owner a notificar o cliente sobre o desenvolvimento do software, indicando o que foi desenvolvido nessa Sprint e quais são os próximos passos

@@ -40,7 +40,7 @@ namespace Methods {
         public Scrum() {
             this.method = "Scrum";
 
-            this.methodDescription = "This is Scrum, an agile method for software development";
+            this.methodDescription = "O desenvolvimento utilizando a metodologia Scrum é feito em incrementos, os quais são chamados de Sprint, e levam, em média, de duas a quatro semanas. Ao final de cada Sprint, ocorre as etapas de avaliação do incremento implementado e o modo como isso ocorreu, denominadas, respectivamente, Revisão da Sprint e Retrospectiva da Sprint. Além disso, o Time Scrum possui três entidades, sendo elas: Product Owner, Scrum Master e Time de Desenvolvimento.";
 
             this.functions = new List<string>() {
                  "Scrum Master",

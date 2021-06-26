@@ -1,3 +1,4 @@
+Planejar Desenvolvimento do Incremento;Planejar os requisitos que serão desenvolvidos neste incremento
 Reportar Problemas;Reportar quais são os problemas encontrados durante o desenvolvimento
 Planejamento do Dia;Planejar o que será feito no dia de hoje
-Revisão do Incremento;Revisar o que foi feito, incluindo os testes conduzidos
+Revisão do Incremento;Revisar o que foi desenvolvido neste incremento, apontando também os resultados dos testes conduzidos

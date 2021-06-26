@@ -23,6 +23,10 @@ public class ChoiceController : MonoBehaviour {
     private int individualHits;
     private int individualMistakes;
 
+    private int round;
+
+    private bool nothingToDo = false;
+
     private List<string> passedScenes;
 
     private void Awake() {
@@ -31,7 +35,7 @@ public class ChoiceController : MonoBehaviour {
         passedScenes = new List<string>();
     }
 
-    public void GetChoices() {
+    public bool GetChoices() {
         sceneName.text = scene;
         functionName.text = function;
 
@@ -42,26 +46,37 @@ public class ChoiceController : MonoBehaviour {
 
         for(int i = 0; i < lenght; i++) {
             if(i == rightChoice) {
-                ChangeTextByFunction(list[i], true, i);
+                nothingToDo = ChangeTextByFunction(list[i], true, i);
             }
             else {
-                ChangeTextByFunction(list[i], false, i);
+                nothingToDo = ChangeTextByFunction(list[i], false, i);
             }
+
+            if(nothingToDo)
+                break;
         }
+
+        return nothingToDo;
     }
 
-    void ChangeTextByFunction(Text btnText, bool right, int index) {
-        if(right) {
-            string line = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Acerto\" + function + @".txt")[0];
-            string[] split = line.Split(';');
-            btnText.text = split[0];
-            descriptionList[index].text = split[1];
+    bool ChangeTextByFunction(Text btnText, bool correct, int index) {
+        string[] lines = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Acerto\" + function + @".txt");
+        if(!lines[0].Equals("Nada")) {
+            if(correct) {
+                string line = lines[round - 1];
+                string[] split = line.Split(';');
+                btnText.text = split[0];
+                descriptionList[index].text = split[1];
+            }
+            else {
+                //btnText.text = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Erro\" + function + @".txt")[0];
+                btnText.text = "Erro";
+                descriptionList[index].text = "Erro";
+            }
+            return false;
         }
-        else {
-            //btnText.text = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Erro\" + function + @".txt")[0];
-            btnText.text = "Erro";
-            descriptionList[index].text = "Erro";
-        }
+        else
+            return true;
     }
 
     /* TEST-ONLY METHODS */
@@ -112,6 +127,11 @@ public class ChoiceController : MonoBehaviour {
 
     void ClearPassedScenesList() {
         passedScenes.Clear();
+    }
+
+    public void SetRound(int round) {
+        this.round = round;
+        Debug.Log(this.round);
     }
 
     public void EndRound() {

@@ -952,6 +952,7 @@ MonoBehaviour:
   timeText: {fileID: 2146227998}
   choiceTimeText: {fileID: 1091305381}
   roundText: {fileID: 1608147264}
+  turnText: {fileID: 0}
   choiceController: {fileID: 941011726}
   gameOver: {fileID: 1216992126}
   maxTime: 5
@@ -4579,7 +4580,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Rodada: 0'
+  m_Text: 'Turno: 0
+
+    Rodada: 0'
 --- !u!222 &1608147265
 CanvasRenderer:
   m_ObjectHideFlags: 0

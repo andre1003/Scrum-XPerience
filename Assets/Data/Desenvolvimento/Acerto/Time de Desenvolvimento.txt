@@ -1,4 +1,4 @@
-Implementar Requisitos;Realizar a implentação dos requisitos do Sprint Backlog
+Implementar Requisitos;Realizar a implementação dos requisitos do Backlog da Sprint
 Realizar Testes;Conduzir testes de unidades nas funcionalidades implementadas
-Corrigir Erros;Corrigir erros apontados nos testes e pelo placeholder
+Corrigir Erros;Corrigir erros apontados nos testes e pelo stakeholders
 Documentar Código;Documentar o código produzido durante a Sprint

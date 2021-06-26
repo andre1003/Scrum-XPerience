@@ -1,4 +1,4 @@
-Conduzir Daily Scrum;Realizar a daily scrum, perguntando a todos o que foi feito ontem, o que será feito hoje e quais os problemas que estão ocorrendo
-Planejamento da Sprint;Definir quais requisitos serão implementados nessa Sprint
-Revisão da Sprint;Revisar o que foi feito na Sprint
-Retrospectiva da Sprint;Analisar como foi conduzida a Sprint, apontando os problemas ocorridos e apresentando sugestões de melhorias para as próximas Sprints
+Conduzir Daily Scrum;Realizar a daily scrum, de modo a perguntar a todos o que foi feito ontem, o que será feito hoje e quais os problemas que estão ocorrendo
+Planejamento da Sprint;Definir quais requisitos serão implementados nessa Sprint, definindo o Backlog da Sprint.
+Revisão da Sprint;Revisar o que foi feito na Sprint. Ou seja, identificar se o Backlog da Sprint foi desenvolvido corretamente e quais erros no software foram identificados
+Retrospectiva da Sprint;Analisar o modo como a Sprint foi conduzida, apontando os problemas ocorridos e apresentando sugestões de melhorias para as próximas Sprints
