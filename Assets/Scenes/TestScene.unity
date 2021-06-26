@@ -2521,6 +2521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 941011727}
+  - component: {fileID: 941011728}
   - component: {fileID: 941011726}
   m_Layer: 0
   m_Name: ChoiceController
@@ -2556,6 +2557,7 @@ MonoBehaviour:
   scoreText: {fileID: 1524326403}
   movementController: {fileID: 1185537054}
   mouseController: {fileID: 657101569}
+  errorManager: {fileID: 941011728}
 --- !u!4 &941011727
 Transform:
   m_ObjectHideFlags: 0
@@ -2570,6 +2572,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &941011728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941011725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad21544a75026524eb838023ce4a1db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  choiceController: {fileID: 941011726}
 --- !u!4 &956821098 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1660b6891867b5d4ea0a3878e3d8a9dc,

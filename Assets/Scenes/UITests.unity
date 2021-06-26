@@ -151,8 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad21544a75026524eb838023ce4a1db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mistakeText: {fileID: 139453404}
-  hitsText: {fileID: 1227026560}
 --- !u!4 &121233860
 Transform:
   m_ObjectHideFlags: 0
@@ -180,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   feedbackText: {fileID: 975583433}
+  errorManager: {fileID: 121233859}
 --- !u!1 &139453402
 GameObject:
   m_ObjectHideFlags: 0

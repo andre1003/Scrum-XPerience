@@ -19,6 +19,8 @@ public class ChoiceController : MonoBehaviour {
     public MovementController movementController;
     public MouseController mouseController;
 
+    public ErrorManager errorManager;
+
     private int rightChoice;
     private int individualHits;
     private int individualMistakes;
@@ -91,24 +93,19 @@ public class ChoiceController : MonoBehaviour {
     }
     /* TEST-ONLY METHODS */
 
-    public void CheckHit(int buttonID) {
-        if(buttonID == rightChoice) {
-            individualHits++;
-            using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\hits.txt", true)) {
-                writer.WriteLine(list[buttonID].text);
-            }
-        }
-        else {
-            individualMistakes++;
-            using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt", true)) {
-                writer.WriteLine(list[buttonID].text);
-            }
-        }
-
-        UpdateScore();
+    public void CheckHit(int buttonId) {
+        errorManager.CheckHit(buttonId, rightChoice, list[buttonId].text, scene);
     }
 
-    void UpdateScore() {
+    public void IncreaseIndividualHits() {
+        individualHits++;
+    }
+
+    public void IncreaseIndividualMistakes() {
+        individualMistakes++;
+    }
+
+    public void UpdateScore() {
         scoreText.text = "Acertos: " + individualHits + "\nErros: " + individualMistakes;
 
         using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\score.txt")) {
