@@ -16,6 +16,10 @@ public class ChoiceController : MonoBehaviour {
     public Text functionName;
     public Text scoreText;
 
+    public Text teamSatisfactionText;
+    public Text clientSatisfactionText;
+    public Text progressText;
+
     public MovementController movementController;
     public MouseController mouseController;
 
@@ -34,6 +38,9 @@ public class ChoiceController : MonoBehaviour {
     private bool nothingToDo = false;
 
     private List<string> passedScenes;
+
+    private Color green = new Color(6, 142, 0, 255);
+    private Color red = new Color(226, 0, 0, 255);
 
     private void Awake() {
         individualHits = 0;
@@ -162,7 +169,7 @@ public class ChoiceController : MonoBehaviour {
         ClearPassedScenesList();
     }
 
-    void GetStats() {
+    public void GetStats() {
         string[] lines = File.ReadAllLines(hitFilePath);
         int teamMeeting = 0;
         int clientMeeting = 0;
@@ -197,35 +204,60 @@ public class ChoiceController : MonoBehaviour {
             }
 
             // Development Room
+            else if(line.Split(';')[0].Equals("Desenvolvimento")) {
+                development--;
+            }
+
+            // Timeout
             else {
+                teamMeeting--;
+                clientMeeting--;
                 development--;
             }
         }
 
+        string teamSatisfaction;
+        string clientSatisfaction;
+
         // Team stats
         if(teamMeeting >= 3) {
-            Debug.Log("A equipe está feliz!");
+            teamSatisfaction = "Feliz";
         }
         else if(teamMeeting <= -3) {
-            Debug.Log("A equipe está triste!");
+            teamSatisfaction = "Infeliz";
         }
         else {
-            Debug.Log("A equipe está neutra.");
+            teamSatisfaction = "Neutra";
         }
+
+        float clientSatisfactionAverage = Mathf.Ceil(((development * 2) + clientMeeting) / 3);
 
         // Client stats
-        if(clientMeeting >= 3) {
-            Debug.Log("O cliente está feliz!");
+        if(clientSatisfactionAverage >= 3f) {
+            clientSatisfaction = "Feliz";
         }
-        else if(clientMeeting <= 3) {
-            Debug.Log("O cliente está triste!");
+        else if(clientSatisfactionAverage <= 3f) {
+            clientSatisfaction = "Infeliz";
         }
         else {
-            Debug.Log("O cliente está neutro.");
+            clientSatisfaction = "Neutro";
         }
 
-        //Debug.Log(turn);
         double progress = ((((turn - 1f) * 4f) + round) / 20f) * 100f; // In %
-        //Debug.Log(progress.ToString());
+
+        teamSatisfactionText.text = teamSatisfaction;
+        clientSatisfactionText.text = clientSatisfaction;
+
+        ChangeColor(teamSatisfaction, teamSatisfactionText);
+        ChangeColor(clientSatisfaction, clientSatisfactionText);
+
+        progressText.text = progress + "%";
+    }
+
+    void ChangeColor(string status, Text text) {
+        if(status.Equals("Feliz"))
+            text.color = green;
+        else if(status.Equals("Infeliz"))
+            text.color = red;
     }
 }
