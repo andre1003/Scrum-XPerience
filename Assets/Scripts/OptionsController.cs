@@ -23,6 +23,8 @@ public class OptionsController : MonoBehaviour {
 
     public PhotonView photonView;
 
+    public int maxVotes;
+
     private Scrum scrum;
     private XP xp;
 
@@ -70,7 +72,7 @@ public class OptionsController : MonoBehaviour {
 
         votingStatus.text = "Votes: " + scrumVoteCount + " Scrum / " + xpVoteCount + " XP.";
 
-        if(scrumVoteCount >= 2) {
+        if(scrumVoteCount >= maxVotes) {
             scrumFunctionCanvas.SetActive(true);
             PlayerPrefs.SetString("game_method", scrum.GetMethod());
         }
@@ -88,7 +90,7 @@ public class OptionsController : MonoBehaviour {
         xpVoteCount++;
         votingStatus.text = "Votes: " + scrumVoteCount + " Scrum / " + xpVoteCount + " XP.";
 
-        if(xpVoteCount >= 2) {
+        if(xpVoteCount >= maxVotes) {
             xpFunctionCanvas.SetActive(true);
             PlayerPrefs.SetString("game_method", xp.GetMethod());
         }
@@ -127,7 +129,7 @@ public class OptionsController : MonoBehaviour {
         else
             developer.SetActive(false);
 
-        if(functionsVoted >= 3)
+        if(functionsVoted >= 1)
             PhotonNetwork.LoadLevel("MainScene");
     }
 

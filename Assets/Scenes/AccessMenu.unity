@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1983,7 +1983,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1617089484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edb4a9b3a4ab45d45920bd019ac970e2, type: 3}
+  m_Script: {fileID: 11500000, guid: c58a44f715dd345449dce15f3e77bc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   version: 0.1
@@ -2018,7 +2018,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1617089484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d5eb6cc6489b3642a7ba0d8316b84bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 16749104bfeefce43b8aa68b57805d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   menuController: {fileID: 1617089485}
@@ -2029,12 +2029,12 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1617089484}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a82e4199bcca94c45aaacc63070a0f0d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 09da9f08af798f347b7bcf0d4ea0e3af, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0

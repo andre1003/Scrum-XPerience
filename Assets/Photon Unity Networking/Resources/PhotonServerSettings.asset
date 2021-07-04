@@ -16,7 +16,7 @@ MonoBehaviour:
   VoiceAppID: 
   ChatAppID: 
   HostType: 1
-  PreferredRegion: 0
+  PreferredRegion: 1
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
@@ -42,9 +42,9 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
-  - TaggedPlayer
   - SetPlayerData
   - SyncFunctionVote
   - SyncScrumChoice
   - SyncXPChoice
+  - TaggedPlayer
   DisableAutoOpenWizard: 1

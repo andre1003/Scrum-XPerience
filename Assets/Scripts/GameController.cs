@@ -8,6 +8,7 @@ public class GameController : Photon.MonoBehaviour {
     public GameObject playerPrefab;
     public GameObject gameCanvas;
     public GameObject spawnSpot;
+    public GameObject pauseMenu;
 
     private static string playerFunction;
     private static string gameMethod;
@@ -29,6 +30,11 @@ public class GameController : Photon.MonoBehaviour {
         playerFunction = PlayerPrefs.GetString("player_function");
         Debug.Log(playerFunction);
         choices = GetPlayerChoicesByFunction(playerFunction);
+    }
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Escape))
+            PauseMenu();
     }
 
     public void SpawnPlayer() {
@@ -61,5 +67,9 @@ public class GameController : Photon.MonoBehaviour {
         else {
             return new XP().GetChoicesByKey(function);
         }
+    }
+
+    private void PauseMenu() {
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
     }
 }

@@ -23,17 +23,20 @@ public class MenuController : MonoBehaviour {
 
     public DatabaseConnection dbConnection;
 
-    private static string scorePath = Directory.GetCurrentDirectory() + @"\Assets\Data\score.txt";
+    private static string loginPath = Directory.GetCurrentDirectory() + @"\Assets\Data\login.txt";
     private static string loginExecutablePath = Directory.GetCurrentDirectory() + @"\Assets\Scripts\login.exe";
 
     private EventSystem system;
     private Selectable firstElement;
 
+    private Color red = new Color(226, 0, 0, 255);
+    private Color black = new Color(0, 0, 0, 255);
+
     public void Awake() {
         PhotonNetwork.ConnectUsingSettings(version);
 
-        if(File.Exists(scorePath))
-            File.Delete(scorePath);
+        if(File.Exists(loginPath))
+            File.Delete(loginPath);
     }
 
     // Start is called before the first frame update
@@ -65,16 +68,17 @@ public class MenuController : MonoBehaviour {
     }
 
     void CheckLogin() {
-        string fileContent = File.ReadAllText(scorePath);
+        string fileContent = File.ReadAllText(loginPath);
 
         if(fileContent.Equals("Credenciais incorretas")) { // If auth data was not recognized by server (no user data returned)
             usernameInputField.text = ""; // Clear username text
             passwordInputField.text = ""; // Clear password text
+            alertText.color = red; // Set text color to red
             alertText.text = "Credenciais incorretas! Tente novamente."; // Display a message for user
 
             usernameInputField.Select();
 
-            File.Delete(scorePath);
+            File.Delete(loginPath);
         }
         else {
             SetUsernameFromDB(usernameInputField.text);
@@ -108,7 +112,9 @@ public class MenuController : MonoBehaviour {
         string password = passwordInputField.text;
 
         passwordInputField.text = "";
-        alertText.text = "";
+
+        alertText.color = black;
+        alertText.text = "Conectando...";
 
         Process.Start(loginExecutablePath, username + " " + password).WaitForExit(); // Wait for the end of login process
 

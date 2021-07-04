@@ -25,6 +25,8 @@ public class ChoiceController : MonoBehaviour {
 
     public ErrorManager errorManager;
 
+    public GameObject pauseMenu;
+
     private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
     private string hitFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\hits.txt";
 
@@ -51,6 +53,9 @@ public class ChoiceController : MonoBehaviour {
     private void Update() {
         if(Input.GetKeyDown(KeyCode.Space))
             GetStats();
+        else if(Input.GetKeyDown(KeyCode.Escape))
+            pauseMenu.SetActive(!pauseMenu.activeSelf);
+        //Debug.Log(Time.deltaTime);
     }
 
     public bool GetChoices() {

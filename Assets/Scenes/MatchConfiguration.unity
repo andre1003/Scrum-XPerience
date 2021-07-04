@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1189377623}
+      - m_Target: {fileID: 1174733643}
         m_MethodName: ChoseScrum
         m_Mode: 1
         m_Arguments:
@@ -425,7 +425,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: OverMethod
           m_Mode: 5
           m_Arguments:
@@ -440,7 +440,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: Exit
           m_Mode: 1
           m_Arguments:
@@ -682,7 +682,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1189377623}
+      - m_Target: {fileID: 1174733643}
         m_MethodName: ScrumFunctionsChoices
         m_Mode: 5
         m_Arguments:
@@ -747,7 +747,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: OverFunction
           m_Mode: 5
           m_Arguments:
@@ -762,7 +762,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: Exit
           m_Mode: 1
           m_Arguments:
@@ -1012,7 +1012,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1189377623}
+      - m_Target: {fileID: 1174733643}
         m_MethodName: XPFunctionsChoices
         m_Mode: 5
         m_Arguments:
@@ -1077,7 +1077,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: OverFunction
           m_Mode: 5
           m_Arguments:
@@ -1092,7 +1092,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: Exit
           m_Mode: 1
           m_Arguments:
@@ -1186,7 +1186,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1189377623}
+      - m_Target: {fileID: 1174733643}
         m_MethodName: ChoseXP
         m_Mode: 1
         m_Arguments:
@@ -1194,7 +1194,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: XP
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1063384948
@@ -1251,7 +1251,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: OverMethod
           m_Mode: 5
           m_Arguments:
@@ -1266,7 +1266,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: Exit
           m_Mode: 1
           m_Arguments:
@@ -1443,6 +1443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1174733644}
   - component: {fileID: 1174733643}
+  - component: {fileID: 1174733645}
   m_Layer: 0
   m_Name: UIController
   m_TagString: Untagged
@@ -1459,10 +1460,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1174733642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d37fa04657f5a0141ba7443d899b2912, type: 3}
+  m_Script: {fileID: 11500000, guid: deebd153676b9cc4e8f9ad47d2748ee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoText: {fileID: 1242344520}
+  scrumFunctionCanvas: {fileID: 2020846017}
+  xpFunctionCanvas: {fileID: 2098482167}
+  votingStatus: {fileID: 1446444623}
+  scrumMaster: {fileID: 683115162}
+  productOwner: {fileID: 1562273542}
+  devTeam: {fileID: 1688343451}
+  softwareManager: {fileID: 1033949602}
+  testEngineer: {fileID: 1512453120}
+  developer: {fileID: 1477748027}
+  connectedUsers: {fileID: 926018211}
+  photonView: {fileID: 1174733645}
 --- !u!4 &1174733644
 Transform:
   m_ObjectHideFlags: 0
@@ -1477,6 +1488,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1174733645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174733642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 1
+  instantiationId: 1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!1 &1189377620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,7 +1525,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1189377621}
   - component: {fileID: 1189377623}
-  - component: {fileID: 1189377622}
   m_Layer: 0
   m_Name: OptionsController
   m_TagString: Untagged
@@ -1509,33 +1546,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1189377622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1189377620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 2031607079}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 1
-  instantiationId: 1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &1189377623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1545,20 +1555,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1189377620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 752fae6581085d9429ac40f6bf7cb397, type: 3}
+  m_Script: {fileID: 11500000, guid: b8213bee5d42f0242bea610d60dc18ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrumFunctionCanvas: {fileID: 2020846017}
-  xpFunctionCanvas: {fileID: 2098482167}
-  votingStatus: {fileID: 1446444623}
-  scrumMaster: {fileID: 683115162}
-  productOwner: {fileID: 1562273542}
-  devTeam: {fileID: 1688343451}
-  softwareManager: {fileID: 1033949602}
-  testEngineer: {fileID: 1512453120}
-  developer: {fileID: 1477748027}
-  connectedUsers: {fileID: 926018211}
-  photonView: {fileID: 1189377622}
+  infoText: {fileID: 1242344520}
 --- !u!1 &1193824361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2025,7 +2025,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1189377623}
+      - m_Target: {fileID: 1174733643}
         m_MethodName: XPFunctionsChoices
         m_Mode: 5
         m_Arguments:
@@ -2090,7 +2090,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: OverFunction
           m_Mode: 5
           m_Arguments:
@@ -2105,7 +2105,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: Exit
           m_Mode: 1
           m_Arguments:
@@ -2199,7 +2199,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1189377623}
+      - m_Target: {fileID: 1174733643}
         m_MethodName: XPFunctionsChoices
         m_Mode: 5
         m_Arguments:
@@ -2264,7 +2264,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: OverFunction
           m_Mode: 5
           m_Arguments:
@@ -2279,7 +2279,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: Exit
           m_Mode: 1
           m_Arguments:
@@ -2465,7 +2465,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1189377623}
+      - m_Target: {fileID: 1174733643}
         m_MethodName: ScrumFunctionsChoices
         m_Mode: 5
         m_Arguments:
@@ -2530,7 +2530,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: OverFunction
           m_Mode: 5
           m_Arguments:
@@ -2545,7 +2545,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: Exit
           m_Mode: 1
           m_Arguments:
@@ -2717,7 +2717,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1189377623}
+      - m_Target: {fileID: 1174733643}
         m_MethodName: ScrumFunctionsChoices
         m_Mode: 5
         m_Arguments:
@@ -2782,7 +2782,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: OverFunction
           m_Mode: 5
           m_Arguments:
@@ -2797,7 +2797,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1174733643}
+        - m_Target: {fileID: 1189377623}
           m_MethodName: Exit
           m_Mode: 1
           m_Arguments:
