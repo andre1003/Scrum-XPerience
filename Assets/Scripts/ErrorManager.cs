@@ -59,7 +59,7 @@ public class ErrorManager : MonoBehaviour {
     }
 
     public string GetAllMistakes() {
-        return "Erros em Reunião de Equipe: " + teamMeetingCount + "\nErros em Reunião com Cliente: " + clientMeetingCount + "\nErros de Desenvolvimento: " + developmentRoomCount + "\nTempo Esgotado: " + timeoutCount;
+        return "Erros em Reuniao de Equipe: " + teamMeetingCount + "\nErros em Reuniao com Cliente: " + clientMeetingCount + "\nErros de Desenvolvimento: " + developmentRoomCount + "\nTempo Esgotado: " + timeoutCount;
     }
 
     public void RemoveDuplicates() {

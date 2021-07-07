@@ -10,6 +10,8 @@ public class GameController : Photon.MonoBehaviour {
     public GameObject spawnSpot;
     public GameObject pauseMenu;
 
+    public ChoiceController choiceController;
+
     private static string playerFunction;
     private static string gameMethod;
 
@@ -27,9 +29,9 @@ public class GameController : Photon.MonoBehaviour {
     private void Start() {
         
         gameMethod = PlayerPrefs.GetString("game_method");
-        playerFunction = PlayerPrefs.GetString("player_function");
+        choiceController.SetFunction(PlayerPrefs.GetString("player_function"));
         Debug.Log(playerFunction);
-        choices = GetPlayerChoicesByFunction(playerFunction);
+        //choices = GetPlayerChoicesByFunction(playerFunction);
     }
 
     private void Update() {
@@ -38,8 +40,6 @@ public class GameController : Photon.MonoBehaviour {
     }
 
     public void SpawnPlayer() {
-        float randomValue = Random.Range(-1f, 1f);
-
         GameObject spawnedPlayerGO = PhotonNetwork.Instantiate(playerPrefab.name, spawnSpot.transform.position, Quaternion.identity, 0);
 
         movementController = spawnedPlayerGO.GetComponent<MovementController>();
@@ -48,6 +48,10 @@ public class GameController : Photon.MonoBehaviour {
         spawnedPlayerGO.GetComponent<MovementController>().enabled = true;
         spawnedPlayerGO.GetComponentInChildren<MouseController>().enabled = true;
         spawnedPlayerGO.GetComponentInChildren<Camera>().enabled = true;
+
+        choiceController.SetPhotonView(spawnedPlayerGO.GetComponent<PhotonView>());
+        choiceController.SetMovementController(spawnedPlayerGO.GetComponent<MovementController>());
+        choiceController.SetMouseController(spawnedPlayerGO.GetComponentInChildren<MouseController>());
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

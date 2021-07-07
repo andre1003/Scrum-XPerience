@@ -6,10 +6,11 @@ using System.IO;
 
 public class ChoiceController : MonoBehaviour {
 
-    public string function;
     public string scene;
 
-    public List<Text> list;
+    public int maxMistakes;
+
+    public List<Text> buttonList;
     public List<Text> descriptionList;
 
     public Text sceneName;
@@ -20,19 +21,25 @@ public class ChoiceController : MonoBehaviour {
     public Text clientSatisfactionText;
     public Text progressText;
 
-    public MovementController movementController;
-    public MouseController mouseController;
-
     public ErrorManager errorManager;
 
     public GameObject pauseMenu;
 
+    public TimeController timeController;
+
+    private MovementController movementController;
+    private MouseController mouseController;
+
+    private string function;
     private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
     private string hitFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\hits.txt";
 
     private int rightChoice;
     private int individualHits;
     private int individualMistakes;
+
+    private int groupHits;
+    private int groupMistakes;
 
     private int round;
     private int turn;
@@ -44,13 +51,19 @@ public class ChoiceController : MonoBehaviour {
     private Color green = new Color(6, 142, 0, 255);
     private Color red = new Color(226, 0, 0, 255);
 
+    private PhotonView photonView;
+
     private void Awake() {
         individualHits = 0;
         individualMistakes = 0;
+        groupHits = 0;
+        groupMistakes = 0;
         passedScenes = new List<string>();
     }
 
     private void Update() {
+        CheckGameOver();
+
         if(Input.GetKeyDown(KeyCode.Space))
             GetStats();
         else if(Input.GetKeyDown(KeyCode.Escape))
@@ -63,16 +76,16 @@ public class ChoiceController : MonoBehaviour {
         functionName.text = function;
 
         System.Random rdn = new System.Random();
-        int lenght = list.Count;
+        int lenght = buttonList.Count;
         rightChoice = rdn.Next(0, 3); // Alterar para a quantidade de escolhas
         Debug.Log(rightChoice);
 
         for(int i = 0; i < lenght; i++) {
             if(i == rightChoice) {
-                nothingToDo = ChangeTextByFunction(list[i], true, i);
+                nothingToDo = ChangeTextByFunction(buttonList[i], true, i);
             }
             else {
-                nothingToDo = ChangeTextByFunction(list[i], false, i);
+                nothingToDo = ChangeTextByFunction(buttonList[i], false, i);
             }
 
             if(nothingToDo)
@@ -102,7 +115,22 @@ public class ChoiceController : MonoBehaviour {
             return true;
     }
 
-    /* TEST-ONLY METHODS */
+    public void SetPhotonView(PhotonView photonView) {
+        this.photonView = photonView;
+    }
+
+    public void SetMovementController(MovementController movementController) {
+        this.movementController = movementController;
+    }
+
+    public void SetMouseController(MouseController mouseController) {
+        this.mouseController = mouseController;
+    }
+
+    public void SetFunction(string function) {
+        this.function = function;
+    }
+
     public void LockOrUnlockPlayer() {
         movementController.enabled = !movementController.enabled;
         mouseController.enabled = !mouseController.enabled;
@@ -112,22 +140,44 @@ public class ChoiceController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    /* TEST-ONLY METHODS */
 
     public void CheckHit(int buttonId) {
-        errorManager.CheckHit(buttonId, rightChoice, list[buttonId].text, scene);
+        errorManager.CheckHit(buttonId, rightChoice, buttonList[buttonId].text, scene);
     }
 
     public void IncreaseIndividualHits() {
         individualHits++;
+        // TEST ONLY
+        groupHits++;
+        ////////////
+        //photonView.RPC("IncreaseGroupHits", PhotonTargets.AllBuffered);
     }
 
     public void IncreaseIndividualMistakes() {
         individualMistakes++;
+        // TEST ONLY
+        groupMistakes++;
+        ////////////
+        //photonView.RPC("IncreaseGroupMistakes", PhotonTargets.AllBuffered);
+    }
+
+    [PunRPC]
+    void IncreaseGroupHits() {
+        groupHits++;
+    }
+
+    [PunRPC]
+    void IncreaseGroupMistakes() {
+        groupMistakes++;
+    }
+
+    void CheckGameOver() {
+        if(groupMistakes >= maxMistakes)
+            timeController.GameOver();
     }
 
     public void UpdateScore() {
-        scoreText.text = "Acertos: " + individualHits + "\nErros: " + individualMistakes;
+        scoreText.text = "Acertos: " + groupHits + "\nErros: " + groupMistakes;
 
         using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\score.txt")) {
             string scoreJson = "{\"hits\": " + individualHits + ", \"mistakes\": " + individualMistakes + "}";
@@ -160,6 +210,7 @@ public class ChoiceController : MonoBehaviour {
     public void EndRound() {
         int errors = 4 - passedScenes.Count;
         individualMistakes += errors;
+        groupMistakes += errors;
 
         UpdateScore();
 

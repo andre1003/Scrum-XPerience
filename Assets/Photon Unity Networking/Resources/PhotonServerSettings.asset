@@ -47,4 +47,7 @@ MonoBehaviour:
   - SyncScrumChoice
   - SyncXPChoice
   - TaggedPlayer
+  - UpdateScore
+  - IncreaseGroupHits
+  - IncreaseGroupMistakes
   DisableAutoOpenWizard: 1

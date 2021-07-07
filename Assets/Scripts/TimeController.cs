@@ -12,6 +12,7 @@ public class TimeController : MonoBehaviour {
     public GameObject gameOver;
 
     public float maxTime;
+
     private float time;
     private bool timeLeft = true;
     private int round = 1;
@@ -75,5 +76,9 @@ public class TimeController : MonoBehaviour {
         choiceTimeText.text = "Tempo: " + Mathf.Round(time).ToString();
 
         timeLeft = true;
+    }
+
+    public void GameOver() {
+        gameOver.SetActive(true);
     }
 }
