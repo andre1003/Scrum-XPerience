@@ -42,8 +42,8 @@ GameObject:
   - component: {fileID: 5008875586724301821}
   - component: {fileID: 5008875586724301822}
   - component: {fileID: 5008875586724301823}
-  - component: {fileID: 5008875586724301568}
-  - component: {fileID: 5008875586724301819}
+  - component: {fileID: 5816561644941128072}
+  - component: {fileID: 7294706977524615735}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -127,7 +127,7 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &5008875586724301568
+--- !u!114 &5816561644941128072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5008875586724301569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a09383b8772045bfcaf6e06485965, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c56d6c47fa07194b831fdc5443383d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 5008875586724301822}
@@ -149,9 +149,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   camera: {fileID: 5008875587126474874}
-  cameraClimbSpeed: 3
+  cameraClimbSpeed: 2
   animator: {fileID: 5008875586223451619}
---- !u!114 &5008875586724301819
+--- !u!114 &7294706977524615735
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5008875586724301569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b33975e54c3704da1d4e227f97bbbb, type: 3}
+  m_Script: {fileID: 11500000, guid: e81c0300cc41f904cac914906142e2be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5008875587126474874
@@ -174,8 +174,8 @@ GameObject:
   - component: {fileID: 5008875587126474870}
   - component: {fileID: 5008875587126474871}
   - component: {fileID: 5008875587126474872}
-  - component: {fileID: 5008875587126474873}
-  - component: {fileID: 8057349882903723645}
+  - component: {fileID: 7051800988076771803}
+  - component: {fileID: 2432482312926531653}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -248,7 +248,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5008875587126474874}
   m_Enabled: 0
---- !u!114 &5008875587126474873
+--- !u!114 &7051800988076771803
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,12 +257,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5008875587126474874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e0efadfdc59b5a4fbc53890921f3116, type: 3}
+  m_Script: {fileID: 11500000, guid: 082ead0d91135734fabc08f25eeeffab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 200
+  mouseSensitivity: 100
   playerBody: {fileID: 5008875586724301820}
---- !u!114 &8057349882903723645
+--- !u!114 &2432482312926531653
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -332,7 +332,7 @@ Animator:
   m_GameObject: {fileID: 5278904993237471415}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 14efeb2a21810e040a4984fa28735e6f, type: 2}
+  m_Controller: {fileID: 9100000, guid: d7055279820c11d4fa48a1baba75e021, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

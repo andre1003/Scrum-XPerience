@@ -21,7 +21,7 @@ public class MenuController : MonoBehaviour {
     public GameObject usernameInputCanvas;
     public GameObject roomOptionsCanvas;
 
-    public DatabaseConnection dbConnection;
+    //public DatabaseConnection dbConnection;
 
     private static string loginPath = Directory.GetCurrentDirectory() + @"\Assets\Data\login.txt";
     private static string loginExecutablePath = Directory.GetCurrentDirectory() + @"\Assets\Scripts\login.exe";

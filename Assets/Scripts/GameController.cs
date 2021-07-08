@@ -8,7 +8,10 @@ public class GameController : Photon.MonoBehaviour {
     public GameObject playerPrefab;
     public GameObject gameCanvas;
     public GameObject spawnSpot;
-    public GameObject pauseMenu;
+    public GameObject postProcessing;
+    //public GameObject pauseMenu;
+
+    public Toggle postProcessingToggle;
 
     public ChoiceController choiceController;
 
@@ -24,6 +27,11 @@ public class GameController : Photon.MonoBehaviour {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         gameCanvas.SetActive(true);
+
+        if(PlayerPrefs.GetInt("post_processing") == 1) {
+            postProcessing.SetActive(true);
+            postProcessingToggle.isOn = true;
+        }
     }
 
     private void Start() {
@@ -34,10 +42,14 @@ public class GameController : Photon.MonoBehaviour {
         //choices = GetPlayerChoicesByFunction(playerFunction);
     }
 
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.Escape))
-            PauseMenu();
+    public void SetPostProcessing(bool isActive) {
+        postProcessing.SetActive(isActive);
     }
+
+    //private void Update() {
+    //    if(Input.GetKeyDown(KeyCode.Escape))
+    //        PauseMenu();
+    //}
 
     public void SpawnPlayer() {
         GameObject spawnedPlayerGO = PhotonNetwork.Instantiate(playerPrefab.name, spawnSpot.transform.position, Quaternion.identity, 0);
@@ -73,7 +85,7 @@ public class GameController : Photon.MonoBehaviour {
         }
     }
 
-    private void PauseMenu() {
-        pauseMenu.SetActive(!pauseMenu.activeSelf);
-    }
+    //private void PauseMenu() {
+    //    pauseMenu.SetActive(!pauseMenu.activeSelf);
+    //}
 }

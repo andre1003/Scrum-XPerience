@@ -16,7 +16,7 @@ MonoBehaviour:
   VoiceAppID: 
   ChatAppID: 
   HostType: 1
-  PreferredRegion: 1
+  PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
@@ -33,6 +33,8 @@ MonoBehaviour:
   - DestroyRpc
   - DoJump
   - Flash
+  - IncreaseGroupHits
+  - IncreaseGroupMistakes
   - InstantiateRpc
   - Marco
   - PickupItemInit
@@ -47,7 +49,4 @@ MonoBehaviour:
   - SyncScrumChoice
   - SyncXPChoice
   - TaggedPlayer
-  - UpdateScore
-  - IncreaseGroupHits
-  - IncreaseGroupMistakes
   DisableAutoOpenWizard: 1

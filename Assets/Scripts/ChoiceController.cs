@@ -53,6 +53,8 @@ public class ChoiceController : MonoBehaviour {
 
     private PhotonView photonView;
 
+    private bool isPaused = false;
+
     private void Awake() {
         individualHits = 0;
         individualMistakes = 0;
@@ -66,9 +68,27 @@ public class ChoiceController : MonoBehaviour {
 
         if(Input.GetKeyDown(KeyCode.Space))
             GetStats();
-        else if(Input.GetKeyDown(KeyCode.Escape))
-            pauseMenu.SetActive(!pauseMenu.activeSelf);
-        //Debug.Log(Time.deltaTime);
+        else if(Input.GetKeyDown(KeyCode.Escape)) {
+            isPaused = !isPaused;
+            PauseMenu(isPaused);
+        }
+    }
+
+    private void PauseMenu(bool isPaused) {
+        if(isPaused == true) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        else {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        LockOrUnlockPlayer();
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
+    }
+
+    public void SetIsPaused(bool isPaused) {
+        this.isPaused = isPaused;
     }
 
     public bool GetChoices() {
