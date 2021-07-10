@@ -7,10 +7,12 @@ public class CollideControllerForStats : MonoBehaviour {
     public ChoiceController choiceController;
 
     private void OnTriggerEnter(Collider other) {
-        choiceController.LockOrUnlockPlayer(); // TEST-ONLY METHOD CALL
-        choiceController.GetStats();
-        canvas.SetActive(true);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
+        if(other.GetComponent<PhotonView>().isMine) {
+            choiceController.LockOrUnlockPlayer();
+            choiceController.GetStats();
+            canvas.SetActive(true);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
     }
 }

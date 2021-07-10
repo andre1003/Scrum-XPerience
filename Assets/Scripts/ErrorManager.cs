@@ -17,31 +17,18 @@ public class ErrorManager : MonoBehaviour {
     private int clientMeetingCount = 0;
     private int developmentRoomCount = 0;
 
-    //private void Start() {
-    //    RemoveDuplicates();
-    //}
-
     // Check if the choice is a hit or a mistake and save it in the respective file
     public void CheckHit(int buttonID, int rightChoice, string id, string description, string scene, int index) {
         if(buttonID == rightChoice) {
             choiceController.IncreaseIndividualHits();
 
             //SaveSystem.Save(id, description, scene, false, index);
-
-            //using(StreamWriter writer = new StreamWriter(hitsFilePath, true)) {
-            //    writer.WriteLine(scene + ";" + id);
-            //}
         }
         else {
             choiceController.IncreaseIndividualMistakes();
 
             //SaveSystem.Save(id, description, scene, true, index);
-
-            //using(StreamWriter writer = new StreamWriter(mistakeFilePath, true)) {
-            //    writer.WriteLine(scene + ";" + id);
-            //}
         }
-        //photonView.RPC("choiceController.UpdateScore", PhotonTargets.AllBuffered);
     }
 
     public void IncreaseMistakes(int option) {

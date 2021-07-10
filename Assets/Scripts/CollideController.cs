@@ -14,13 +14,12 @@ public class CollideController : Photon.MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if(other.GetComponent<PhotonView>().isMine) {
-            //gameController.LockOrUnlockPlayer();
             if(!choiceController.GetPassedScenesList().Contains(scene)) {
                 choiceController.scene = scene;
                 nothingToDo = choiceController.GetChoices();
 
                 if(!nothingToDo) {
-                    choiceController.LockOrUnlockPlayer(); // TEST-ONLY METHOD CALL
+                    choiceController.LockOrUnlockPlayer();
                     choiceCanvas.SetActive(true);
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.Confined;

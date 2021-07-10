@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Data {
+public class Decision {
     public string decisionId;
     public string decisionDescription;
-    public string scenary;
+    public string scenery;
     public bool isMistake;
 
-    public Data(string decisionId, string decisionDescription, string scenary, bool isMistake) {
+    public Decision(string decisionId, string decisionDescription, string scenery, bool isMistake) {
         this.decisionId = decisionId;
         this.decisionDescription = decisionDescription;
-        this.scenary = scenary;
+        this.scenery = scenery;
         this.isMistake = isMistake;
     }
 }

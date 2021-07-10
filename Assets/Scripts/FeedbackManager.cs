@@ -47,10 +47,10 @@ public class FeedbackManager : MonoBehaviour {
     private void ShowStats() {
         int totalChoices = PlayerPrefs.GetInt("total_choices");
         Debug.Log(totalChoices);
-        List<Data> datas = new List<Data>();
+        List<Decision> datas = new List<Decision>();
 
         for(int i = 0; i < totalChoices; i++) {
-            Data data = SaveSystem.Load(i);
+            Decision data = SaveSystem.Load(i);
             if(data.isMistake)
                 datas.Add(data);
 
@@ -60,22 +60,22 @@ public class FeedbackManager : MonoBehaviour {
         List<string> aux = new List<string>();
 
         for(int i = 0; i < datas.Count(); i++) {
-            Debug.Log(datas[i].scenary);
+            Debug.Log(datas[i].scenery);
 
             // Timeout
-            if(datas[i].scenary.Equals("Tempo Esgotado")) {
+            if(datas[i].scenery.Equals("Tempo Esgotado")) {
                 errorManager.IncreaseMistakes(4);
                 aux.Add(timeoutText);
             }
 
             // Team Meeting
-            else if(datas[i].scenary.Equals("Reuniao Equipe")) {
+            else if(datas[i].scenery.Equals("Reuniao Equipe")) {
                 errorManager.IncreaseMistakes(0);
                 aux.Add(teamMeetingText);
             }
 
             // Client Meeting
-            else if(datas[i].scenary.Equals("Reuniao Cliente")) {
+            else if(datas[i].scenery.Equals("Reuniao Cliente")) {
                 errorManager.IncreaseMistakes(1);
                 aux.Add(clientMeetingText);
             }
