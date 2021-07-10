@@ -44,25 +44,38 @@ public class FeedbackManager : MonoBehaviour {
         }
     }
 
-    void ShowStats() {
-        List<string> aux = new List<string>();
-        lines = File.ReadAllLines(mistakeFilePath);
+    private void ShowStats() {
+        int totalChoices = PlayerPrefs.GetInt("total_choices");
+        Debug.Log(totalChoices);
+        List<Data> datas = new List<Data>();
 
-        foreach(string line in lines) {
+        for(int i = 0; i < totalChoices; i++) {
+            Data data = SaveSystem.Load(i);
+            if(data.isMistake)
+                datas.Add(data);
+
+            //Debug.Log(data.decisionId + " " + data.scenary + " " + data.isMistake);
+        }
+
+        List<string> aux = new List<string>();
+
+        for(int i = 0; i < datas.Count(); i++) {
+            Debug.Log(datas[i].scenary);
+
             // Timeout
-            if(line.Equals("Tempo Esgotado")) {
+            if(datas[i].scenary.Equals("Tempo Esgotado")) {
                 errorManager.IncreaseMistakes(4);
                 aux.Add(timeoutText);
             }
 
             // Team Meeting
-            else if(line.Split(';')[0].Equals("Reuniao Equipe")) {
+            else if(datas[i].scenary.Equals("Reuniao Equipe")) {
                 errorManager.IncreaseMistakes(0);
                 aux.Add(teamMeetingText);
             }
 
             // Client Meeting
-            else if(line.Split(';')[0].Equals("Reuniao Cliente")) {
+            else if(datas[i].scenary.Equals("Reuniao Cliente")) {
                 errorManager.IncreaseMistakes(1);
                 aux.Add(clientMeetingText);
             }
@@ -78,6 +91,41 @@ public class FeedbackManager : MonoBehaviour {
 
         StartCoroutine(TypewriterEffect(errorManager.GetAllMistakes(), feedbackText));
     }
+
+    //void ShowStats() {
+    //    List<string> aux = new List<string>();
+    //    lines = File.ReadAllLines(mistakeFilePath);
+
+    //    foreach(string line in lines) {
+    //        // Timeout
+    //        if(line.Equals("Tempo Esgotado")) {
+    //            errorManager.IncreaseMistakes(4);
+    //            aux.Add(timeoutText);
+    //        }
+
+    //        // Team Meeting
+    //        else if(line.Split(';')[0].Equals("Reuniao Equipe")) {
+    //            errorManager.IncreaseMistakes(0);
+    //            aux.Add(teamMeetingText);
+    //        }
+
+    //        // Client Meeting
+    //        else if(line.Split(';')[0].Equals("Reuniao Cliente")) {
+    //            errorManager.IncreaseMistakes(1);
+    //            aux.Add(clientMeetingText);
+    //        }
+
+    //        // Development Room
+    //        else {
+    //            errorManager.IncreaseMistakes(2);
+    //            aux.Add(developmentRoomText);
+    //        }
+    //    }
+
+    //    feedback = aux.Distinct().ToList();
+
+    //    StartCoroutine(TypewriterEffect(errorManager.GetAllMistakes(), feedbackText));
+    //}
 
     void ShowFeedback() {
         feedbackText.text = "";

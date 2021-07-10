@@ -61,7 +61,8 @@ public class GameController : Photon.MonoBehaviour {
         spawnedPlayerGO.GetComponentInChildren<MouseController>().enabled = true;
         spawnedPlayerGO.GetComponentInChildren<Camera>().enabled = true;
 
-        choiceController.SetPhotonView(spawnedPlayerGO.GetComponent<PhotonView>());
+        //choiceController.SetPhotonView(spawnedPlayerGO.GetComponent<PhotonView>());
+        //timeController.SetPhotonView(spawnedPlayerGO.GetComponent<PhotonView>());
         choiceController.SetMovementController(spawnedPlayerGO.GetComponent<MovementController>());
         choiceController.SetMouseController(spawnedPlayerGO.GetComponentInChildren<MouseController>());
 
@@ -71,19 +72,19 @@ public class GameController : Photon.MonoBehaviour {
         gameCanvas.SetActive(false);
     }
 
-    public void LockOrUnlockPlayer() {
-        movementController.enabled = !movementController.enabled;
-        mouseController.enabled = !mouseController.enabled;
-    }
+    //public void LockOrUnlockPlayer() {
+    //    movementController.enabled = !movementController.enabled;
+    //    mouseController.enabled = !mouseController.enabled;
+    //}
 
-    private List<string> GetPlayerChoicesByFunction(string function) {
-        if(gameMethod.Equals("Scrum")) {
-            return new Scrum().GetChoicesByKey(function);
-        }
-        else {
-            return new XP().GetChoicesByKey(function);
-        }
-    }
+    //private List<string> GetPlayerChoicesByFunction(string function) {
+    //    if(gameMethod.Equals("Scrum")) {
+    //        return new Scrum().GetChoicesByKey(function);
+    //    }
+    //    else {
+    //        return new XP().GetChoicesByKey(function);
+    //    }
+    //}
 
     //private void PauseMenu() {
     //    pauseMenu.SetActive(!pauseMenu.activeSelf);

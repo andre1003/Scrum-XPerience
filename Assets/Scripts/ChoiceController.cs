@@ -25,7 +25,7 @@ public class ChoiceController : MonoBehaviour {
 
     public GameObject pauseMenu;
 
-    public TimeController timeController;
+    public NewTimer timeController;
 
     private MovementController movementController;
     private MouseController mouseController;
@@ -37,6 +37,7 @@ public class ChoiceController : MonoBehaviour {
     private int rightChoice;
     private int individualHits;
     private int individualMistakes;
+    private int totalChoices;
 
     private int groupHits;
     private int groupMistakes;
@@ -51,20 +52,24 @@ public class ChoiceController : MonoBehaviour {
     private Color green = new Color(6, 142, 0, 255);
     private Color red = new Color(226, 0, 0, 255);
 
-    private PhotonView photonView;
+    public PhotonView photonView;
 
     private bool isPaused = false;
+    private bool isGameStarded = false;
+
+    private int count = 0;
 
     private void Awake() {
         individualHits = 0;
         individualMistakes = 0;
         groupHits = 0;
         groupMistakes = 0;
+        totalChoices = 0;
         passedScenes = new List<string>();
     }
 
     private void Update() {
-        CheckGameOver();
+        photonView.RPC("CheckGameOver", PhotonTargets.AllBuffered);
 
         if(Input.GetKeyDown(KeyCode.Space))
             GetStats();
@@ -72,6 +77,8 @@ public class ChoiceController : MonoBehaviour {
             isPaused = !isPaused;
             PauseMenu(isPaused);
         }
+        else if(Input.GetKeyDown(KeyCode.P))
+            EndGame();
     }
 
     private void PauseMenu(bool isPaused) {
@@ -135,10 +142,6 @@ public class ChoiceController : MonoBehaviour {
             return true;
     }
 
-    public void SetPhotonView(PhotonView photonView) {
-        this.photonView = photonView;
-    }
-
     public void SetMovementController(MovementController movementController) {
         this.movementController = movementController;
     }
@@ -162,23 +165,27 @@ public class ChoiceController : MonoBehaviour {
     }
 
     public void CheckHit(int buttonId) {
-        errorManager.CheckHit(buttonId, rightChoice, buttonList[buttonId].text, scene);
+        errorManager.CheckHit(buttonId, rightChoice, buttonList[buttonId].text, descriptionList[buttonId].text, scene, totalChoices);
     }
 
     public void IncreaseIndividualHits() {
+        totalChoices++;
         individualHits++;
         // TEST ONLY
-        groupHits++;
+        //groupHits++;
         ////////////
-        //photonView.RPC("IncreaseGroupHits", PhotonTargets.AllBuffered);
+        photonView.RPC("IncreaseGroupHits", PhotonTargets.AllBuffered);
+        photonView.RPC("UpdateScore", PhotonTargets.AllBuffered);
     }
 
     public void IncreaseIndividualMistakes() {
+        totalChoices++;
         individualMistakes++;
         // TEST ONLY
-        groupMistakes++;
+        //groupMistakes++;
         ////////////
-        //photonView.RPC("IncreaseGroupMistakes", PhotonTargets.AllBuffered);
+        photonView.RPC("IncreaseGroupMistakes", PhotonTargets.AllBuffered);
+        photonView.RPC("UpdateScore", PhotonTargets.AllBuffered);
     }
 
     [PunRPC]
@@ -191,18 +198,20 @@ public class ChoiceController : MonoBehaviour {
         groupMistakes++;
     }
 
-    void CheckGameOver() {
+    [PunRPC]
+    private void CheckGameOver() {
         if(groupMistakes >= maxMistakes)
             timeController.GameOver();
     }
 
+    [PunRPC]
     public void UpdateScore() {
         scoreText.text = "Acertos: " + groupHits + "\nErros: " + groupMistakes;
 
-        using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\score.txt")) {
-            string scoreJson = "{\"hits\": " + individualHits + ", \"mistakes\": " + individualMistakes + "}";
-            writer.Write(scoreJson);
-        }
+        //using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\score.txt")) {
+        //    string scoreJson = "{\"hits\": " + individualHits + ", \"mistakes\": " + individualMistakes + "}";
+        //    writer.Write(scoreJson);
+        //}
     }
 
     public List<string> GetPassedScenesList() {
@@ -227,22 +236,47 @@ public class ChoiceController : MonoBehaviour {
         //Debug.Log(this.round);
     }
 
+    [PunRPC]
+    private void AddToGroupMistakes(int number) {
+        groupMistakes += number;
+    }
+
     public void EndRound() {
-        int errors = 4 - passedScenes.Count;
+        count++;
+        Debug.Log(count);
+        int errors = 3 - passedScenes.Count;
         individualMistakes += errors;
-        groupMistakes += errors;
+        photonView.RPC("AddToGroupMistakes", PhotonTargets.AllBuffered, errors);
 
-        UpdateScore();
-
+        photonView.RPC("UpdateScore", PhotonTargets.AllBuffered);
+        
         while(errors > 0) {
-            using(StreamWriter writer = new StreamWriter(mistakeFilePath, true)) {
-                writer.WriteLine("Tempo Esgotado");
-            }
+            //using(StreamWriter writer = new StreamWriter(mistakeFilePath, true)) {
+            //    writer.WriteLine("Tempo Esgotado");
+            //}
 
+            //SaveSystem.Save("Tempo Esgotado", "Tempo Esgotado", "Tempo Esgotado", true, totalChoices);
+            totalChoices++;
             errors--;
         }
 
         ClearPassedScenesList();
+    }
+
+    public void EndGame() {
+        PlayerPrefs.SetInt("player_mistakes", individualMistakes);
+        PlayerPrefs.SetInt("player_hits", individualHits);
+        PlayerPrefs.SetInt("group_mistakes", groupMistakes);
+        PlayerPrefs.SetInt("group_hits", groupHits);
+        PlayerPrefs.SetInt("total_choices", totalChoices);
+
+        //PhotonNetwork.LoadLevel(4);
+        photonView.RPC("LoadFeedbackScene", PhotonTargets.AllBuffered);
+    }
+
+    [PunRPC]
+    public void LoadFeedbackScene() {
+        PhotonNetwork.LoadLevel(4);
     }
 
     public void GetStats() {

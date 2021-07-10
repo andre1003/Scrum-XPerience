@@ -49,4 +49,11 @@ MonoBehaviour:
   - SyncScrumChoice
   - SyncXPChoice
   - TaggedPlayer
+  - CheckGameOver
+  - LoadFeedbackScene
+  - SetTime
+  - UpdateScore
+  - IncreaseRound
+  - EndRound
+  - AddToGroupMistakes
   DisableAutoOpenWizard: 1
