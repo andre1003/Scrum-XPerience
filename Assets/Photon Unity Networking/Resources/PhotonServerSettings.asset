@@ -56,4 +56,8 @@ MonoBehaviour:
   - IncreaseRound
   - EndRound
   - AddToGroupMistakes
+  - SaveGeneralInfo
+  - AddTimeout
+  - Increment
+  - IncrementByKey
   DisableAutoOpenWizard: 1

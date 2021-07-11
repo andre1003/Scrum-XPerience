@@ -59,6 +59,8 @@ public class ChoiceController : MonoBehaviour {
 
     private int count = 0;
 
+    private int timeouts = 0;
+
     private void Awake() {
         individualHits = 0;
         individualMistakes = 0;
@@ -66,10 +68,27 @@ public class ChoiceController : MonoBehaviour {
         groupMistakes = 0;
         totalChoices = 0;
         passedScenes = new List<string>();
+
+        if(PhotonNetwork.player.IsMasterClient) {
+            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+
+            properties.Add("GeneralClientMeetingMistakes", 0);
+            properties.Add("GeneralTeamMeetingMistakes", 0);
+            properties.Add("GeneralDevelopmentMistakes", 0);
+            properties.Add("GeneralTimeouts", 0);
+
+            properties.Add("GeneralClientMeetingHits", 0);
+            properties.Add("GeneralTeamMeetingHits", 0);
+            properties.Add("GeneralDevelopmentHits", 0);
+
+            PhotonNetwork.room.SetCustomProperties(properties);
+        }
     }
 
     private void Update() {
         photonView.RPC("CheckGameOver", PhotonTargets.AllBuffered);
+        //SaveGeneralInfo(groupMistakes);
+        //Debug.Log("Client Mistakes: " + clientMeetingMistakes);
 
         if(Input.GetKeyDown(KeyCode.Space))
             GetStats();
@@ -247,7 +266,7 @@ public class ChoiceController : MonoBehaviour {
         int errors = 3 - passedScenes.Count;
         individualMistakes += errors;
         photonView.RPC("AddToGroupMistakes", PhotonTargets.AllBuffered, errors);
-
+        photonView.RPC("AddTimeout", PhotonTargets.AllBuffered, errors);
         photonView.RPC("UpdateScore", PhotonTargets.AllBuffered);
         
         while(errors > 0) {
@@ -256,11 +275,18 @@ public class ChoiceController : MonoBehaviour {
             //}
 
             //SaveSystem.Save("Tempo Esgotado", "Tempo Esgotado", "Tempo Esgotado", true, totalChoices);
+            //SaveGeneralInfo(groupMistakes);
             totalChoices++;
             errors--;
         }
 
         ClearPassedScenesList();
+    }
+
+    [PunRPC]
+    private void AddTimeout(int errors) {
+        timeouts += errors;
+        errorManager.SaveGeneralInfo();
     }
 
     public void EndGame() {
@@ -270,7 +296,6 @@ public class ChoiceController : MonoBehaviour {
         PlayerPrefs.SetInt("group_hits", groupHits);
         PlayerPrefs.SetInt("total_choices", totalChoices);
 
-        //PhotonNetwork.LoadLevel(4);
         photonView.RPC("LoadFeedbackScene", PhotonTargets.AllBuffered);
     }
 
@@ -370,4 +395,9 @@ public class ChoiceController : MonoBehaviour {
         else if(status.Equals("Infeliz"))
             text.color = red;
     }
+
+    public int GetTimeouts() {
+        return timeouts;
+    }
+    
 }

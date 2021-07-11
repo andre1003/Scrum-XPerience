@@ -10,6 +10,9 @@ public class FeedbackManager : MonoBehaviour {
     public ErrorManager errorManager;
     public GameObject continueButton;
 
+    public Text individualMistakes;
+    public Text individualHits;
+
     private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
     private string individualFeedbackFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\individual_feedback.txt";
     private string[] lines;
@@ -27,7 +30,11 @@ public class FeedbackManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        ShowStats();
+        //ShowStats();
+        //ShowIndividualMistakes();
+        //ShowIndividualHits();
+        ShowGeneralMistakes();
+        ShowGeneralHits();
     }
 
     private void Update() {
@@ -44,52 +51,94 @@ public class FeedbackManager : MonoBehaviour {
         }
     }
 
-    private void ShowStats() {
-        int totalChoices = PlayerPrefs.GetInt("total_choices");
-        Debug.Log(totalChoices);
-        List<Decision> datas = new List<Decision>();
+    //private void ShowStats() {
+    //    int totalChoices = PlayerPrefs.GetInt("total_choices");
+    //    Debug.Log(totalChoices);
+    //    List<Decision> datas = new List<Decision>();
 
-        for(int i = 0; i < totalChoices; i++) {
-            Decision data = SaveSystem.Load(i);
-            if(data.isMistake)
-                datas.Add(data);
+    //    for(int i = 0; i < totalChoices; i++) {
+    //        Decision data = SaveSystem.Load(i);
+    //        if(data.isMistake)
+    //            datas.Add(data);
 
-            //Debug.Log(data.decisionId + " " + data.scenary + " " + data.isMistake);
+    //        //Debug.Log(data.decisionId + " " + data.scenary + " " + data.isMistake);
+    //    }
+
+    //    List<string> aux = new List<string>();
+
+    //    for(int i = 0; i < datas.Count(); i++) {
+    //        Debug.Log(datas[i].scenery);
+
+    //        // Timeout
+    //        if(datas[i].scenery.Equals("Tempo Esgotado")) {
+    //            errorManager.IncreaseMistakes(4);
+    //            aux.Add(timeoutText);
+    //        }
+
+    //        // Team Meeting
+    //        else if(datas[i].scenery.Equals("Reuniao Equipe")) {
+    //            errorManager.IncreaseMistakes(0);
+    //            aux.Add(teamMeetingText);
+    //        }
+
+    //        // Client Meeting
+    //        else if(datas[i].scenery.Equals("Reuniao Cliente")) {
+    //            errorManager.IncreaseMistakes(1);
+    //            aux.Add(clientMeetingText);
+    //        }
+
+    //        // Development Room
+    //        else {
+    //            errorManager.IncreaseMistakes(2);
+    //            aux.Add(developmentRoomText);
+    //        }
+    //    }
+
+    //    feedback = aux.Distinct().ToList();
+
+    //    StartCoroutine(TypewriterEffect(errorManager.GetAllMistakes(), feedbackText));
+    //}
+
+    public void ShowIndividualMistakes() {
+        List<string> mistakes = errorManager.GetMistakes();
+        string aux = "";
+        foreach(string mistake in mistakes) {
+            aux += mistake + "\n";
         }
 
-        List<string> aux = new List<string>();
+        individualMistakes.text = aux;
+    }
 
-        for(int i = 0; i < datas.Count(); i++) {
-            Debug.Log(datas[i].scenery);
-
-            // Timeout
-            if(datas[i].scenery.Equals("Tempo Esgotado")) {
-                errorManager.IncreaseMistakes(4);
-                aux.Add(timeoutText);
-            }
-
-            // Team Meeting
-            else if(datas[i].scenery.Equals("Reuniao Equipe")) {
-                errorManager.IncreaseMistakes(0);
-                aux.Add(teamMeetingText);
-            }
-
-            // Client Meeting
-            else if(datas[i].scenery.Equals("Reuniao Cliente")) {
-                errorManager.IncreaseMistakes(1);
-                aux.Add(clientMeetingText);
-            }
-
-            // Development Room
-            else {
-                errorManager.IncreaseMistakes(2);
-                aux.Add(developmentRoomText);
-            }
+    public void ShowIndividualHits() {
+        List<string> hits = errorManager.GetHits();
+        string aux = "";
+        foreach(string hit in hits) {
+            aux += hit + "\n";
         }
 
-        feedback = aux.Distinct().ToList();
+        individualHits.text = aux;
+    }
 
-        StartCoroutine(TypewriterEffect(errorManager.GetAllMistakes(), feedbackText));
+
+    //// CORRECT HERE
+    public void ShowGeneralMistakes() {
+        List<string> mistakes = errorManager.GetGeneralMistakes();
+        string aux = "";
+        foreach(string mistake in mistakes) {
+            aux += mistake + "\n";
+        }
+
+        individualMistakes.text = aux;
+    }
+
+    public void ShowGeneralHits() {
+        List<string> hits = errorManager.GetGeneralHits();
+        string aux = "";
+        foreach(string hit in hits) {
+            aux += hit + "\n";
+        }
+
+        individualHits.text = aux;
     }
 
     //void ShowStats() {

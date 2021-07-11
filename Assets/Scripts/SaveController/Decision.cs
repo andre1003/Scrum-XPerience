@@ -15,4 +15,13 @@ public class Decision {
         this.scenery = scenery;
         this.isMistake = isMistake;
     }
+
+    public bool Equals(Decision obj) {
+        if(obj == null)
+            return false;
+        else if(this.decisionId.Equals(obj.decisionId) && this.decisionDescription.Equals(obj.decisionDescription) && this.scenery.Equals(obj.scenery) && this.isMistake == obj.isMistake)
+            return true;
+        else
+            return false;
+    }
 }
