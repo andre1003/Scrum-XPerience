@@ -9,9 +9,15 @@ public class FeedbackManager : MonoBehaviour {
     public Text feedbackText;
     public ErrorManager errorManager;
     public GameObject continueButton;
+    public GameObject continueButton2;
 
+    public Text titleText;
     public Text individualMistakes;
     public Text individualHits;
+
+    public GameObject feedbackCanvas;
+    public GameObject mistakesAndHitsCanvas;
+    public GameObject endCanvas;
 
     private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
     private string individualFeedbackFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\individual_feedback.txt";
@@ -22,6 +28,9 @@ public class FeedbackManager : MonoBehaviour {
     private string clientMeetingText = "A comunicação com o cliente é essencial para os métodos ágeis! Lembre-se sempre disso...";
     private string developmentRoomText = "Apesar de tudo, o desenvolvimento do software não foi dos melhores... Busque estudar mais sobre o desenvolvimento utilizando metodologias ágeis. Isso vai te ajudar bastante!";
 
+    private string individualFeedback = "";
+    private string generalFeedback = "";
+
     private List<string> feedback = new List<string>();
 
     private bool canContinue = false;
@@ -30,74 +39,54 @@ public class FeedbackManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        //ShowStats();
-        //ShowIndividualMistakes();
-        //ShowIndividualHits();
-        ShowGeneralMistakes();
-        ShowGeneralHits();
+        ShowIndividualStats();
     }
 
     private void Update() {
         if(canContinue) {
             if(Input.GetKeyDown(KeyCode.Return)) {
                 if(count == 1)
-                    ShowFeedback();
-                else {
-                    canContinue = false;
-                    continueButton.SetActive(canContinue);
-                    feedbackText.text = "";
-                }
+                    ShowIndividualHitsAndMistakes();
+                else if(count == 3)
+                    ShowIndividualFeedback();
+                else if(count == 4)
+                    ShowGeneralStats();
+                else if(count == 5)
+                    ShowGeneralHitsAndMistakes();
+                else if(count == 7)
+                    End();
             }
         }
     }
 
-    //private void ShowStats() {
-    //    int totalChoices = PlayerPrefs.GetInt("total_choices");
-    //    Debug.Log(totalChoices);
-    //    List<Decision> datas = new List<Decision>();
+    private void ShowIndividualStats() {
+        titleText.text = "Estatísticas Individuais";
+        canContinue = false;
+        List<int> mistakes = errorManager.GetIndividualStats();
+        string stats = "Erros em Reuniao de Equipe: " + mistakes[1] + "\nErros em Reuniao com Cliente: " + mistakes[2] + "\nErros de Desenvolvimento: " + mistakes[3] + "\nTempo Esgotado: " + mistakes[0];
+        StartCoroutine(TypewriterEffect(stats, feedbackText));
 
-    //    for(int i = 0; i < totalChoices; i++) {
-    //        Decision data = SaveSystem.Load(i);
-    //        if(data.isMistake)
-    //            datas.Add(data);
+        if(mistakes[0] != 0)
+            individualFeedback += timeoutText + "\n";
 
-    //        //Debug.Log(data.decisionId + " " + data.scenary + " " + data.isMistake);
-    //    }
+        if(mistakes[1] != 0)
+            individualFeedback += teamMeetingText + "\n";
 
-    //    List<string> aux = new List<string>();
+        if(mistakes[2] != 0)
+            individualFeedback += clientMeetingText + "\n";
 
-    //    for(int i = 0; i < datas.Count(); i++) {
-    //        Debug.Log(datas[i].scenery);
+        if(mistakes[3] != 0)
+            individualFeedback += developmentRoomText + "\n";
+    }
 
-    //        // Timeout
-    //        if(datas[i].scenery.Equals("Tempo Esgotado")) {
-    //            errorManager.IncreaseMistakes(4);
-    //            aux.Add(timeoutText);
-    //        }
-
-    //        // Team Meeting
-    //        else if(datas[i].scenery.Equals("Reuniao Equipe")) {
-    //            errorManager.IncreaseMistakes(0);
-    //            aux.Add(teamMeetingText);
-    //        }
-
-    //        // Client Meeting
-    //        else if(datas[i].scenery.Equals("Reuniao Cliente")) {
-    //            errorManager.IncreaseMistakes(1);
-    //            aux.Add(clientMeetingText);
-    //        }
-
-    //        // Development Room
-    //        else {
-    //            errorManager.IncreaseMistakes(2);
-    //            aux.Add(developmentRoomText);
-    //        }
-    //    }
-
-    //    feedback = aux.Distinct().ToList();
-
-    //    StartCoroutine(TypewriterEffect(errorManager.GetAllMistakes(), feedbackText));
-    //}
+    private void ShowIndividualHitsAndMistakes() {
+        canContinue = false;
+        mistakesAndHitsCanvas.SetActive(true);
+        continueButton.SetActive(false);
+        continueButton2.SetActive(false);
+        ShowIndividualMistakes();
+        ShowIndividualHits();
+    }
 
     public void ShowIndividualMistakes() {
         List<string> mistakes = errorManager.GetMistakes();
@@ -106,7 +95,7 @@ public class FeedbackManager : MonoBehaviour {
             aux += mistake + "\n";
         }
 
-        individualMistakes.text = aux;
+        StartCoroutine(TypewriterEffect(aux, individualMistakes));
     }
 
     public void ShowIndividualHits() {
@@ -116,11 +105,45 @@ public class FeedbackManager : MonoBehaviour {
             aux += hit + "\n";
         }
 
-        individualHits.text = aux;
+        StartCoroutine(TypewriterEffect(aux, individualHits));
     }
 
+    private void ShowIndividualFeedback() {
+        titleText.text = "Feedback Individual";
+        canContinue = false;
+        continueButton.SetActive(false);
+        continueButton2.SetActive(false);
+        feedbackText.text = "";
+        mistakesAndHitsCanvas.SetActive(false);
 
-    //// CORRECT HERE
+        StartCoroutine(TypewriterEffect(individualFeedback, feedbackText));
+    }
+
+    private void ShowGeneralStats() {
+        titleText.text = "Estatísticas do Grupo";
+        canContinue = false;
+        continueButton.SetActive(false);
+        continueButton2.SetActive(false);
+        feedbackText.text = "";
+        mistakesAndHitsCanvas.SetActive(false);
+        List<int> mistakes = errorManager.GetGeneralStats();
+        string stats = "Erros em Reuniao de Equipe: " + mistakes[1] + "\nErros em Reuniao com Cliente: " + mistakes[2] + "\nErros de Desenvolvimento: " + mistakes[3] + "\nTempo Esgotado: " + mistakes[0];
+        StartCoroutine(TypewriterEffect(stats, feedbackText));
+
+
+    }
+
+    private void ShowGeneralHitsAndMistakes() {
+        canContinue = false;
+        mistakesAndHitsCanvas.SetActive(true);
+        continueButton.SetActive(false);
+        continueButton2.SetActive(false);
+        individualMistakes.text = "";
+        individualHits.text = "";
+        ShowGeneralMistakes();
+        ShowGeneralHits();
+    }
+
     public void ShowGeneralMistakes() {
         List<string> mistakes = errorManager.GetGeneralMistakes();
         string aux = "";
@@ -128,7 +151,7 @@ public class FeedbackManager : MonoBehaviour {
             aux += mistake + "\n";
         }
 
-        individualMistakes.text = aux;
+        StartCoroutine(TypewriterEffect(aux, individualMistakes));
     }
 
     public void ShowGeneralHits() {
@@ -138,43 +161,19 @@ public class FeedbackManager : MonoBehaviour {
             aux += hit + "\n";
         }
 
-        individualHits.text = aux;
+        StartCoroutine(TypewriterEffect(aux, individualHits));
     }
 
-    //void ShowStats() {
-    //    List<string> aux = new List<string>();
-    //    lines = File.ReadAllLines(mistakeFilePath);
+    private void End() {
+        canContinue = false;
+        mistakesAndHitsCanvas.SetActive(false);
+        feedbackCanvas.SetActive(false);
+        endCanvas.SetActive(true);
+    }
 
-    //    foreach(string line in lines) {
-    //        // Timeout
-    //        if(line.Equals("Tempo Esgotado")) {
-    //            errorManager.IncreaseMistakes(4);
-    //            aux.Add(timeoutText);
-    //        }
-
-    //        // Team Meeting
-    //        else if(line.Split(';')[0].Equals("Reuniao Equipe")) {
-    //            errorManager.IncreaseMistakes(0);
-    //            aux.Add(teamMeetingText);
-    //        }
-
-    //        // Client Meeting
-    //        else if(line.Split(';')[0].Equals("Reuniao Cliente")) {
-    //            errorManager.IncreaseMistakes(1);
-    //            aux.Add(clientMeetingText);
-    //        }
-
-    //        // Development Room
-    //        else {
-    //            errorManager.IncreaseMistakes(2);
-    //            aux.Add(developmentRoomText);
-    //        }
-    //    }
-
-    //    feedback = aux.Distinct().ToList();
-
-    //    StartCoroutine(TypewriterEffect(errorManager.GetAllMistakes(), feedbackText));
-    //}
+    public void EndGame() {
+        Application.Quit();
+    }
 
     void ShowFeedback() {
         feedbackText.text = "";
@@ -209,6 +208,7 @@ public class FeedbackManager : MonoBehaviour {
 
         canContinue = true;
         continueButton.SetActive(canContinue);
+        continueButton2.SetActive(canContinue);
         count++;
     }
 

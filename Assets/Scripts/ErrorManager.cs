@@ -11,6 +11,7 @@ public class ErrorManager : MonoBehaviour {
 
     private string path;
 
+    private int timeouts = 0;
     private int teamMeetingMistakes = 0;
     private int clientMeetingMistakes = 0;
     private int developmentMistakes = 0;
@@ -19,7 +20,7 @@ public class ErrorManager : MonoBehaviour {
     private int developmentHits = 0;
 
     private void Awake() {
-        path = Application.persistentDataPath;
+        path = Application.persistentDataPath + "/player_data/";
     }
 
     private void Update() {
@@ -68,7 +69,7 @@ public class ErrorManager : MonoBehaviour {
             }
         }
 
-        SaveGeneralInfo();
+        //SaveGeneralInfo();
     }
 
     public void SaveGeneralInfo() {
@@ -100,6 +101,10 @@ public class ErrorManager : MonoBehaviour {
             case 5:
                 developmentHits++;
                 break;
+
+            case 6:
+                timeouts++;
+                break;
         }
     }
 
@@ -126,6 +131,61 @@ public class ErrorManager : MonoBehaviour {
     //public string GetAllMistakes() {
     //    return "Erros em Reuniao de Equipe: " + teamMeetingCount + "\nErros em Reuniao com Cliente: " + clientMeetingCount + "\nErros de Desenvolvimento: " + developmentRoomCount + "\nTempo Esgotado: " + timeoutCount;
     //}
+
+    public List<int> GetIndividualStats() {
+        timeouts = 0;
+        teamMeetingMistakes = 0;
+        clientMeetingMistakes = 0;
+        developmentMistakes = 0;
+        teamMeetingHits = 0;
+        clientMeetingHits = 0;
+        developmentHits = 0;
+
+        string[] files = Directory.GetFiles(path);
+        int length = files.Length;
+
+        for(int i = 0; i < length; i++) {
+            Decision data = SaveSystem.Load(i);
+
+            if(data.isMistake) {
+                if(data.scenery.Equals("Reuniao Equipe")) {
+                    Increment(0);
+                }
+                else if(data.scenery.Equals("Reuniao Cliente")) {
+                    Increment(1);
+                }
+                else if(data.scenery.Equals("Desenvolvimento")) {
+                    Increment(2);
+                }
+                else {
+                    Increment(6);
+                }
+            }
+            else {
+                if(data.scenery.Equals("Reuniao Equipe")) {
+                    Increment(3);
+                }
+                else if(data.scenery.Equals("Reuniao Cliente")) {
+                    Increment(4);
+                }
+                else {
+                    Increment(5);
+                }
+            }
+        }
+
+        List<int> mistakes = new List<int>() {
+            timeouts,              // 0
+            teamMeetingMistakes,   // 1
+            clientMeetingMistakes, // 2
+            developmentMistakes,   // 3
+            teamMeetingHits,       // 4
+            clientMeetingHits,     // 5
+            developmentHits        // 6
+        };
+
+        return mistakes;
+    }
 
     public List<string> GetMistakes() {
         string[] files = Directory.GetFiles(path);
@@ -161,6 +221,19 @@ public class ErrorManager : MonoBehaviour {
         hits = hits.Distinct().ToList();
 
         return hits;
+    }
+
+    public List<int> GetGeneralStats() {
+        GeneralInfo groupData = SaveSystem.LoadGeneralInfo();
+        return new List<int>() {
+            groupData.timeouts,
+            groupData.teamMeetingMistakes,
+            groupData.clientMeetingMistakes,
+            groupData.developmentMistakes,
+            groupData.teamMeetingHits,
+            groupData.clientMeetingHits,
+            groupData.developmentHits
+        };
     }
 
     public List<string> GetGeneralMistakes() {

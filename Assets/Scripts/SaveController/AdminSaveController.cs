@@ -8,16 +8,21 @@ public class AdminSaveController : MonoBehaviour {
 
     public InputField decisionIdInputField;
     public InputField decisionDescriptionInputField;
-    public InputField sceneryInputField;
+    public Dropdown sceneryDropdown;
     public Toggle isMistakeToggle;
 
     public Text previewText;
 
     private int index = 0;
-    private string path = Directory.GetCurrentDirectory() + "/data/";
+    private string path;
+    private string scenery;
+
+    private void Awake() {
+        path = Application.persistentDataPath + "/data/";
+    }
 
     public void PreviewSave() {
-        string text = "ID: " + decisionIdInputField.text + ".\n\nDescrição: " + decisionDescriptionInputField.text + ".\n\nCenário: " + sceneryInputField.text;
+        string text = "ID: " + decisionIdInputField.text + ".\n\nDescrição: " + decisionDescriptionInputField.text + ".\n\nCenário: " + sceneryDropdown.itemText.text;
         if(isMistakeToggle.isOn)
             text += "\n\nÉ um erro: Sim.";
         else
@@ -31,7 +36,22 @@ public class AdminSaveController : MonoBehaviour {
             string[] files = Directory.GetFiles(path);
             index = files.Length;
         }
-        
-        SaveSystem.SaveInDatabase(decisionIdInputField.text, decisionDescriptionInputField.text, sceneryInputField.text, isMistakeToggle.isOn, index);
+
+        switch(sceneryDropdown.value) {
+            case 0:
+                scenery = "Reuniao Equipe";
+                break;
+
+            case 1:
+                scenery = "Reuniao Cliente";
+                break;
+
+            case 2:
+                scenery = "Desenvolvimento";
+                break;
+        }
+
+        SaveSystem.SaveInDatabase(decisionIdInputField.text, decisionDescriptionInputField.text, scenery, isMistakeToggle.isOn, index);
+        previewText.text = "Sucesso!";
     }
 }

@@ -8,7 +8,10 @@ public static class SaveSystem {
     public static void Save(string decisionId, string decisionDescription, string scenery, bool isMistake, int index) {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-        string file = path + "/decision_" + index + ".sxp";
+        if(!Directory.Exists(path + "/player_data/"))
+            Directory.CreateDirectory(path + "/player_data/");
+
+        string file = path + "/player_data/decision_" + index + ".sxp";
         FileStream stream = new FileStream(file, FileMode.Create);
 
         Decision data = new Decision(decisionId, decisionDescription, scenery, isMistake);
@@ -33,10 +36,13 @@ public static class SaveSystem {
     public static void SaveInDatabase(string decisionId, string decisionDescription, string scenery, bool isMistake, int index) {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-        if(!Directory.Exists(Directory.GetCurrentDirectory() + "/data/"))
-            Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/data/");
+        if(!Directory.Exists(path + "/data/"))
+            Directory.CreateDirectory(path + "/data/");
 
-        string file = Directory.GetCurrentDirectory() + "/data/decision_" + index + ".sxp";
+        if(!Directory.Exists(path + "/data/" + scenery + "/"))
+            Directory.CreateDirectory(path + "/data/" + scenery + "/");
+
+        string file = path + "/data/" + scenery + "/decision_" + index + ".sxp";
         FileStream stream = new FileStream(file, FileMode.Create);
 
         Decision data = new Decision(decisionId, decisionDescription, scenery, isMistake);
@@ -45,7 +51,8 @@ public static class SaveSystem {
     }
 
     public static Decision Load(int index) {
-        string file = path + "/decision_" + index + ".sxp";
+        string file = path + "/player_data/decision_" + index + ".sxp";
+        Debug.Log(file);
 
         if(File.Exists(file)) {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
