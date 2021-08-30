@@ -32,13 +32,13 @@ public class ErrorManager : MonoBehaviour {
         if(buttonID == rightChoice) {
             choiceController.IncreaseIndividualHits();
 
-            SaveSystem.Save(id, description, scene, false, index);
+            SaveSystem.Save(id, description, scene, "", false, index);
             photonView.RPC("SaveGeneralInfo", PhotonTargets.AllBuffered, scene, false);
         }
         else {
             choiceController.IncreaseIndividualMistakes();
 
-            SaveSystem.Save(id, description, scene, true, index);
+            SaveSystem.Save(id, description, scene, "", true, index);
             photonView.RPC("SaveGeneralInfo", PhotonTargets.AllBuffered, scene, true);
 
         }

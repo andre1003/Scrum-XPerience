@@ -4,8 +4,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem {
     private static string path = Application.persistentDataPath;
+    private static string decisionsPath = Directory.GetCurrentDirectory();
 
-    public static void Save(string decisionId, string decisionDescription, string scenery, bool isMistake, int index) {
+    public static void Save(string decisionId, string decisionDescription, string scenery, string output, bool isMistake, int index) {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
         if(!Directory.Exists(path + "/player_data/"))
@@ -14,7 +15,7 @@ public static class SaveSystem {
         string file = path + "/player_data/decision_" + index + ".sxp";
         FileStream stream = new FileStream(file, FileMode.Create);
 
-        Decision data = new Decision(decisionId, decisionDescription, scenery, isMistake);
+        Decision data = new Decision(decisionId, decisionDescription, scenery, output, isMistake);
         binaryFormatter.Serialize(stream, data);
         stream.Close();
     }
@@ -33,19 +34,22 @@ public static class SaveSystem {
         stream.Close();
     }
 
-    public static void SaveInDatabase(string decisionId, string decisionDescription, string scenery, bool isMistake, int index) {
+    public static void SaveInDatabase(string decisionId, string decisionDescription, string scenery, string output, bool isMistake, string role, int index) {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-        if(!Directory.Exists(path + "/data/"))
-            Directory.CreateDirectory(path + "/data/");
+        if(!Directory.Exists(decisionsPath + "/data/"))
+            Directory.CreateDirectory(decisionsPath + "/data/");
 
-        if(!Directory.Exists(path + "/data/" + scenery + "/"))
-            Directory.CreateDirectory(path + "/data/" + scenery + "/");
+        if(!Directory.Exists(decisionsPath + "/data/" + scenery + "/"))
+            Directory.CreateDirectory(decisionsPath + "/data/" + scenery + "/");
+        
+        if(!Directory.Exists(decisionsPath + "/data/" + scenery + "/" + role + "/"))
+            Directory.CreateDirectory(decisionsPath + "/data/" + scenery + "/" + role + "/");
 
-        string file = path + "/data/" + scenery + "/decision_" + index + ".sxp";
+        string file = decisionsPath + "/data/" + scenery + "/" + role + "/decision_" + index + ".sxp";
         FileStream stream = new FileStream(file, FileMode.Create);
 
-        Decision data = new Decision(decisionId, decisionDescription, scenery, isMistake);
+        Decision data = new Decision(decisionId, decisionDescription, scenery, output, isMistake);
         binaryFormatter.Serialize(stream, data);
         stream.Close();
     }

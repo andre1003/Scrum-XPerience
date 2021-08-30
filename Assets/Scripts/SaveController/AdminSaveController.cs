@@ -8,7 +8,9 @@ public class AdminSaveController : MonoBehaviour {
 
     public InputField decisionIdInputField;
     public InputField decisionDescriptionInputField;
+    public InputField outputInputField;
     public Dropdown sceneryDropdown;
+    public Dropdown roleDropdown;
     public Toggle isMistakeToggle;
 
     public Text previewText;
@@ -32,11 +34,41 @@ public class AdminSaveController : MonoBehaviour {
     }
 
     public void Save() {
+        string role = "";
+        
         if(Directory.Exists(path)) {
             string[] files = Directory.GetFiles(path);
             index = files.Length;
         }
 
+        switch(roleDropdown.value) {
+            // Scrum
+            case 0:
+                role = "Scrum Master";
+                break;
+
+            case 1:
+                role = "Product Owner";
+                break;
+
+            case 2:
+                role = "Time de Desenvolvimento";
+                break;
+
+            // XP
+            case 3:
+                role = "Gerente de Projetos";
+                break;
+
+            case 4:
+                role = "Engenheiro de Testes";
+                break;
+
+            case 5:
+                role = "Desenvolvedor";
+                break;
+        }
+        
         switch(sceneryDropdown.value) {
             case 0:
                 scenery = "Reuniao Equipe";
@@ -51,7 +83,7 @@ public class AdminSaveController : MonoBehaviour {
                 break;
         }
 
-        SaveSystem.SaveInDatabase(decisionIdInputField.text, decisionDescriptionInputField.text, scenery, isMistakeToggle.isOn, index);
+        SaveSystem.SaveInDatabase(decisionIdInputField.text, decisionDescriptionInputField.text, scenery, outputInputField.text, isMistakeToggle.isOn, role, index);
         previewText.text = "Sucesso!";
     }
 }
