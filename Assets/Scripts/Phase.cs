@@ -8,6 +8,5 @@ public class Phase : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         tutorialController.PhaseSwitch(phase);
-        Destroy(gameObject);
     }
 }
