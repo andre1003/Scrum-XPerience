@@ -9,8 +9,12 @@ public class AdminSaveController : MonoBehaviour {
     public InputField decisionIdInputField;
     public InputField decisionDescriptionInputField;
     public InputField outputInputField;
+    public InputField turnInputField;
+    public InputField roundInputField;
+
     public Dropdown sceneryDropdown;
     public Dropdown roleDropdown;
+
     public Toggle isMistakeToggle;
 
     public Text previewText;
@@ -83,7 +87,7 @@ public class AdminSaveController : MonoBehaviour {
                 break;
         }
 
-        SaveSystem.SaveInDatabase(decisionIdInputField.text, decisionDescriptionInputField.text, scenery, outputInputField.text, isMistakeToggle.isOn, role, index);
+        SaveSystem.SaveInDatabase(decisionIdInputField.text, decisionDescriptionInputField.text, scenery, outputInputField.text, isMistakeToggle.isOn, role, turnInputField.text, roundInputField.text);
         previewText.text = "Sucesso!";
     }
 }

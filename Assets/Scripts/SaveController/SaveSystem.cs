@@ -34,19 +34,45 @@ public static class SaveSystem {
         stream.Close();
     }
 
-    public static void SaveInDatabase(string decisionId, string decisionDescription, string scenery, string output, bool isMistake, string role, int index) {
+    public static void SaveInDatabase(string decisionId, string decisionDescription, string scenery, string output, bool isMistake, string role, string turn, string round) {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-        if(!Directory.Exists(decisionsPath + "/data/"))
-            Directory.CreateDirectory(decisionsPath + "/data/");
+        //if(!Directory.Exists(decisionsPath + "/data/"))
+        //    Directory.CreateDirectory(decisionsPath + "/data/");
 
-        if(!Directory.Exists(decisionsPath + "/data/" + scenery + "/"))
-            Directory.CreateDirectory(decisionsPath + "/data/" + scenery + "/");
+        //if(!Directory.Exists(decisionsPath + "/data/hits/"))
+        //    Directory.CreateDirectory(decisionsPath + "/data/hits/");
+
+        //if(!Directory.Exists(decisionsPath + "/data/mistakes1/"))
+        //    Directory.CreateDirectory(decisionsPath + "/data/mistakes1/");
+
+        //if(!Directory.Exists(decisionsPath + "/data/mistakes2/"))
+        //    Directory.CreateDirectory(decisionsPath + "/data/mistakes2/");
+
+        //if(!Directory.Exists(decisionsPath + "/data/hits/" + scenery + "/"))
+        //    Directory.CreateDirectory(decisionsPath + "/data/hits/" + scenery + "/");
         
-        if(!Directory.Exists(decisionsPath + "/data/" + scenery + "/" + role + "/"))
-            Directory.CreateDirectory(decisionsPath + "/data/" + scenery + "/" + role + "/");
+        if(!Directory.Exists(decisionsPath + "/data/hits/" + scenery + "/" + role + "/"))
+            Directory.CreateDirectory(decisionsPath + "/data/hits/" + scenery + "/" + role + "/");
 
-        string file = decisionsPath + "/data/" + scenery + "/" + role + "/decision_" + index + ".sxp";
+        if(!Directory.Exists(decisionsPath + "/data/mistakes1/" + scenery + "/" + role + "/"))
+            Directory.CreateDirectory(decisionsPath + "/data/mistakes1/" + scenery + "/" + role + "/");
+
+        if(!Directory.Exists(decisionsPath + "/data/mistakes2/" + scenery + "/" + role + "/"))
+            Directory.CreateDirectory(decisionsPath + "/data/mistakes2/" + scenery + "/" + role + "/");
+
+        string file;
+
+        if(isMistake) {
+            if(File.Exists(decisionsPath + "/data/mistakes1/" + scenery + "/" + role + "/decision_" + turn + "_" + round + ".sxp"))
+                file = decisionsPath + "/data/mistakes2/" + scenery + "/" + role + "/decision_" + turn + "_" + round + ".sxp";
+            else
+                file = decisionsPath + "/data/mistakes1/" + scenery + "/" + role + "/decision_" + turn + "_" + round + ".sxp";
+        }
+        else {
+            file = decisionsPath + "/data/hits/" + scenery + "/" + role + "/decision_" + turn + "_" + round + ".sxp";
+        }
+        
         FileStream stream = new FileStream(file, FileMode.Create);
 
         Decision data = new Decision(decisionId, decisionDescription, scenery, output, isMistake);

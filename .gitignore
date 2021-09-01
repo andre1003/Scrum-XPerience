@@ -73,7 +73,7 @@ crashlytics-build.properties
 /[Aa]ssets/**/*.meta
 /[Aa]ssets/[Dd]ata/**/*.meta
 /[Aa]ssets/[Ss]cripts/**/*.meta
-
+/[Dd]ata/
 /[Aa]ssets/[Dd]ata/hits.txt
 /[Aa]ssets/[Dd]ata/mistakes.txt
 /[Aa]ssets/[Dd]ata/score.txt
