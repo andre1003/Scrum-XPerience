@@ -14,14 +14,21 @@ public class TutorialController : MonoBehaviour {
     public GameObject statsCanvas;
     public GameObject hudCanvas;
 
+    public GameObject postProcessing;
+
     public Text explanationText;
     public List<GameObject> phases;
 
     private int currentPhase;
 
+    private void Awake() {
+        if(PlayerPrefs.GetInt("post_processing") == 1) {
+            postProcessing.SetActive(true);
+        }
+    }
+
     // Start is called before the first frame update
     void Start() {
-        //LockAndHideCursor();
         LockOrUnlockPlayer();
         currentPhase = 0;
     }
@@ -30,14 +37,6 @@ public class TutorialController : MonoBehaviour {
     void Update() {
 
     }
-
-    //public void SetMovementController(MovementController movementController) {
-    //    this.movementController = movementController;
-    //}
-
-    //public void SetMouseController(MouseController mouseController) {
-    //    this.mouseController = mouseController;
-    //}
 
     public void LockOrUnlockPlayer() {
         movementController.enabled = !movementController.enabled;
@@ -58,9 +57,9 @@ public class TutorialController : MonoBehaviour {
 
     public void PhaseSwitch(int phase) {
         currentPhase = phase;
-        if(phase < 7) {
+        if(phase < 6) {
             Destroy(phases[phase]);
-            if(phase != 7) {
+            if(phase != 6) {
                 phases[phase + 1].SetActive(true);
             }
         }
@@ -78,7 +77,7 @@ public class TutorialController : MonoBehaviour {
                 break;
 
             case 2:
-                explanationText.text = "OK, estamos indo bem!Agora vamos para a Sala de Reunião com a Equipe\n\nPara chegar até lá, volte para a Sala de Desenvolvimento e no final dela você verá duas entradas, uma ao lado da outra. A Sala de Reunião com a Equipe é a entrada da ESQUERDA.";
+                explanationText.text = "OK, estamos indo bem! Agora vamos para a Sala de Reunião com a Equipe.\n\nPara chegar até lá, volte para a Sala de Desenvolvimento e no final dela você verá duas entradas, uma ao lado da outra. A Sala de Reunião com a Equipe é a entrada da ESQUERDA.";
                 break;
 
             case 3:
@@ -94,7 +93,7 @@ public class TutorialController : MonoBehaviour {
                 break;
 
             case 6:
-                explanationText.text = "Muito bem! Agora você sabe como você vai fazer as escolhas durante a partida.\n\nAlguns papeis podem visualizar o progesso da partida, sendo eles o Scrum Master, o Product Owner e o Gerente de Projetos. As pessoas encarregadas por esses cargos devem comunicar o restante da equipe para conduzir a partida da melhor forma possível. Vamos ver melhor isso na Sala de Reunião com a Diretoria.";
+                explanationText.text = "Muito bem! Agora você sabe como você vai fazer as escolhas durante a partida.\n\nAlguns papeis podem visualizar o progresso da partida, sendo eles o Scrum Master, o Product Owner e o Gerente de Projetos. As pessoas encarregadas por esses cargos devem comunicar o restante da equipe para conduzir a partida da melhor forma possível. Vamos ver melhor isso na Sala de Reunião com a Diretoria.";
                 break;
 
             case 7:
@@ -160,5 +159,6 @@ public class TutorialController : MonoBehaviour {
     public void OpenPhaseSix() {
         currentPhase = 6;
         phases[currentPhase].SetActive(true);
+        PhaseSwitch(6);
     }
 }
