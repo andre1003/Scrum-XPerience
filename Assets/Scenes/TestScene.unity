@@ -186,12 +186,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 60764499}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c42c281be9bbaee46af0da0215b822ad, type: 3}
+  m_Script: {fileID: 11500000, guid: b4dbb1fa234a44f499b0a719df5b31f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceCanvas: {fileID: 582643822}
-  choiceController: {fileID: 941011728}
-  scene: Desenvolvimento
+  choiceCanvas: {fileID: 0}
+  choiceController: {fileID: 0}
+  scene: 
 --- !u!1 &93782529
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +799,7 @@ RectTransform:
   - {fileID: 2146227997}
   - {fileID: 1608147263}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1022,7 +1022,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &423180255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,7 +1032,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 423180254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ce0ac78751a7e74abb7a3db8532b2b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cb1aa1bfc2e23d4f89413cf6dcbaf85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 2146227998}
@@ -1040,7 +1040,8 @@ MonoBehaviour:
   roundText: {fileID: 1608147264}
   choiceController: {fileID: 941011728}
   gameOver: {fileID: 1216992126}
-  maxTime: 50
+  maxTime: 30
+  photonView: {fileID: 941011729}
 --- !u!4 &423180256
 Transform:
   m_ObjectHideFlags: 0
@@ -1053,7 +1054,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &433518864 stripped
 GameObject:
@@ -1662,7 +1663,7 @@ GameObject:
   - component: {fileID: 582643824}
   - component: {fileID: 582643823}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ChoiceCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2365,8 +2366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0efadfdc59b5a4fbc53890921f3116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 200
-  playerBody: {fileID: 1185537057}
 --- !u!81 &657101570
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3212,12 +3211,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 791523321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c42c281be9bbaee46af0da0215b822ad, type: 3}
+  m_Script: {fileID: 11500000, guid: b4dbb1fa234a44f499b0a719df5b31f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceCanvas: {fileID: 582643822}
-  choiceController: {fileID: 941011728}
-  scene: Reuniao Equipe
+  choiceCanvas: {fileID: 0}
+  choiceController: {fileID: 0}
+  scene: 
 --- !u!1 &835919028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3865,6 +3864,7 @@ GameObject:
   - component: {fileID: 941011727}
   - component: {fileID: 941011728}
   - component: {fileID: 941011726}
+  - component: {fileID: 941011729}
   m_Layer: 0
   m_Name: ChoiceController
   m_TagString: Untagged
@@ -3881,10 +3881,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 941011725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a483c91744fae9e4b96b16ceb8d0780c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f90d7cee029d9941a21453107a6b8fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   choiceController: {fileID: 941011728}
+  photonView: {fileID: 941011729}
 --- !u!4 &941011727
 Transform:
   m_ObjectHideFlags: 0
@@ -3897,7 +3898,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &941011728
 MonoBehaviour:
@@ -3908,12 +3909,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 941011725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18b62b5ea320fb8409d314170b7849b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1aa83978d5f836c49bd012223c43ceba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   scene: 
-  maxMistakes: 5
-  buttonList: []
+  maxMistakes: 50
+  buttonList:
+  - {fileID: 872451529}
+  - {fileID: 1900934631}
+  - {fileID: 1177392144}
   descriptionList:
   - {fileID: 850368034}
   - {fileID: 1209433634}
@@ -3927,6 +3931,34 @@ MonoBehaviour:
   errorManager: {fileID: 941011726}
   pauseMenu: {fileID: 1588773142}
   timeController: {fileID: 423180255}
+  photonView: {fileID: 941011729}
+--- !u!114 &941011729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941011725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 1
+  instantiationId: 1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!4 &956821098 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1660b6891867b5d4ea0a3878e3d8a9dc,
@@ -4001,7 +4033,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &990704211
 MonoBehaviour:
@@ -4941,18 +4973,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc3a09383b8772045bfcaf6e06485965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1185537055}
-  speed: 12
-  gravity: -9.81
-  jumpHeight: 3
-  groundCheck: {fileID: 552142186}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  camera: {fileID: 657101567}
-  cameraClimbSpeed: 3
-  animator: {fileID: 989620960}
 --- !u!143 &1185537055
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5000,7 +5020,7 @@ Transform:
   - {fileID: 552142186}
   - {fileID: 657101568}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1209433632
 GameObject:
@@ -5175,7 +5195,7 @@ RectTransform:
   - {fileID: 176476915}
   - {fileID: 1495055615}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5505,8 +5525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25db5403ba52ed643b6e1e7478334a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 526291394}
-  choiceController: {fileID: 941011728}
 --- !u!1001 &1386705699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5916,7 +5934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4dbb1fa234a44f499b0a719df5b31f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceCanvas: {fileID: 0}
+  choiceCanvas: {fileID: 582643822}
   choiceController: {fileID: 0}
   scene: Reuniao Cliente
 --- !u!1001 &1449920748
@@ -6518,7 +6536,7 @@ RectTransform:
   - {fileID: 471966102}
   - {fileID: 1005234326}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

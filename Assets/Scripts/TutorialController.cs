@@ -13,6 +13,8 @@ public class TutorialController : MonoBehaviour {
     public GameObject choiceCanvas;
     public GameObject statsCanvas;
     public GameObject hudCanvas;
+    public GameObject mapCanvas;
+    public GameObject pauseMenuCanvas;
 
     public GameObject postProcessing;
 
@@ -35,7 +37,37 @@ public class TutorialController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if(Input.GetKeyDown(KeyCode.M)) {
+            mapCanvas.SetActive(!mapCanvas.activeSelf);
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape)) {
+            if(pauseMenuCanvas.activeSelf == false) {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+            else {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            LockOrUnlockPlayer();
+            pauseMenuCanvas.SetActive(!pauseMenuCanvas.activeSelf);
+        }
 
+        if(PlayerPrefs.GetInt("post_processing") == 1) {
+            postProcessing.SetActive(true);
+        }
+        else {
+            postProcessing.SetActive(false);
+        }
+
+        if(explanationCanvas.activeSelf) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+
+            movementController.enabled = false;
+            mouseController.enabled = false;
+            animator.SetBool("isMoving", false);
+        }
     }
 
     public void LockOrUnlockPlayer() {
@@ -63,9 +95,6 @@ public class TutorialController : MonoBehaviour {
                 phases[phase + 1].SetActive(true);
             }
         }
-
-        LockOrUnlockPlayer();
-        LockAndHideCursor();
 
         switch(phase) {
             case 0:
@@ -101,20 +130,14 @@ public class TutorialController : MonoBehaviour {
                 break;
 
             case 8:
-                LockOrUnlockPlayer();
-                LockAndHideCursor();
                 explanationText.text = "Excelente! Agora você sabe como o jogo funciona!\n\nPara finalizarmos, será disponibilizado a tela de HUD, em que na esquerda será apresentado o número de erros e acertos, no meio será apresentado o tempo restante para a rodada e na direita será apresentada a rodada e o turno da partida.";
                 break;
 
             case 9:
-                LockOrUnlockPlayer();
-                LockAndHideCursor();
                 explanationText.text = "Muito bem, estamos quase terminando. Só me deixe explicar como ganhar o jogo.\n\nO objetivo da partida é realizar o maior número de acertos possíveis, mantendo tanto o Cliente quanto a Equipe felizes. A partida termina quando XX erros forem cometidos ou quando as 20 rodadas forem finalizadas. Se o tempo se esgotar e ainda restarem escolhas a serem feitas, elas serão consideradas como erros.";
                 break;
 
             case 10:
-                LockOrUnlockPlayer();
-                LockAndHideCursor();
                 explanationText.text = "E por hoje é só! Agora você pode enfrentar uma partida de verdade com seus amigos.\n\nPara isso, junte uma equipe de 3 jogadores e inicie uma partida.\n\nAh, já ia esquecendo, quando você finalizar a partida, seus acertos e erros resultarão em uma pontuação cumulativa, a qual gera um ranking dos grupos, disponibilizado no site do jogo! Por isso, se dedique ao máximo para ser o top 1 dos grupos!";
                 break;
 

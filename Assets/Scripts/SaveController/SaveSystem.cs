@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
 public static class SaveSystem {
     private static string path = Application.persistentDataPath;
@@ -113,6 +114,35 @@ public static class SaveSystem {
         }
         else {
             Debug.LogError("Save file not found in " + path);
+            return null;
+        }
+    }
+
+    public static List<Decision> LoadFromDatabase(string scenery, string role, string turn, string round) {
+        List<Decision> list = new List<Decision>();
+
+        string file1 = decisionsPath + "/data/hits/" + scenery + "/" + role + "/decision_" + turn + "_" + round + ".sxp";
+        string file2 = decisionsPath + "/data/mistakes1/" + scenery + "/" + role + "/decision_" + turn + "_" + round + ".sxp";
+        string file3 = decisionsPath + "/data/mistakes2/" + scenery + "/" + role + "/decision_" + turn + "_" + round + ".sxp";
+
+        if(File.Exists(file1)) {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+
+            FileStream stream = new FileStream(file1, FileMode.Open);
+            Decision data = binaryFormatter.Deserialize(stream) as Decision;
+            list.Add(data);
+
+            stream = new FileStream(file2, FileMode.Open);
+            data = binaryFormatter.Deserialize(stream) as Decision;
+            list.Add(data);
+
+            stream = new FileStream(file3, FileMode.Open);
+            data = binaryFormatter.Deserialize(stream) as Decision;
+            list.Add(data);
+
+            return list;
+        }
+        else {
             return null;
         }
     }

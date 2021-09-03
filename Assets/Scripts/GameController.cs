@@ -9,6 +9,8 @@ public class GameController : Photon.MonoBehaviour {
     public GameObject gameCanvas;
     public GameObject spawnSpot;
     public GameObject postProcessing;
+
+    public GameObject mapCanvas;
     //public GameObject pauseMenu;
 
     public Toggle postProcessingToggle;
@@ -40,6 +42,12 @@ public class GameController : Photon.MonoBehaviour {
         choiceController.SetFunction(PlayerPrefs.GetString("player_function"));
         Debug.Log(playerFunction);
         //choices = GetPlayerChoicesByFunction(playerFunction);
+    }
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.M)) {
+            mapCanvas.SetActive(!mapCanvas.activeSelf);
+        }
     }
 
     public void SetPostProcessing(bool isActive) {
