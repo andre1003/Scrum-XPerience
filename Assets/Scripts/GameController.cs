@@ -30,10 +30,10 @@ public class GameController : Photon.MonoBehaviour {
         Cursor.lockState = CursorLockMode.Confined;
         gameCanvas.SetActive(true);
 
-        if(PlayerPrefs.GetInt("post_processing") == 1) {
-            postProcessing.SetActive(true);
-            postProcessingToggle.isOn = true;
-        }
+        //if(PlayerPrefs.GetInt("post_processing") == 1) {
+        //    postProcessing.SetActive(true);
+        //    postProcessingToggle.isOn = true;
+        //}
     }
 
     private void Start() {
@@ -47,6 +47,13 @@ public class GameController : Photon.MonoBehaviour {
     private void Update() {
         if(Input.GetKeyDown(KeyCode.M)) {
             mapCanvas.SetActive(!mapCanvas.activeSelf);
+        }
+
+        if(PlayerPrefs.GetInt("post_processing") == 1) {
+            postProcessing.SetActive(true);
+        }
+        else {
+            postProcessing.SetActive(false);
         }
     }
 

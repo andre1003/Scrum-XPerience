@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class ChoiceController : MonoBehaviour {
 
@@ -20,10 +21,12 @@ public class ChoiceController : MonoBehaviour {
     public Text teamSatisfactionText;
     public Text clientSatisfactionText;
     public Text progressText;
+    public Text outputText;
 
     public ErrorManager errorManager;
 
     public GameObject pauseMenu;
+    public GameObject outputCanvas;
 
     public NewTimer timeController;
 
@@ -56,10 +59,13 @@ public class ChoiceController : MonoBehaviour {
 
     private bool isPaused = false;
     private bool isGameStarded = false;
+    private bool mistake1 = false;
 
     private int count = 0;
-
     private int timeouts = 0;
+    private int[] indexes = new int[3];
+
+    private List<Decision> data;
 
     private void Awake() {
         individualHits = 0;
@@ -86,13 +92,15 @@ public class ChoiceController : MonoBehaviour {
     }
 
     private void Update() {
+        // Adicionar a condição para acabar o jogo
+
         photonView.RPC("CheckGameOver", PhotonTargets.AllBuffered);
         //SaveGeneralInfo(groupMistakes);
         //Debug.Log("Client Mistakes: " + clientMeetingMistakes);
 
         if(Input.GetKeyDown(KeyCode.Space))
             GetStats();
-        else if(Input.GetKeyDown(KeyCode.Escape)) {
+        else if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) { // Retirar a tecla E na build
             isPaused = !isPaused;
             PauseMenu(isPaused);
         }
@@ -118,48 +126,47 @@ public class ChoiceController : MonoBehaviour {
     }
 
     public bool GetChoices() {
-        sceneName.text = scene;
-        functionName.text = function;
+        mistake1 = false;
 
-        System.Random rdn = new System.Random();
-        int lenght = buttonList.Count;
-        rightChoice = rdn.Next(0, 3); // Alterar para a quantidade de escolhas
-        Debug.Log(rightChoice);
+        data = SaveSystem.LoadFromDatabase(scene, function, turn.ToString(), round.ToString());
 
-        for(int i = 0; i < lenght; i++) {
-            if(i == rightChoice) {
-                nothingToDo = ChangeTextByFunction(buttonList[i], true, i);
+        if(data != null) {
+            nothingToDo = false;
+
+            sceneName.text = scene;
+            functionName.text = function;
+
+            System.Random rdn = new System.Random();
+            int lenght = buttonList.Count;
+            rightChoice = rdn.Next(0, 3);
+            Debug.Log(rightChoice);
+
+            for(int i = 0; i < lenght; i++) {
+                if(i == rightChoice) {
+                    ChangeTextByFunction(buttonList[i], descriptionList[i], data[0]);
+                }
+                else if(!mistake1) {
+                    ChangeTextByFunction(buttonList[i], descriptionList[i], data[1]);
+                    mistake1 = true;
+                }
+                else {
+                    ChangeTextByFunction(buttonList[i], descriptionList[i], data[2]);
+                }
             }
-            else {
-                nothingToDo = ChangeTextByFunction(buttonList[i], false, i);
-            }
-
-            if(nothingToDo)
-                break;
+        }
+        else {
+            nothingToDo = true;
         }
 
         return nothingToDo;
     }
 
-    bool ChangeTextByFunction(Text btnText, bool correct, int index) {
-        string[] lines = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Acerto\" + function + @".txt");
-        if(!lines[0].Equals("Nada")) {
-            if(correct) {
-                string line = lines[round - 1];
-                string[] split = line.Split(';');
-                btnText.text = split[0];
-                descriptionList[index].text = split[1];
-            }
-            else {
-                //btnText.text = File.ReadAllLines(Directory.GetCurrentDirectory() + @"\Assets\Data\" + scene + @"\Erro\" + function + @".txt")[0];
-                btnText.text = "Erro";
-                descriptionList[index].text = "Erro";
-            }
-            return false;
-        }
-        else
-            return true;
+    private void ChangeTextByFunction(Text buttonText, Text descriptionText, Decision decision) {
+        buttonText.text = decision.decisionId;
+        descriptionText.text = decision.decisionDescription;
     }
+
+
 
     public void SetMovementController(MovementController movementController) {
         this.movementController = movementController;
@@ -183,8 +190,8 @@ public class ChoiceController : MonoBehaviour {
         Cursor.visible = false;
     }
 
-    public void CheckHit(int buttonId) {
-        errorManager.CheckHit(buttonId, rightChoice, buttonList[buttonId].text, descriptionList[buttonId].text, scene, totalChoices);
+    public void CheckHit(Text buttonId) {
+        errorManager.CheckHit(buttonId, data, totalChoices);
     }
 
     public void IncreaseIndividualHits() {
@@ -219,8 +226,13 @@ public class ChoiceController : MonoBehaviour {
 
     [PunRPC]
     private void CheckGameOver() {
-        if(groupMistakes >= maxMistakes)
+        if(groupMistakes >= maxMistakes) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+            movementController.enabled = false;
+            mouseController.enabled = false;
             timeController.GameOver();
+        }
     }
 
     [PunRPC]
@@ -302,6 +314,10 @@ public class ChoiceController : MonoBehaviour {
     [PunRPC]
     public void LoadFeedbackScene() {
         PhotonNetwork.LoadLevel(4);
+    }
+
+    public void LoadMainMenuScene() {
+        SceneManager.LoadScene(0);
     }
 
     public void GetStats() {

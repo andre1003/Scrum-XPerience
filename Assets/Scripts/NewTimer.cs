@@ -12,6 +12,8 @@ public class NewTimer : MonoBehaviour {
     public GameObject gameOver;
 
     public float maxTime;
+    public int maxTurn = 5;
+    public int maxRound = 5;
 
     public PhotonView photonView;
 
@@ -75,11 +77,11 @@ public class NewTimer : MonoBehaviour {
     }
 
     void CheckTurnsEnd() {
-        if(turn == 5) {
-            gameOver.SetActive(true);
+        if(turn == maxTurn) {
+            choiceController.EndGame();
         }
-        else if(round == 5) {
-            round = 1;
+        else if(round == maxRound) {
+            round = 0;
             turn++;
             //photonView.RPC("EndRound", PhotonTargets.AllBuffered);
             choiceController.EndRound();

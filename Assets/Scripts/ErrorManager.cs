@@ -9,6 +9,9 @@ public class ErrorManager : MonoBehaviour {
     public ChoiceController choiceController;
     public PhotonView photonView;
 
+    public GameObject outputCanvas;
+    public Text outputText;
+
     private string path;
 
     private int timeouts = 0;
@@ -28,20 +31,30 @@ public class ErrorManager : MonoBehaviour {
     }
 
     // Check if the choice is a hit or a mistake and save it in the respective file
-    public void CheckHit(int buttonID, int rightChoice, string id, string description, string scene, int index) {
-        if(buttonID == rightChoice) {
-            choiceController.IncreaseIndividualHits();
+    public void CheckHit(Text buttonId, List<Decision> data, int index) {
+        Decision decision;
 
-            SaveSystem.Save(id, description, scene, "", false, index);
-            photonView.RPC("SaveGeneralInfo", PhotonTargets.AllBuffered, scene, false);
+        if(buttonId.text.Equals(data[0].decisionId)) {
+            choiceController.IncreaseIndividualHits();
+            decision = data[0];
         }
         else {
             choiceController.IncreaseIndividualMistakes();
 
-            SaveSystem.Save(id, description, scene, "", true, index);
-            photonView.RPC("SaveGeneralInfo", PhotonTargets.AllBuffered, scene, true);
-
+            if(buttonId.text.Equals(data[1].decisionId)) {
+                decision = data[1];
+            }
+            else {
+                decision = data[2];
+            }
         }
+
+        outputText.text = decision.output;
+
+        SaveSystem.Save(decision.decisionId, decision.decisionDescription, decision.scenery, "", decision.isMistake, index);
+        photonView.RPC("SaveGeneralInfo", PhotonTargets.AllBuffered, decision.scenery, decision.isMistake);
+        
+        outputCanvas.SetActive(true);
     }
 
     [PunRPC]

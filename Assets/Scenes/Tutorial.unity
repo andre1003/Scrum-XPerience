@@ -17452,9 +17452,9 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
   m_Text: "Bem-vindo ao tutorial do Scrum-XPerience! Aqui voc\xEA ir\xE1 aprender
-    o funcionamento b\xE1sico do jogo. Ent\xE3o vamos come\xE7ar!\n\nPara se movimentar,
-    utilize as teclas W, A, S, D, ou as setas. Utilize o mouse para movimentar a
-    c\xE2mera. Para abrir o menu de pausa, pressione ESC. Para abrir o mapa, use
+    sobre o funcionamento b\xE1sico do jogo. Ent\xE3o vamos come\xE7ar!\n\nPara se
+    movimentar, utilize as teclas W, A, S, D, ou as setas. Utilize o mouse para movimentar
+    a c\xE2mera. Para abrir o menu de pausa, pressione ESC. Para abrir o mapa, use
     a tecla M.\n\nMova-se at\xE9 a \xE1rea indicada a frente."
 --- !u!222 &2054059992
 CanvasRenderer:
