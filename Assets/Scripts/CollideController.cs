@@ -13,8 +13,11 @@ public class CollideController : Photon.MonoBehaviour {
     private bool nothingToDo;
 
     private void OnTriggerEnter(Collider other) {
+        
         if(other.GetComponent<PhotonView>().isMine) {
+            
             if(!choiceController.GetPassedScenesList().Contains(scene)) {
+                Debug.Log(scene);
                 choiceController.scene = scene;
                 nothingToDo = choiceController.GetChoices();
 

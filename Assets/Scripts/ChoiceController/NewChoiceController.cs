@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,18 @@ public class NewChoiceController : MonoBehaviour {
     public InputField turn;
     public InputField round;
 
+    public InputField clientHits;
+    public InputField developmentHits;
+    public InputField clientMistakes;    
+    public InputField developmentMistakes;
+
     public GameObject choiceCanvas;
     public GameObject outputCanvas;
 
     public List<Text> buttonList;
     public List<Text> descriptionList;
     public Text outputText;
+    public Text statsText;
     
     private List<Decision> data;
     private bool mistake1 = false;
@@ -73,5 +80,26 @@ public class NewChoiceController : MonoBehaviour {
 
         outputCanvas.SetActive(true);
         choiceCanvas.SetActive(false);
+    }
+
+    public void GetStats() {
+        // A FINALIZAR
+        //GeneralInfo generalInfo = SaveSystem.LoadGeneralInfo();
+
+        //int totalHits = generalInfo.clientMeetingHits + generalInfo.developmentHits + generalInfo.teamMeetingHits;
+        //int totalMistakes = generalInfo.clientMeetingMistakes + generalInfo.developmentMistakes + generalInfo.teamMeetingMistakes;
+
+        //int clientStats = (generalInfo.clientMeetingHits + generalInfo.developmentHits) - (generalInfo.clientMeetingMistakes + generalInfo.developmentMistakes);
+        int clientStats = (Int32.Parse(clientHits.text) + Int32.Parse(developmentHits.text)) - (Int32.Parse(clientMistakes.text) + Int32.Parse(developmentMistakes.text));
+
+        if(clientStats >= 3) {
+            statsText.text = "Cliente Satisfeito";
+        }
+        else if(clientStats <= -3) {
+            statsText.text = "Cliente Insatisfeito";
+        }
+        else {
+            statsText.text = "Cliente Neutro";
+        }
     }
 }

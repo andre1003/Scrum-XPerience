@@ -813,12 +813,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82136679}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 686.7298, y: 257.77554, z: -23.656084}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 687.7501, y: 254.80067, z: -23.999039}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_Father: {fileID: 2106118768}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &89802505
 GameObject:
@@ -1171,7 +1171,7 @@ Transform:
   - {fileID: 2004543095}
   - {fileID: 610160436}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &134157400
 GameObject:
@@ -2012,7 +2012,7 @@ MonoBehaviour:
   roundText: {fileID: 474288920}
   choiceController: {fileID: 1945940846}
   gameOver: {fileID: 198417583}
-  maxTime: 2
+  maxTime: 30
   maxTurn: 5
   maxRound: 4
   photonView: {fileID: 244119173}
@@ -3598,7 +3598,7 @@ Transform:
   m_LocalScale: {x: 3.9866061, y: 1, z: 4.012697}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!64 &570147105
 MeshCollider:
@@ -4499,8 +4499,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1945940846}
-        m_TargetAssemblyTypeName: ChoiceController, Assembly-CSharp
+      - m_Target: {fileID: 704706671}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: SetIsPaused
         m_Mode: 6
         m_Arguments:
@@ -4722,7 +4722,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 05def8b448fc42a478e885dbafae770c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 05def8b448fc42a478e885dbafae770c,
         type: 3}
@@ -4915,6 +4915,7 @@ MonoBehaviour:
   spawnSpot: {fileID: 845620710}
   postProcessing: {fileID: 1081439390}
   mapCanvas: {fileID: 2090729160}
+  pauseMenu: {fileID: 1384969998}
   postProcessingToggle: {fileID: 709489405}
   choiceController: {fileID: 1945940846}
 --- !u!4 &704706672
@@ -5110,8 +5111,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 82136680}
-        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
+      - m_Target: {fileID: 704706671}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: SetPostProcessing
         m_Mode: 0
         m_Arguments:
@@ -5627,7 +5628,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &849632103
 GameObject:
@@ -7135,7 +7136,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1095197111
 GameObject:
@@ -11562,7 +11563,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1750600718
 PrefabInstance:
@@ -12762,7 +12763,6 @@ MonoBehaviour:
   progressText: {fileID: 1436221277}
   outputText: {fileID: 2067495047}
   errorManager: {fileID: 251060352}
-  pauseMenu: {fileID: 1384969998}
   outputCanvas: {fileID: 1755317918}
   timeController: {fileID: 244119174}
   photonView: {fileID: 1945940848}
@@ -14071,8 +14071,9 @@ Transform:
   - {fileID: 1945940847}
   - {fileID: 244119172}
   - {fileID: 251060351}
+  - {fileID: 82136681}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2107298894
 GameObject:

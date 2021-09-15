@@ -11,49 +11,32 @@ public class GameController : Photon.MonoBehaviour {
     public GameObject postProcessing;
 
     public GameObject mapCanvas;
-    //public GameObject pauseMenu;
+    public GameObject pauseMenu;
 
     public Toggle postProcessingToggle;
 
     public ChoiceController choiceController;
 
-    private static string playerFunction;
-    private static string gameMethod;
-
-    private List<string> choices;
-
-    private MouseController mouseController;
-    private MovementController movementController;
+    private bool isPaused = false;
 
     private void Awake() {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         gameCanvas.SetActive(true);
-
-        //if(PlayerPrefs.GetInt("post_processing") == 1) {
-        //    postProcessing.SetActive(true);
-        //    postProcessingToggle.isOn = true;
-        //}
-    }
-
-    private void Start() {
-        
-        gameMethod = PlayerPrefs.GetString("game_method");
         choiceController.SetFunction(PlayerPrefs.GetString("player_function"));
-        Debug.Log(playerFunction);
-        //choices = GetPlayerChoicesByFunction(playerFunction);
     }
 
     private void Update() {
+        CheckInput();
+    }
+
+    private void CheckInput() {
         if(Input.GetKeyDown(KeyCode.M)) {
             mapCanvas.SetActive(!mapCanvas.activeSelf);
         }
-
-        if(PlayerPrefs.GetInt("post_processing") == 1) {
-            postProcessing.SetActive(true);
-        }
-        else {
-            postProcessing.SetActive(false);
+        else if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) { // Retirar a tecla E na build
+            isPaused = !isPaused;
+            PauseMenu(isPaused);
         }
     }
 
@@ -61,23 +44,13 @@ public class GameController : Photon.MonoBehaviour {
         postProcessing.SetActive(isActive);
     }
 
-    //private void Update() {
-    //    if(Input.GetKeyDown(KeyCode.Escape))
-    //        PauseMenu();
-    //}
-
     public void SpawnPlayer() {
         GameObject spawnedPlayerGO = PhotonNetwork.Instantiate(playerPrefab.name, spawnSpot.transform.position, Quaternion.identity, 0);
-
-        movementController = spawnedPlayerGO.GetComponent<MovementController>();
-        mouseController = spawnedPlayerGO.GetComponentInChildren<MouseController>();
 
         spawnedPlayerGO.GetComponent<MovementController>().enabled = true;
         spawnedPlayerGO.GetComponentInChildren<MouseController>().enabled = true;
         spawnedPlayerGO.GetComponentInChildren<Camera>().enabled = true;
 
-        //choiceController.SetPhotonView(spawnedPlayerGO.GetComponent<PhotonView>());
-        //timeController.SetPhotonView(spawnedPlayerGO.GetComponent<PhotonView>());
         choiceController.SetMovementController(spawnedPlayerGO.GetComponent<MovementController>());
         choiceController.SetMouseController(spawnedPlayerGO.GetComponentInChildren<MouseController>());
 
@@ -87,21 +60,20 @@ public class GameController : Photon.MonoBehaviour {
         gameCanvas.SetActive(false);
     }
 
-    //public void LockOrUnlockPlayer() {
-    //    movementController.enabled = !movementController.enabled;
-    //    mouseController.enabled = !mouseController.enabled;
-    //}
+    private void PauseMenu(bool isPaused) {
+        if(isPaused == true) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        else {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        choiceController.LockOrUnlockPlayer();
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
+    }
 
-    //private List<string> GetPlayerChoicesByFunction(string function) {
-    //    if(gameMethod.Equals("Scrum")) {
-    //        return new Scrum().GetChoicesByKey(function);
-    //    }
-    //    else {
-    //        return new XP().GetChoicesByKey(function);
-    //    }
-    //}
-
-    //private void PauseMenu() {
-    //    pauseMenu.SetActive(!pauseMenu.activeSelf);
-    //}
+    public void SetIsPaused(bool isPaused) {
+        this.isPaused = isPaused;
+    }
 }

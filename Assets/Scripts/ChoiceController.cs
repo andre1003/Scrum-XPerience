@@ -25,7 +25,6 @@ public class ChoiceController : MonoBehaviour {
 
     public ErrorManager errorManager;
 
-    public GameObject pauseMenu;
     public GameObject outputCanvas;
 
     public NewTimer timeController;
@@ -57,13 +56,11 @@ public class ChoiceController : MonoBehaviour {
 
     public PhotonView photonView;
 
-    private bool isPaused = false;
-    private bool isGameStarded = false;
     private bool mistake1 = false;
+    private bool passedInClientMeetingRoom = false;
 
     private int count = 0;
     private int timeouts = 0;
-    private int[] indexes = new int[3];
 
     private List<Decision> data;
 
@@ -92,41 +89,23 @@ public class ChoiceController : MonoBehaviour {
     }
 
     private void Update() {
-        // Adicionar a condição para acabar o jogo
-
         photonView.RPC("CheckGameOver", PhotonTargets.AllBuffered);
-        //SaveGeneralInfo(groupMistakes);
-        //Debug.Log("Client Mistakes: " + clientMeetingMistakes);
 
         if(Input.GetKeyDown(KeyCode.Space))
             GetStats();
-        else if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) { // Retirar a tecla E na build
-            isPaused = !isPaused;
-            PauseMenu(isPaused);
-        }
         else if(Input.GetKeyDown(KeyCode.P))
             EndGame();
     }
 
-    private void PauseMenu(bool isPaused) {
-        if(isPaused == true) {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-        else {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        LockOrUnlockPlayer();
-        pauseMenu.SetActive(!pauseMenu.activeSelf);
-    }
-
-    public void SetIsPaused(bool isPaused) {
-        this.isPaused = isPaused;
-    }
-
     public bool GetChoices() {
         mistake1 = false;
+
+        if(!scene.Equals("Reuniao Cliente") && !passedInClientMeetingRoom && round == 1) {
+            return true;
+        }
+        else if(scene.Equals("Reuniao Cliente")) {
+            passedInClientMeetingRoom = true;
+        }
 
         data = SaveSystem.LoadFromDatabase(scene, function, turn.ToString(), round.ToString());
 
@@ -165,8 +144,6 @@ public class ChoiceController : MonoBehaviour {
         buttonText.text = decision.decisionId;
         descriptionText.text = decision.decisionDescription;
     }
-
-
 
     public void SetMovementController(MovementController movementController) {
         this.movementController = movementController;
@@ -215,12 +192,12 @@ public class ChoiceController : MonoBehaviour {
     }
 
     [PunRPC]
-    void IncreaseGroupHits() {
+    private void IncreaseGroupHits() {
         groupHits++;
     }
 
     [PunRPC]
-    void IncreaseGroupMistakes() {
+    private void IncreaseGroupMistakes() {
         groupMistakes++;
     }
 
@@ -238,11 +215,6 @@ public class ChoiceController : MonoBehaviour {
     [PunRPC]
     public void UpdateScore() {
         scoreText.text = "Acertos: " + groupHits + "\nErros: " + groupMistakes;
-
-        //using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\score.txt")) {
-        //    string scoreJson = "{\"hits\": " + individualHits + ", \"mistakes\": " + individualMistakes + "}";
-        //    writer.Write(scoreJson);
-        //}
     }
 
     public List<string> GetPassedScenesList() {
@@ -259,12 +231,10 @@ public class ChoiceController : MonoBehaviour {
 
     public void SetRound(int round) {
         this.round = round;
-        //Debug.Log(this.round);
     }
 
     public void SetTurn(int turn) {
         this.turn = turn;
-        //Debug.Log(this.round);
     }
 
     [PunRPC]
@@ -282,16 +252,11 @@ public class ChoiceController : MonoBehaviour {
         photonView.RPC("UpdateScore", PhotonTargets.AllBuffered);
         
         while(errors > 0) {
-            //using(StreamWriter writer = new StreamWriter(mistakeFilePath, true)) {
-            //    writer.WriteLine("Tempo Esgotado");
-            //}
-
-            //SaveSystem.Save("Tempo Esgotado", "Tempo Esgotado", "Tempo Esgotado", true, totalChoices);
-            //SaveGeneralInfo(groupMistakes);
             totalChoices++;
             errors--;
         }
 
+        passedInClientMeetingRoom = false;
         ClearPassedScenesList();
     }
 
@@ -321,91 +286,54 @@ public class ChoiceController : MonoBehaviour {
     }
 
     public void GetStats() {
-        string[] lines = File.ReadAllLines(hitFilePath);
-        int teamMeeting = 0;
-        int clientMeeting = 0;
-        int development = 0;
-
-        foreach(string line in lines) {
-            if(line.Split(';')[0].Equals("Reuniao Equipe")) {
-                teamMeeting++;
-            }
-
-            // Client Meeting
-            else if(line.Split(';')[0].Equals("Reuniao Cliente")) {
-                clientMeeting++;
-            }
-
-            // Development Room
-            else {
-                development++;
-            }
-        }
-
-        lines = File.ReadAllLines(mistakeFilePath);
-
-        foreach(string line in lines) {
-            if(line.Split(';')[0].Equals("Reuniao Equipe")) {
-                teamMeeting--;
-            }
-
-            // Client Meeting
-            else if(line.Split(';')[0].Equals("Reuniao Cliente")) {
-                clientMeeting--;
-            }
-
-            // Development Room
-            else if(line.Split(';')[0].Equals("Desenvolvimento")) {
-                development--;
-            }
-
-            // Timeout
-            else {
-                teamMeeting--;
-                clientMeeting--;
-                development--;
-            }
-        }
-
         string teamSatisfaction;
         string clientSatisfaction;
 
-        // Team stats
-        if(teamMeeting >= 3) {
-            teamSatisfaction = "Feliz";
-        }
-        else if(teamMeeting <= -3) {
-            teamSatisfaction = "Infeliz";
-        }
-        else {
-            teamSatisfaction = "Neutra";
-        }
+        // Stats definition
+        GeneralInfo generalInfo = SaveSystem.LoadGeneralInfo();
 
-        float clientSatisfactionAverage = Mathf.Ceil(((development * 2) + clientMeeting) / 3);
+        //int totalHits = generalInfo.clientMeetingHits + generalInfo.developmentHits + generalInfo.teamMeetingHits;
+        //int totalMistakes = generalInfo.clientMeetingMistakes + generalInfo.developmentMistakes + generalInfo.teamMeetingMistakes;
 
-        // Client stats
-        if(clientSatisfactionAverage >= 3f) {
+        int clientStats = (generalInfo.clientMeetingHits + generalInfo.developmentHits) - (generalInfo.clientMeetingMistakes + generalInfo.developmentMistakes);
+        int teamStats = (generalInfo.teamMeetingHits + generalInfo.developmentHits) - (generalInfo.teamMeetingMistakes + generalInfo.developmentMistakes);
+
+        // Client satisfaction
+        if(clientStats >= 3) {
             clientSatisfaction = "Feliz";
         }
-        else if(clientSatisfactionAverage <= 3f) {
+        else if(clientStats <= -3) {
             clientSatisfaction = "Infeliz";
         }
         else {
             clientSatisfaction = "Neutro";
         }
 
-        double progress = ((((turn - 1f) * 4f) + round) / 20f) * 100f; // In %
+        // Team satisfaction
+        if(teamStats >= 3) {
+            teamSatisfaction = "Feliz";
+        }
+        else if(clientStats <= -3) {
+            teamSatisfaction = "Infeliz";
+        }
+        else {
+            teamSatisfaction = "Neutro";
+        }
 
+        // Progess in %
+        double progress = ((((turn - 1f) * 4f) + round) / 20f) * 100f;
+
+        // Changing stats text
         teamSatisfactionText.text = teamSatisfaction;
         clientSatisfactionText.text = clientSatisfaction;
+        progressText.text = progress + "%";
 
+        // Defining text color
         ChangeColor(teamSatisfaction, teamSatisfactionText);
         ChangeColor(clientSatisfaction, clientSatisfactionText);
-
-        progressText.text = progress + "%";
     }
 
-    void ChangeColor(string status, Text text) {
+    private void ChangeColor(string status, Text text) {
         if(status.Equals("Feliz"))
             text.color = green;
         else if(status.Equals("Infeliz"))
