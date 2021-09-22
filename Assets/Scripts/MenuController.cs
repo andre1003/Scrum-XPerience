@@ -81,7 +81,7 @@ public class MenuController : MonoBehaviour {
             File.Delete(loginPath);
         }
         else {
-            SetUsernameFromDB(usernameInputField.text);
+            SetUsernameFromDB(usernameInputField.text, passwordInputField.text);
         }
     }
 
@@ -121,12 +121,14 @@ public class MenuController : MonoBehaviour {
         CheckLogin();
     }
 
-    public void SetUsernameFromDB(string username) {
+    public void SetUsernameFromDB(string username, string password) {
         roomOptionsCanvas.SetActive(true);
         roomNameInputField.Select();
         firstElement = roomNameInputField;
         usernameInputCanvas.SetActive(false);
         PhotonNetwork.playerName = username;
+        PlayerPrefs.SetString("username", username);
+        PlayerPrefs.SetString("password", password);
     }
 
     public void CreateGame() {

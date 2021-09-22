@@ -200,6 +200,14 @@ public class ErrorManager : MonoBehaviour {
         return mistakes;
     }
 
+    public int GetAllHits() {
+        return (teamMeetingHits + clientMeetingHits + developmentHits);
+    }
+
+    public int GetAllMistakes() {
+        return (timeouts + teamMeetingMistakes + clientMeetingMistakes + developmentMistakes);
+    }
+
     public List<string> GetMistakes() {
         string[] files = Directory.GetFiles(path);
         int length = files.Length;

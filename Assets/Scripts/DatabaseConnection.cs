@@ -32,7 +32,7 @@ public class DatabaseConnection : MonoBehaviour {
                 }
             }
 
-            menuController.SetUsernameFromDB(username);
+            //menuController.SetUsernameFromDB(username);
             Debug.Log(username);
         }
         // Nothing to do

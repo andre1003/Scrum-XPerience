@@ -37,6 +37,10 @@ public class OptionsController : MonoBehaviour {
     private bool hasVotedForMethod;
     private bool hasVotedForFunction;
 
+    private void Awake() {
+        PlayerPrefs.SetString("room", PhotonNetwork.room.Name);
+    }
+
     private Dictionary<string, int> functions = new Dictionary<string, int>() {
         { "Scrum Master", 0 },
         { "Product Owner", 1 },

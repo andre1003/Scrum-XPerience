@@ -100,6 +100,26 @@ public static class SaveSystem {
         }
     }
 
+    public static List<Decision> LoadAll() {
+        int index = 0;
+        string file = path + "/player_data/decision_" + index + ".sxp";
+        List<Decision> list = new List<Decision>();
+
+        while(File.Exists(file)) {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            FileStream stream = new FileStream(file, FileMode.Open);
+
+            Decision data = binaryFormatter.Deserialize(stream) as Decision;
+            stream.Close();
+
+            list.Add(data);
+
+            index++;
+            file = path + "/player_data/decision_" + index + ".sxp";
+        }
+        return list;
+    }
+
     public static GeneralInfo LoadGeneralInfo() {
         string file = path + "/general_data/group_stats.sxp";
 

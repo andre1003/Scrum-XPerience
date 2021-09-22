@@ -343,5 +343,4 @@ public class ChoiceController : MonoBehaviour {
     public int GetTimeouts() {
         return timeouts;
     }
-    
 }

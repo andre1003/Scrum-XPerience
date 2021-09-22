@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
@@ -31,6 +32,9 @@ public class FeedbackManager : MonoBehaviour {
     private string individualFeedback = "";
     private string generalFeedback = "";
 
+    private string saveMatchExecutablePath = Directory.GetCurrentDirectory() + @"\Assets\Scripts\save_match.exe";
+    private string decisionsPath;
+
     private List<string> feedback = new List<string>();
 
     private bool canContinue = false;
@@ -39,7 +43,9 @@ public class FeedbackManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        decisionsPath = Application.persistentDataPath + "/player_data/";
         ShowIndividualStats();
+        //SendDataToDatabase();
     }
 
     private void Update() {
@@ -57,6 +63,60 @@ public class FeedbackManager : MonoBehaviour {
                     End();
             }
         }
+    }
+
+    public void SendDataToDatabase() {
+        /***********
+         * NÃO TESTADO:
+         * Ainda resta testar se essa função está funcionando corretamente.
+         * É esperado que ela crie o arquivo texto com o path dos dados e chame o executável para salvar a partida.
+         ***********/
+
+        //string username = PlayerPrefs.GetString("username");
+        //string password = PlayerPrefs.GetString("password");
+        string username = "andre.aragao";
+        string password = "Dufwine#1003";
+        //string role = PlayerPrefs.GetString("player_function");
+        string role = "Product Owner";
+        //int hits = errorManager.GetAllHits();
+        //int mistakes = errorManager.GetAllMistakes();
+        int hits = 10;
+        int mistakes = 2;
+        //string group = PlayerPrefs.GetString("room");
+        string group = "teste";
+
+        string arguments = username + " " + password;
+
+        string tmpFilesPath = decisionsPath + "tmp/";
+        if(!Directory.Exists(tmpFilesPath))
+            Directory.CreateDirectory(tmpFilesPath);
+
+        using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\path.txt")) {
+            writer.Write(tmpFilesPath);
+        }
+
+        using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\player_info.txt")) {
+            writer.WriteLine(role);
+            writer.WriteLine(hits);
+            writer.WriteLine(mistakes);
+            writer.WriteLine(individualFeedback);
+            writer.WriteLine(group);
+        }
+
+        List<Decision> list = SaveSystem.LoadAll();
+        int length = list.Count();
+        //UnityEngine.Debug.Log(list[0].decisionDescription);
+
+        for(int i = 0; i < length; i++) {
+            using(StreamWriter writer = new StreamWriter(tmpFilesPath + "decision_" + i + ".txt")) {
+                writer.WriteLine(list[i].decisionId);
+                writer.WriteLine(list[i].scenery);
+                writer.WriteLine(list[i].isMistake);
+            }
+        }
+
+        UnityEngine.Debug.Log(saveMatchExecutablePath);
+        Process.Start(saveMatchExecutablePath, arguments).WaitForExit();
     }
 
     private void ShowIndividualStats() {
@@ -77,6 +137,8 @@ public class FeedbackManager : MonoBehaviour {
 
         if(mistakes[3] != 0)
             individualFeedback += developmentRoomText + "\n";
+
+        SendDataToDatabase();
     }
 
     private void ShowIndividualHitsAndMistakes() {
