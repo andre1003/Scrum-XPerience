@@ -21,6 +21,7 @@ def save(client, data, url):
 
 login_url = "http://127.0.0.1:8000/login/"
 match_url = "http://127.0.0.1:8000/match-register/"
+group_url = "http://127.0.0.1:8000/group-register/"
 decision_url = "http://127.0.0.1:8000/decision-register/"
 
 client = requests.session()
@@ -82,8 +83,8 @@ for f in files:
         is_mistake = True,
         
     data = dict(
-        decision=decision[0].replace('\n'),
-        scenery=decision[1].replace('\n'),
+        decision=decision[0].replace('\n', ''),
+        scenery=decision[1].replace('\n', ''),
         is_mistake=is_mistake,
         csrfmiddlewaretoken=csrftoken,
         next='/'
