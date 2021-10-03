@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 
 public class FeedbackManager : MonoBehaviour {
     public Text feedbackText;
@@ -20,6 +21,10 @@ public class FeedbackManager : MonoBehaviour {
     public GameObject mistakesAndHitsCanvas;
     public GameObject endCanvas;
 
+    public InputField passwordInputField;
+    public GameObject passwordCanvas;
+    public Text infoText;
+
     private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
     private string individualFeedbackFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\individual_feedback.txt";
     private string[] lines;
@@ -32,8 +37,10 @@ public class FeedbackManager : MonoBehaviour {
     private string individualFeedback = "";
     private string generalFeedback = "";
 
-    private string saveMatchExecutablePath = Directory.GetCurrentDirectory() + @"\Assets\Scripts\save_match.exe";
+    private string saveMatchExecutablePath = Directory.GetCurrentDirectory() + @"\Assets\Scripts\send_to_cloud.exe";
     private string decisionsPath;
+
+    private string password;
 
     private List<string> feedback = new List<string>();
 
@@ -44,8 +51,8 @@ public class FeedbackManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         decisionsPath = Application.persistentDataPath + "/player_data/";
-        ShowIndividualStats();
-        //SendDataToDatabase();
+        passwordCanvas.SetActive(true);
+        //ShowIndividualStats();
     }
 
     private void Update() {
@@ -65,61 +72,90 @@ public class FeedbackManager : MonoBehaviour {
         }
     }
 
-    public void SendDataToDatabase() {
-        /***********
-         * NÃO TESTADO:
-         * Ainda resta testar se essa função está funcionando corretamente.
-         * É esperado que ela crie o arquivo texto com o path dos dados e chame o executável para salvar a partida.
-         ***********/
+    public void Login() {
+        password = passwordInputField.text;
+        ShowIndividualStats();
+    }
+
+    private void SendDataToDatabase() {
+        //////
+        /// TEST NEEDED
+        //////
 
         //string username = PlayerPrefs.GetString("username");
         //string password = PlayerPrefs.GetString("password");
-        string username = "andre.aragao";
-        string password = "Dufwine#1003";
         //string role = PlayerPrefs.GetString("player_function");
-        string role = "Product Owner";
         //int hits = errorManager.GetAllHits();
         //int mistakes = errorManager.GetAllMistakes();
-        int hits = 10;
-        int mistakes = 2;
         //string group = PlayerPrefs.GetString("room");
-        string group = "teste";
 
-        string arguments = username + " " + password;
+        string username = "andre.aragao";
+        string role = "Product Owner";
 
-        string tmpFilesPath = decisionsPath + "tmp/";
-        if(!Directory.Exists(tmpFilesPath))
-            Directory.CreateDirectory(tmpFilesPath);
+        
 
-        using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\path.txt")) {
-            writer.Write(tmpFilesPath);
+        List<Decision> decisions = SaveSystem.LoadAll();
+        int hits = 0;
+        int mistakes = 0;
+        foreach(Decision decision in decisions) {
+            if(decision.isMistake == true)
+                mistakes++;
+            else
+                hits++;
         }
 
-        using(StreamWriter writer = new StreamWriter(Directory.GetCurrentDirectory() + @"\Assets\Data\player_info.txt")) {
-            writer.WriteLine(role);
-            writer.WriteLine(hits);
-            writer.WriteLine(mistakes);
-            writer.WriteLine(individualFeedback);
-            writer.WriteLine(group);
+        string group = "Tigers";
+
+        SaveSystem.InfoFile("starting", username, role, hits.ToString(), mistakes.ToString(), individualFeedback, group, "");
+
+        HttpClient client = new HttpClient();
+        Dictionary<string, string> data = new Dictionary<string, string>();
+        
+        // Login
+        data.Add("username", username);
+        data.Add("password", password);
+        string response = SaveSystem.Post(SaveSystem.loginUrl, data, client);
+        data.Clear();
+
+        if(response.Equals("fail")) {
+            infoText.color = Color.red;
+            infoText.text = "Senha incorreta! Tente novamente.";
         }
+        else if(!response.Equals("Connection Failed")) {
+            passwordCanvas.SetActive(false);
 
-        List<Decision> list = SaveSystem.LoadAll();
-        int length = list.Count();
-        //UnityEngine.Debug.Log(list[0].decisionDescription);
+            // Save match
+            data.Add("role", role);
+            data.Add("hits", hits.ToString());
+            data.Add("mistakes", mistakes.ToString());
+            data.Add("individual_feedback", individualFeedback);
+            data.Add("group", group);
+            string matchId = SaveSystem.Post(SaveSystem.matchRegisterUrl, data, client);
 
-        for(int i = 0; i < length; i++) {
-            using(StreamWriter writer = new StreamWriter(tmpFilesPath + "decision_" + i + ".txt")) {
-                writer.WriteLine(list[i].decisionId);
-                writer.WriteLine(list[i].scenery);
-                writer.WriteLine(list[i].isMistake);
+            if(!matchId.Equals("Connection Failed")) {
+                SaveSystem.InfoFile("match created", username, role, hits.ToString(), mistakes.ToString(), individualFeedback, group, matchId);
+                data.Clear();
+
+                // Save decisions
+                foreach(Decision decision in decisions) {
+                    data.Add("decision", decision.decisionId);
+                    data.Add("scenery", decision.scenery);
+                    data.Add("is_mistake", decision.isMistake.ToString());
+                    SaveSystem.Post(SaveSystem.decisionRegisterUrl + matchId + "/", data, client);
+                    data.Clear();
+                }
+
+                SaveSystem.InfoFile("done", username, role, hits.ToString(), mistakes.ToString(), individualFeedback, group, matchId);
             }
         }
-
-        UnityEngine.Debug.Log(saveMatchExecutablePath);
-        Process.Start(saveMatchExecutablePath, arguments).WaitForExit();
+        else {
+            UnityEngine.Debug.Log(response);
+        }
     }
 
-    private void ShowIndividualStats() {
+    public void ShowIndividualStats() {
+        passwordCanvas.SetActive(true);
+
         titleText.text = "Estatísticas Individuais";
         canContinue = false;
         List<int> mistakes = errorManager.GetIndividualStats();
@@ -231,6 +267,7 @@ public class FeedbackManager : MonoBehaviour {
         mistakesAndHitsCanvas.SetActive(false);
         feedbackCanvas.SetActive(false);
         endCanvas.SetActive(true);
+        PlayerPrefs.DeleteAll();
     }
 
     public void EndGame() {

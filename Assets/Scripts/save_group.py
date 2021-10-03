@@ -24,18 +24,10 @@ group_url = "http://127.0.0.1:8000/group-register/"
 
 client = requests.session()
 
-path = os.getcwd()
-os.chdir('../Data/')
-path = os.getcwd()
-
-file = open("player_info.txt", "r")
-player_info = file.readlines()
-file.close()
-
 csrftoken = set_csrftoken(client)
 
 data = dict(
-    name=player_info[4].replace('\n', ''),
+    name=sys.argv[1],
     score=0,
     csrfmiddlewaretoken=csrftoken,
     next='/'

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using Methods;
@@ -37,10 +39,6 @@ public class OptionsController : MonoBehaviour {
     private bool hasVotedForMethod;
     private bool hasVotedForFunction;
 
-    private void Awake() {
-        PlayerPrefs.SetString("room", PhotonNetwork.room.Name);
-    }
-
     private Dictionary<string, int> functions = new Dictionary<string, int>() {
         { "Scrum Master", 0 },
         { "Product Owner", 1 },
@@ -73,7 +71,7 @@ public class OptionsController : MonoBehaviour {
     [PunRPC]
     private void SyncScrumChoice() {
         scrumVoteCount++;
-        Debug.Log(scrumVoteCount);
+        UnityEngine.Debug.Log(scrumVoteCount);
 
         votingStatus.text = "Votes: " + scrumVoteCount + " Scrum / " + xpVoteCount + " XP.";
 

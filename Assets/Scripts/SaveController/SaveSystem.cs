@@ -2,8 +2,17 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
+using System.Net.Http;
+using System;
+using Newtonsoft.Json.Linq;
 
 public static class SaveSystem {
+    public static string groupRegisterUrl = "http://127.0.0.1:8000/group-register/";
+    public static string loginUrl = "http://127.0.0.1:8000/game-login/";
+    public static string matchRegisterUrl = "http://127.0.0.1:8000/match-register/";
+    public static string decisionRegisterUrl = "http://127.0.0.1:8000/decision-register/";
+    public static string homeUrl = "http://127.0.0.1:8000";
+
     private static string path = Application.persistentDataPath;
     private static string decisionsPath = Directory.GetCurrentDirectory();
 
@@ -164,6 +173,94 @@ public static class SaveSystem {
         }
         else {
             return null;
+        }
+    }
+
+    public static void DeleteAll() {
+        int index = 0;
+        string file = path + "/player_data/decision_" + index + ".sxp";
+
+        while(File.Exists(file)) {
+            File.Delete(file);
+            index++;
+            file = path + "/player_data/decision_" + index + ".sxp";
+        }
+
+        file = path + "/general_data/group_stats.sxp";
+        if(File.Exists(file))
+            File.Delete(file);
+
+        file = path + "/info.sxp";
+        if(File.Exists(file))
+            File.Delete(file);
+    }
+
+    public static void InfoFile(string status, string username, string role, string hits, string mistakes, string feedback, string group, string matchId) {
+        string file = path + "/info.sxp";
+
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        FileStream stream = new FileStream(file, FileMode.Create);
+
+        InfoFile data = new InfoFile(status, username, role, hits, mistakes, feedback, group, matchId);
+        binaryFormatter.Serialize(stream, data);
+        stream.Close();
+    }
+
+    public static InfoFile LoadInfoFile() {
+        string file = path + "/info.sxp";
+        if(File.Exists(file)) {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+
+            FileStream stream = new FileStream(file, FileMode.Open);
+            InfoFile data = binaryFormatter.Deserialize(stream) as InfoFile;
+            stream.Close();
+            return data;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public static string Post(string url, Dictionary<string, string> data, HttpClient client) {
+        try {
+            var request = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(data) };
+            var response = client.SendAsync(request).Result;
+            string statusCode = response.StatusCode.ToString();
+
+            if(statusCode.Equals("OK")) {
+                var content = response.Content.ReadAsStringAsync().Result;
+
+                try {
+                    JObject json = JObject.Parse(content);
+                    return json["response"].ToString();
+                }
+                catch(Exception e) {
+                    Debug.LogError(e);
+                    return null;
+                }
+            }
+            else {
+                throw new Exception();
+            }
+        }
+        catch(Exception e) {
+            return "Connection Failed";
+        }
+        
+    }
+
+    public static string Get(string url, HttpClient client) {
+        try {
+            var response = client.GetAsync(url).Result;
+            string statusCode = response.StatusCode.ToString();
+
+            if(statusCode.Equals("OK"))
+                return statusCode;
+            else
+                throw new Exception();
+        }
+        catch(Exception e) {
+            return "Connection Failed";
         }
     }
 }

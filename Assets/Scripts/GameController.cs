@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http;
 using UnityEngine;
 using UnityEngine.UI;
 using Methods;
@@ -24,6 +25,7 @@ public class GameController : Photon.MonoBehaviour {
         Cursor.lockState = CursorLockMode.Confined;
         gameCanvas.SetActive(true);
         choiceController.SetFunction(PlayerPrefs.GetString("player_function"));
+        SaveGroup();
     }
 
     private void Update() {
@@ -75,5 +77,15 @@ public class GameController : Photon.MonoBehaviour {
 
     public void SetIsPaused(bool isPaused) {
         this.isPaused = isPaused;
+    }
+
+    private void SaveGroup() {
+        if(PhotonNetwork.player.IsMasterClient) {
+            HttpClient client = new HttpClient();
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data.Add("name", PlayerPrefs.GetString("group"));
+            data.Add("score", "0");
+            SaveSystem.Post(SaveSystem.groupRegisterUrl, data, client);
+        }
     }
 }

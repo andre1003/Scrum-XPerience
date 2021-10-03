@@ -7,7 +7,6 @@ public class CollideController : Photon.MonoBehaviour {
 
     public GameObject choiceCanvas;
     public ChoiceController choiceController;
-    //public GameController gameController;
     public string scene;
 
     private bool nothingToDo;

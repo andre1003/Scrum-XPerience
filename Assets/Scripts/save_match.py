@@ -42,6 +42,9 @@ file = open("player_info.txt", "r")
 player_info = file.readlines()
 file.close()
 
+if '\n' in player_info:
+    player_info.remove('\n')
+
 data = dict(
     role=player_info[0].replace('\n', ''),
     hits=int(player_info[1].replace('\n', '')),
@@ -59,18 +62,15 @@ print(f'{r.status_code}')
 
 match_id = r.json()['match_id']
 
-
-
-file = open("path.txt", "r")
-decisions_path = file.readline()
-file.close()
-
 decision_url += match_id + "/"
 
 
 
 ########### Save decision
-os.chdir(decisions_path)
+path = os.getcwd()
+os.chdir('./tmp/')
+path = os.getcwd()
+
 files = os.listdir()
 
 for f in files:

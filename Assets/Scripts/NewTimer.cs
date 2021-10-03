@@ -50,7 +50,6 @@ public class NewTimer : MonoBehaviour {
             SetTimer();
             if(PhotonNetwork.player.IsMasterClient) {
                 photonView.RPC("IncreaseRound", PhotonTargets.AllBuffered);
-                //choiceController.EndRound();
             }
             photonView.RPC("EndRound", PhotonTargets.AllBuffered);
         }
@@ -83,7 +82,6 @@ public class NewTimer : MonoBehaviour {
         else if(round == maxRound) {
             round = 0;
             turn++;
-            //photonView.RPC("EndRound", PhotonTargets.AllBuffered);
             choiceController.EndRound();
         }
     }
@@ -96,14 +94,6 @@ public class NewTimer : MonoBehaviour {
     [PunRPC]
     void EndRound() {
         roundText.text = "Turno: " + turn.ToString() + "\nRodada: " + round.ToString();
-
-        //choiceController.EndRound();
-
-        //time = maxTime;
-        //timeText.text = "Tempo: " + Mathf.Round(time).ToString();
-        //choiceTimeText.text = "Tempo: " + Mathf.Round(time).ToString();
-
-        //timeLeft = true;
     }
 
     public void GameOver() {

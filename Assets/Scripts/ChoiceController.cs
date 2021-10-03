@@ -33,8 +33,6 @@ public class ChoiceController : MonoBehaviour {
     private MouseController mouseController;
 
     private string function;
-    private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
-    private string hitFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\hits.txt";
 
     private int rightChoice;
     private int individualHits;
