@@ -3342,7 +3342,7 @@ GameObject:
   - component: {fileID: 1120342699}
   m_Layer: 0
   m_Name: AudioController
-  m_TagString: Untagged
+  m_TagString: Music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3733,7 +3733,7 @@ GameObject:
   - component: {fileID: 1225828629}
   m_Layer: 5
   m_Name: AudioCanvas
-  m_TagString: Untagged
+  m_TagString: Music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

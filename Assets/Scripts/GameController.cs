@@ -21,6 +21,10 @@ public class GameController : Photon.MonoBehaviour {
     private bool isPaused = false;
 
     private void Awake() {
+        GameObject[] musicObjects = GameObject.FindGameObjectsWithTag("Music");
+        foreach(GameObject musicObject in musicObjects)
+            Destroy(musicObject);
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         gameCanvas.SetActive(true);

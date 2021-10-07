@@ -28,4 +28,8 @@ public class InfoController : MonoBehaviour {
     public void Exit() {
         infoText.text = "";
     }
+
+    public void SetInfoText(string text) {
+        infoText.text = text;
+    }
 }

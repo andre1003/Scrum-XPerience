@@ -21,7 +21,7 @@ public class OptionsController : MonoBehaviour {
     public GameObject testEngineer;
     public GameObject developer;
 
-    public Text connectedUsers;
+    public InfoController infoController;
 
     public PhotonView photonView;
 
@@ -57,8 +57,6 @@ public class OptionsController : MonoBehaviour {
         functionsVoted = 0;
         hasVotedForMethod = false;
         hasVotedForFunction = false;
-
-        photonView.RPC("SetPlayerData", PhotonTargets.AllBuffered);
     }
 
     public void ChoseScrum() {
@@ -104,6 +102,7 @@ public class OptionsController : MonoBehaviour {
             hasVotedForFunction = true;
             photonView.RPC("SyncFunctionVote", PhotonTargets.AllBuffered, functions[function]);
             PlayerPrefs.SetString("player_function", function);
+            infoController.SetInfoText("Você será o " + function + ".");
         }
     }
 
@@ -112,6 +111,7 @@ public class OptionsController : MonoBehaviour {
             hasVotedForFunction = true;
             photonView.RPC("SyncFunctionVote", PhotonTargets.AllBuffered, functions[function]);
             PlayerPrefs.SetString("player_function", function);
+            infoController.SetInfoText("Você será o " + function + ".");
         }
     }
 
@@ -134,22 +134,5 @@ public class OptionsController : MonoBehaviour {
 
         if(functionsVoted >= maxFunctionVotes)
             PhotonNetwork.LoadLevel("MainScene");
-    }
-
-    [PunRPC]
-    private void SetPlayerData() {
-        string usernames = "Connected Players:\n\n";
-        int i = 0;
-
-        for(int index = 0; index < PhotonNetwork.playerList.Length; index++) {
-            try {
-                usernames += PhotonPlayer.Find(i + 1).NickName + "\n";
-            }
-            finally {
-                i++;
-            }
-        }
-
-        connectedUsers.text = usernames;
     }
 }
