@@ -134,7 +134,7 @@ public class TutorialController : MonoBehaviour {
                 break;
 
             case 9:
-                explanationText.text = "Muito bem, estamos quase terminando. Só me deixe explicar como ganhar o jogo.\n\nO objetivo da partida é realizar o maior número de acertos possíveis, mantendo tanto o Cliente quanto a Equipe felizes. A partida termina quando XX erros forem cometidos ou quando as 20 rodadas forem finalizadas. Se o tempo se esgotar e ainda restarem escolhas a serem feitas, elas serão consideradas como erros.";
+                explanationText.text = "Muito bem, agora me deixe explicar como ganhar o jogo.\n\nO objetivo da partida é realizar o maior número de acertos possíveis, mantendo tanto o Cliente quanto a Equipe felizes. A partida termina quando 60 erros forem cometidos (metade do desenvolvimento) ou quando as 20 rodadas forem finalizadas. Se o tempo se esgotar e ainda restarem escolhas a serem feitas, elas serão consideradas como erros.";
                 break;
 
             case 10:

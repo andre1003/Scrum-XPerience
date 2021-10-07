@@ -36,7 +36,7 @@ public class GameController : Photon.MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.M)) {
             mapCanvas.SetActive(!mapCanvas.activeSelf);
         }
-        else if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) { // Retirar a tecla E na build
+        else if(Input.GetKeyDown(KeyCode.Escape)) { // Remove for build -> || Input.GetKeyDown(KeyCode.E)
             isPaused = !isPaused;
             PauseMenu(isPaused);
         }
@@ -81,11 +81,13 @@ public class GameController : Photon.MonoBehaviour {
 
     private void SaveGroup() {
         if(PhotonNetwork.player.IsMasterClient) {
+            Debug.Log(PlayerPrefs.GetString("group"));
             HttpClient client = new HttpClient();
             Dictionary<string, string> data = new Dictionary<string, string>();
             data.Add("name", PlayerPrefs.GetString("group"));
             data.Add("score", "0");
-            SaveSystem.Post(SaveSystem.groupRegisterUrl, data, client);
+            string response = SaveSystem.Post(SaveSystem.groupRegisterUrl, data, client);
+            Debug.Log(response);
         }
     }
 }

@@ -11,7 +11,7 @@ public class SettingsMenu : MonoBehaviour {
     private Resolution[] resolutions;
 
     private void Start() {
-        resolutions = Screen.resolutions.Where(resolution => resolution.refreshRate == 60).ToArray();
+        resolutions = Screen.resolutions; // Removed: .Where(resolution => resolution.refreshRate == 60 || resolution.refreshRate == 144).ToArray()
 
         resolutionDropdown.ClearOptions();
 
@@ -20,7 +20,7 @@ public class SettingsMenu : MonoBehaviour {
 
         int currentResolutionIndex = 0;
         for(int i = 0; i < resolutions.Length; i++) {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
+            string option = resolutions[i].width + " x " + resolutions[i].height + " - " + resolutions[i].refreshRate + "Hz";
             options.Add(option);
 
             if(resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height) {

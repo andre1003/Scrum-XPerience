@@ -7,11 +7,11 @@ using System;
 using Newtonsoft.Json.Linq;
 
 public static class SaveSystem {
-    public static string groupRegisterUrl = "http://127.0.0.1:8000/group-register/";
-    public static string loginUrl = "http://127.0.0.1:8000/game-login/";
-    public static string matchRegisterUrl = "http://127.0.0.1:8000/match-register/";
-    public static string decisionRegisterUrl = "http://127.0.0.1:8000/decision-register/";
-    public static string homeUrl = "http://127.0.0.1:8000";
+    public static string groupRegisterUrl = "https://www.dcce.ibilce.unesp.br/sxp/group-register/";
+    public static string loginUrl = "https://www.dcce.ibilce.unesp.br/sxp/game-login/";
+    public static string matchRegisterUrl = "https://www.dcce.ibilce.unesp.br/sxp/match-register/";
+    public static string decisionRegisterUrl = "https://www.dcce.ibilce.unesp.br/sxp/decision-register/";
+    public static string homeUrl = "https://www.dcce.ibilce.unesp.br/sxp/";
 
     private static string path = Application.persistentDataPath;
     private static string decisionsPath = Directory.GetCurrentDirectory();

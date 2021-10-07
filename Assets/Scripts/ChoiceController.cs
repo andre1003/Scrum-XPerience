@@ -6,13 +6,14 @@ using System.IO;
 using UnityEngine.SceneManagement;
 
 public class ChoiceController : MonoBehaviour {
-
     public string scene;
 
     public int maxMistakes;
 
     public List<Text> buttonList;
     public List<Text> descriptionList;
+
+    public Text descriptionText;
 
     public Text sceneName;
     public Text functionName;
@@ -89,21 +90,22 @@ public class ChoiceController : MonoBehaviour {
     private void Update() {
         photonView.RPC("CheckGameOver", PhotonTargets.AllBuffered);
 
-        if(Input.GetKeyDown(KeyCode.Space))
-            GetStats();
-        else if(Input.GetKeyDown(KeyCode.P))
-            EndGame();
+        //if(Input.GetKeyDown(KeyCode.Space))
+        //    GetStats();
+        //else if(Input.GetKeyDown(KeyCode.P))
+        //    EndGame();
     }
 
     public bool GetChoices() {
+        // Fixed needed: functions that don't talk with the client won't be able to play the first round
         mistake1 = false;
 
-        if(!scene.Equals("Reuniao Cliente") && !passedInClientMeetingRoom && round == 1) {
-            return true;
-        }
-        else if(scene.Equals("Reuniao Cliente")) {
-            passedInClientMeetingRoom = true;
-        }
+        //if(!scene.Equals("Reuniao Cliente") && !passedInClientMeetingRoom && round == 1) {
+        //    return true;
+        //}
+        //else if(scene.Equals("Reuniao Cliente")) {
+        //    passedInClientMeetingRoom = true;
+        //}
 
         data = SaveSystem.LoadFromDatabase(scene, function, turn.ToString(), round.ToString());
 
@@ -153,6 +155,20 @@ public class ChoiceController : MonoBehaviour {
 
     public void SetFunction(string function) {
         this.function = function;
+    }
+
+    public void MouseOver(Text choiceText) {
+        if(choiceText.text.Equals(data[0].decisionId)) {
+            // Hit
+            descriptionText.text = data[0].decisionDescription;
+        }
+        else if(choiceText.text.Equals(data[1].decisionId)) {
+            // Mistake 1
+            descriptionText.text = data[1].decisionDescription;
+        }
+        else {
+            descriptionText.text = data[2].decisionDescription;
+        }
     }
 
     public void LockOrUnlockPlayer() {
@@ -208,6 +224,9 @@ public class ChoiceController : MonoBehaviour {
             mouseController.enabled = false;
             timeController.GameOver();
         }
+        else {
+            
+        }
     }
 
     [PunRPC]
@@ -242,8 +261,7 @@ public class ChoiceController : MonoBehaviour {
 
     public void EndRound() {
         count++;
-        Debug.Log(count);
-        int errors = 3 - passedScenes.Count;
+        int errors = 2 - passedScenes.Count;
         individualMistakes += errors;
         photonView.RPC("AddToGroupMistakes", PhotonTargets.AllBuffered, errors);
         photonView.RPC("AddTimeout", PhotonTargets.AllBuffered, errors);
