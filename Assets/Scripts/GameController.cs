@@ -14,6 +14,9 @@ public class GameController : Photon.MonoBehaviour {
     public GameObject mapCanvas;
     public GameObject pauseMenu;
 
+    public GameObject choiceCanvas;
+    public GameObject statsCanvas;
+
     public Toggle postProcessingToggle;
 
     public ChoiceController choiceController;
@@ -66,21 +69,20 @@ public class GameController : Photon.MonoBehaviour {
         gameCanvas.SetActive(false);
     }
 
-    private void PauseMenu(bool isPaused) {
-        if(isPaused == true) {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-        else {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        choiceController.LockOrUnlockPlayer();
+    public void PauseMenu(bool isPaused) {
+        if(choiceCanvas.activeSelf == false && statsCanvas.activeSelf == false) {
+            if(isPaused == true) {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+            else {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            choiceController.LockOrUnlockPlayer();
+        }        
+        
         pauseMenu.SetActive(!pauseMenu.activeSelf);
-    }
-
-    public void SetIsPaused(bool isPaused) {
-        this.isPaused = isPaused;
     }
 
     private void SaveGroup() {

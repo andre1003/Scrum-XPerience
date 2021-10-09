@@ -27,6 +27,10 @@ public class TutorialController : MonoBehaviour {
         if(PlayerPrefs.GetInt("post_processing") == 1) {
             postProcessing.SetActive(true);
         }
+
+        GameObject[] musicObjects = GameObject.FindGameObjectsWithTag("Music");
+        foreach(GameObject musicObject in musicObjects)
+            Destroy(musicObject);
     }
 
     // Start is called before the first frame update
@@ -41,15 +45,19 @@ public class TutorialController : MonoBehaviour {
             mapCanvas.SetActive(!mapCanvas.activeSelf);
         }
         else if(Input.GetKeyDown(KeyCode.Escape)) {
-            if(pauseMenuCanvas.activeSelf == false) {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.Confined;
+            if(choiceCanvas.activeSelf == false) {
+                if(pauseMenuCanvas.activeSelf == false) {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+                }
+                else {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+
+                LockOrUnlockPlayer();
             }
-            else {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            LockOrUnlockPlayer();
+            
             pauseMenuCanvas.SetActive(!pauseMenuCanvas.activeSelf);
         }
 

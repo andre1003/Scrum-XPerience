@@ -39,6 +39,9 @@ public class NewTimer : MonoBehaviour {
         double realTime = maxTime - timerIncrementValue;
         int timeToText = Mathf.RoundToInt((float)realTime);
 
+        if(choiceController.GetPassedScenesList().Count == 2)
+            realTime = 0;
+
         timeText.text = "Tempo: " + timeToText.ToString();
         choiceTimeText.text = "Tempo: " + timeToText.ToString();
 
