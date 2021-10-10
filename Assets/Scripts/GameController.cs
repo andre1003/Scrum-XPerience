@@ -54,7 +54,12 @@ public class GameController : Photon.MonoBehaviour {
     }
 
     public void SpawnPlayer() {
-        GameObject spawnedPlayerGO = PhotonNetwork.Instantiate(playerPrefab.name, spawnSpot.transform.position, Quaternion.identity, 0);
+        System.Random random = new System.Random();
+        float z = random.Next(-3, 3);
+        float x = random.Next(-3, 3);
+        Vector3 spawnPosition = new Vector3(spawnSpot.transform.position.x + x, spawnSpot.transform.position.y, spawnSpot.transform.position.z + z);
+
+        GameObject spawnedPlayerGO = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity, 0);
 
         spawnedPlayerGO.GetComponent<MovementController>().enabled = true;
         spawnedPlayerGO.GetComponentInChildren<MouseController>().enabled = true;
@@ -70,6 +75,8 @@ public class GameController : Photon.MonoBehaviour {
     }
 
     public void PauseMenu(bool isPaused) {
+        this.isPaused = isPaused;
+
         if(choiceCanvas.activeSelf == false && statsCanvas.activeSelf == false) {
             if(isPaused == true) {
                 Cursor.visible = true;

@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 121233860}
   - component: {fileID: 121233859}
   - component: {fileID: 121233861}
+  - component: {fileID: 121233862}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -275,6 +276,18 @@ MonoBehaviour:
   passwordInputField: {fileID: 1910362031}
   passwordCanvas: {fileID: 1115269048}
   infoText: {fileID: 1135145806}
+--- !u!114 &121233862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121233858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c1846930cf540148bbc0c6ed50628e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &139453402
 GameObject:
   m_ObjectHideFlags: 0

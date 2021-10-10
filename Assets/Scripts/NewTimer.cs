@@ -39,8 +39,7 @@ public class NewTimer : MonoBehaviour {
         double realTime = maxTime - timerIncrementValue;
         int timeToText = Mathf.RoundToInt((float)realTime);
 
-        if(choiceController.GetPassedScenesList().Count == 2)
-            realTime = 0;
+        //photonView.RPC("CheckRoundEnd", PhotonTargets.AllBuffered);
 
         timeText.text = "Tempo: " + timeToText.ToString();
         choiceTimeText.text = "Tempo: " + timeToText.ToString();
@@ -83,7 +82,7 @@ public class NewTimer : MonoBehaviour {
             choiceController.EndGame();
         }
         else if(round == maxRound) {
-            round = 0;
+            round = 1;
             turn++;
             choiceController.EndRound();
         }
@@ -102,4 +101,22 @@ public class NewTimer : MonoBehaviour {
     public void GameOver() {
         gameOver.SetActive(true);
     }
+
+    //[PunRPC]
+    //private void CheckRoundEnd() {
+    //    if(PhotonNetwork.player.IsMasterClient) {
+    //        int allPassedScenes = choiceController.GetAllPassedScenes();
+    //        int players = PhotonNetwork.countOfPlayers;
+
+    //        if(allPassedScenes == (2 * players)) {
+    //            if(isRoundEnded == false) {
+    //                choiceController.EndRound();
+    //                isRoundEnded = true;
+    //            }
+    //            SetTimer();
+    //            photonView.RPC("IncreaseRound", PhotonTargets.AllBuffered);
+    //            photonView.RPC("EndRound", PhotonTargets.AllBuffered);
+    //        }
+    //    }
+    //}
 }

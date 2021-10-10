@@ -744,8 +744,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 66.78, y: -20}
-  m_SizeDelta: {x: 123.56763, y: 40}
+  m_AnchoredPosition: {x: 88.063416, y: -20}
+  m_SizeDelta: {x: 166.1345, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &75425043
 MonoBehaviour:
@@ -2072,9 +2072,9 @@ MonoBehaviour:
   roundText: {fileID: 474288920}
   choiceController: {fileID: 1945940846}
   gameOver: {fileID: 198417583}
-  maxTime: 90
+  maxTime: 60
   maxTurn: 5
-  maxRound: 4
+  maxRound: 5
   photonView: {fileID: 244119173}
 --- !u!1 &251060350
 GameObject:

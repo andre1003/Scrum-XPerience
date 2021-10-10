@@ -1425,8 +1425,8 @@ MonoBehaviour:
   developer: {fileID: 1477748027}
   infoController: {fileID: 1189377623}
   photonView: {fileID: 1174733645}
-  maxMethodVotes: 1
-  maxFunctionVotes: 1
+  maxMethodVotes: 2
+  maxFunctionVotes: 2
 --- !u!4 &1174733644
 Transform:
   m_ObjectHideFlags: 0

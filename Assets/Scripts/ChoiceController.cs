@@ -61,6 +61,8 @@ public class ChoiceController : MonoBehaviour {
     private int count = 0;
     private int timeouts = 0;
 
+    private int allScenesPassed = 0;
+
     private List<Decision> data;
 
     private void Awake() {
@@ -97,7 +99,6 @@ public class ChoiceController : MonoBehaviour {
     }
 
     public bool GetChoices() {
-        // Fixed needed: functions that don't talk with the client won't be able to play the first round
         mistake1 = false;
 
         //if(!scene.Equals("Reuniao Cliente") && !passedInClientMeetingRoom && round == 1) {
@@ -224,9 +225,6 @@ public class ChoiceController : MonoBehaviour {
             mouseController.enabled = false;
             timeController.GameOver();
         }
-        else {
-            
-        }
     }
 
     [PunRPC]
@@ -240,10 +238,26 @@ public class ChoiceController : MonoBehaviour {
 
     public void AddPassedScene() {
         passedScenes.Add(scene);
+        photonView.RPC("IncreaseScenesForAll", PhotonTargets.AllBuffered);
     }
 
     void ClearPassedScenesList() {
         passedScenes.Clear();
+        photonView.RPC("SetScenesToZero", PhotonTargets.AllBuffered);
+    }
+    
+    [PunRPC]
+    private void IncreaseScenesForAll() {
+        allScenesPassed++;
+    }
+
+    [PunRPC]
+    private void SetScenesToZero() {
+        allScenesPassed = 0;
+    }
+
+    public int GetAllPassedScenes() {
+        return allScenesPassed;
     }
 
     public void SetRound(int round) {

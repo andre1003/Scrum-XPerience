@@ -88,6 +88,6 @@ public class AdminSaveController : MonoBehaviour {
         }
 
         SaveSystem.SaveInDatabase(decisionIdInputField.text, decisionDescriptionInputField.text, scenery, outputInputField.text, isMistakeToggle.isOn, role, turnInputField.text, roundInputField.text);
-        previewText.text = "Sucesso!";
+        previewText.text = decisionIdInputField.text + " salvo com sucesso!";
     }
 }
