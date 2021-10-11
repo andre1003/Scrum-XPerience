@@ -33,8 +33,11 @@ public class GameController : Photon.MonoBehaviour {
         gameCanvas.SetActive(true);
         choiceController.SetFunction(PlayerPrefs.GetString("player_function"));
 
-        if(PlayerPrefs.GetInt("post_processing") == 1)
+        if(PlayerPrefs.GetInt("post_processing") == 1) {
             postProcessing.SetActive(true);
+            postProcessingToggle.isOn = true;
+        }
+            
         
         SaveGroup();
     }
