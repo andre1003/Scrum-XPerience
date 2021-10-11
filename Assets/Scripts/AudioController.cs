@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class AudioController : MonoBehaviour {
     public Sprite sound;
     public Sprite mute;
-    private bool isMuted = false;
     public AudioSource audioSource;
     public Image image;
+    public Slider volumeSlider;
+
+    private bool isMuted = false;
 
     public void ChangeSound() {
         isMuted = !isMuted;
@@ -18,8 +20,13 @@ public class AudioController : MonoBehaviour {
             image.sprite = mute;
         }
         else {
-            audioSource.volume = 0.25f;
+            audioSource.volume = volumeSlider.value;
             image.sprite = sound;
         }
+    }
+
+    public void VolumeChange(float volume) {
+        if(!isMuted)
+            audioSource.volume = volume;
     }
 }
