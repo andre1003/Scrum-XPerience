@@ -59,7 +59,7 @@ public class NewTimer : MonoBehaviour {
             isRoundEnded = false;
         }
 
-        CheckTurnsEnd();
+        photonView.RPC("CheckTurnsEnd", PhotonTargets.AllBuffered);
 
         choiceController.SetTurn(turn);
         choiceController.SetRound(round);
@@ -77,6 +77,7 @@ public class NewTimer : MonoBehaviour {
         }
     }
 
+    [PunRPC]
     void CheckTurnsEnd() {
         if(turn == maxTurn) {
             choiceController.EndGame();

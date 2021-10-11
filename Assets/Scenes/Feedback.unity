@@ -211,7 +211,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 121233860}
-  - component: {fileID: 121233859}
   - component: {fileID: 121233861}
   - component: {fileID: 121233862}
   m_Layer: 0
@@ -221,22 +220,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &121233859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 121233858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f90d7cee029d9941a21453107a6b8fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  choiceController: {fileID: 0}
-  photonView: {fileID: 0}
-  outputCanvas: {fileID: 0}
-  outputText: {fileID: 0}
 --- !u!4 &121233860
 Transform:
   m_ObjectHideFlags: 0
@@ -264,7 +247,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   feedbackText: {fileID: 975583433}
-  errorManager: {fileID: 121233859}
   continueButton: {fileID: 63483694}
   continueButton2: {fileID: 838458487}
   titleText: {fileID: 1801208490}
@@ -2833,7 +2815,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1368949904}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 121233861}
+        m_TargetAssemblyTypeName: FeedbackManager, Assembly-CSharp
+        m_MethodName: EndGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1368949904
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -282,7 +282,7 @@ public class ChoiceController : MonoBehaviour {
         photonView.RPC("UpdateScore", PhotonTargets.AllBuffered);
         
         while(errors > 0) {
-            totalChoices++;
+            //totalChoices++;
             errors--;
         }
 
@@ -322,45 +322,44 @@ public class ChoiceController : MonoBehaviour {
         // Stats definition
         GeneralInfo generalInfo = SaveSystem.LoadGeneralInfo();
 
-        //int totalHits = generalInfo.clientMeetingHits + generalInfo.developmentHits + generalInfo.teamMeetingHits;
-        //int totalMistakes = generalInfo.clientMeetingMistakes + generalInfo.developmentMistakes + generalInfo.teamMeetingMistakes;
+        if(generalInfo != null) {
+            int clientStats = (generalInfo.clientMeetingHits + generalInfo.developmentHits) - (generalInfo.clientMeetingMistakes + generalInfo.developmentMistakes);
+            int teamStats = (generalInfo.teamMeetingHits + generalInfo.developmentHits) - (generalInfo.teamMeetingMistakes + generalInfo.developmentMistakes);
 
-        int clientStats = (generalInfo.clientMeetingHits + generalInfo.developmentHits) - (generalInfo.clientMeetingMistakes + generalInfo.developmentMistakes);
-        int teamStats = (generalInfo.teamMeetingHits + generalInfo.developmentHits) - (generalInfo.teamMeetingMistakes + generalInfo.developmentMistakes);
+            // Client satisfaction
+            if(clientStats >= 3) {
+                clientSatisfaction = "Feliz";
+            }
+            else if(clientStats <= -3) {
+                clientSatisfaction = "Infeliz";
+            }
+            else {
+                clientSatisfaction = "Neutro";
+            }
 
-        // Client satisfaction
-        if(clientStats >= 3) {
-            clientSatisfaction = "Feliz";
-        }
-        else if(clientStats <= -3) {
-            clientSatisfaction = "Infeliz";
-        }
-        else {
-            clientSatisfaction = "Neutro";
-        }
+            // Team satisfaction
+            if(teamStats >= 3) {
+                teamSatisfaction = "Feliz";
+            }
+            else if(clientStats <= -3) {
+                teamSatisfaction = "Infeliz";
+            }
+            else {
+                teamSatisfaction = "Neutro";
+            }
 
-        // Team satisfaction
-        if(teamStats >= 3) {
-            teamSatisfaction = "Feliz";
-        }
-        else if(clientStats <= -3) {
-            teamSatisfaction = "Infeliz";
-        }
-        else {
-            teamSatisfaction = "Neutro";
-        }
+            // Progess in %
+            double progress = ((((turn - 1f) * 4f) + round) / 20f) * 100f;
 
-        // Progess in %
-        double progress = ((((turn - 1f) * 4f) + round) / 20f) * 100f;
+            // Changing stats text
+            teamSatisfactionText.text = teamSatisfaction;
+            clientSatisfactionText.text = clientSatisfaction;
+            progressText.text = progress + "%";
 
-        // Changing stats text
-        teamSatisfactionText.text = teamSatisfaction;
-        clientSatisfactionText.text = clientSatisfaction;
-        progressText.text = progress + "%";
-
-        // Defining text color
-        ChangeColor(teamSatisfaction, teamSatisfactionText);
-        ChangeColor(clientSatisfaction, clientSatisfactionText);
+            // Defining text color
+            ChangeColor(teamSatisfaction, teamSatisfactionText);
+            ChangeColor(clientSatisfaction, clientSatisfactionText);
+        }
     }
 
     private void ChangeColor(string status, Text text) {

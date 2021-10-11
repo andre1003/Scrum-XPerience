@@ -9,7 +9,7 @@ using System.Net.Http;
 
 public class FeedbackManager : MonoBehaviour {
     public Text feedbackText;
-    public ErrorManager errorManager;
+    //public ErrorManager errorManager;
     public GameObject continueButton;
     public GameObject continueButton2;
 
@@ -47,6 +47,20 @@ public class FeedbackManager : MonoBehaviour {
     private bool canContinue = false;
 
     private short count = 0;
+
+    private string path;
+
+    private int timeouts = 0;
+    private int teamMeetingMistakes = 0;
+    private int clientMeetingMistakes = 0;
+    private int developmentMistakes = 0;
+    private int teamMeetingHits = 0;
+    private int clientMeetingHits = 0;
+    private int developmentHits = 0;
+
+    private void Awake() {
+        path = Application.persistentDataPath + "/player_data/";
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -89,10 +103,8 @@ public class FeedbackManager : MonoBehaviour {
         //int mistakes = errorManager.GetAllMistakes();
         //string group = PlayerPrefs.GetString("room");
 
-        string username = "andre.aragao";
+        string username = PlayerPrefs.GetString("username");
         string role = "Product Owner";
-
-        
 
         List<Decision> decisions = SaveSystem.LoadAll();
         int hits = 0;
@@ -104,7 +116,7 @@ public class FeedbackManager : MonoBehaviour {
                 hits++;
         }
 
-        string group = "Tigers";
+        string group = PlayerPrefs.GetString("group");
 
         SaveSystem.InfoFile("starting", username, role, hits.ToString(), mistakes.ToString(), individualFeedback, group, "");
 
@@ -158,7 +170,7 @@ public class FeedbackManager : MonoBehaviour {
 
         titleText.text = "Estatísticas Individuais";
         canContinue = false;
-        List<int> mistakes = errorManager.GetIndividualStats();
+        List<int> mistakes = GetIndividualStats();
         string stats = "Erros em Reuniao de Equipe: " + mistakes[1] + "\nErros em Reuniao com Cliente: " + mistakes[2] + "\nErros de Desenvolvimento: " + mistakes[3] + "\nTempo Esgotado: " + mistakes[0];
         StartCoroutine(TypewriterEffect(stats, feedbackText));
 
@@ -187,7 +199,7 @@ public class FeedbackManager : MonoBehaviour {
     }
 
     public void ShowIndividualMistakes() {
-        List<string> mistakes = errorManager.GetMistakes();
+        List<string> mistakes = GetMistakes();
         string aux = "";
         foreach(string mistake in mistakes) {
             aux += mistake + "\n";
@@ -197,7 +209,7 @@ public class FeedbackManager : MonoBehaviour {
     }
 
     public void ShowIndividualHits() {
-        List<string> hits = errorManager.GetHits();
+        List<string> hits = GetHits();
         string aux = "";
         foreach(string hit in hits) {
             aux += hit + "\n";
@@ -224,7 +236,7 @@ public class FeedbackManager : MonoBehaviour {
         continueButton2.SetActive(false);
         feedbackText.text = "";
         mistakesAndHitsCanvas.SetActive(false);
-        List<int> mistakes = errorManager.GetGeneralStats();
+        List<int> mistakes = GetGeneralStats();
         string stats = "Erros em Reuniao de Equipe: " + mistakes[1] + "\nErros em Reuniao com Cliente: " + mistakes[2] + "\nErros de Desenvolvimento: " + mistakes[3] + "\nTempo Esgotado: " + mistakes[0];
         StartCoroutine(TypewriterEffect(stats, feedbackText));
 
@@ -243,7 +255,7 @@ public class FeedbackManager : MonoBehaviour {
     }
 
     public void ShowGeneralMistakes() {
-        List<string> mistakes = errorManager.GetGeneralMistakes();
+        List<string> mistakes = GetGeneralMistakes();
         string aux = "";
         foreach(string mistake in mistakes) {
             aux += mistake + "\n";
@@ -253,7 +265,7 @@ public class FeedbackManager : MonoBehaviour {
     }
 
     public void ShowGeneralHits() {
-        List<string> hits = errorManager.GetGeneralHits();
+        List<string> hits = GetGeneralHits();
         string aux = "";
         foreach(string hit in hits) {
             aux += hit + "\n";
@@ -316,5 +328,191 @@ public class FeedbackManager : MonoBehaviour {
             uiText.text += character;
             yield return new WaitForSeconds(0.02f);
         }
+    }
+
+
+
+    private void Increment(int option) {
+        switch(option) {
+            case 0:
+                teamMeetingMistakes++;
+                break;
+
+            case 1:
+                clientMeetingMistakes++;
+                break;
+
+            case 2:
+                developmentMistakes++;
+                break;
+
+            case 3:
+                teamMeetingHits++;
+                break;
+
+            case 4:
+                clientMeetingHits++;
+                break;
+
+            case 5:
+                developmentHits++;
+                break;
+
+            case 6:
+                timeouts++;
+                break;
+        }
+    }
+    public List<int> GetIndividualStats() {
+        timeouts = 0;
+        teamMeetingMistakes = 0;
+        clientMeetingMistakes = 0;
+        developmentMistakes = 0;
+        teamMeetingHits = 0;
+        clientMeetingHits = 0;
+        developmentHits = 0;
+
+        string[] files = Directory.GetFiles(path);
+        int length = files.Length;
+
+        for(int i = 0; i < length; i++) {
+            Decision data = SaveSystem.Load(i);
+
+            if(data != null) {
+                if(data.isMistake) {
+                    if(data.scenery.Equals("Reuniao Equipe")) {
+                        Increment(0);
+                    }
+                    else if(data.scenery.Equals("Reuniao Cliente")) {
+                        Increment(1);
+                    }
+                    else if(data.scenery.Equals("Desenvolvimento")) {
+                        Increment(2);
+                    }
+                    else {
+                        Increment(6);
+                    }
+                }
+                else {
+                    if(data.scenery.Equals("Reuniao Equipe")) {
+                        Increment(3);
+                    }
+                    else if(data.scenery.Equals("Reuniao Cliente")) {
+                        Increment(4);
+                    }
+                    else {
+                        Increment(5);
+                    }
+                }
+            }
+        }
+
+        List<int> mistakes = new List<int>() {
+            timeouts,              // 0
+            teamMeetingMistakes,   // 1
+            clientMeetingMistakes, // 2
+            developmentMistakes,   // 3
+            teamMeetingHits,       // 4
+            clientMeetingHits,     // 5
+            developmentHits        // 6
+        };
+
+        return mistakes;
+    }
+
+    public int GetAllHits() {
+        return (teamMeetingHits + clientMeetingHits + developmentHits);
+    }
+
+    public int GetAllMistakes() {
+        return (timeouts + teamMeetingMistakes + clientMeetingMistakes + developmentMistakes);
+    }
+
+    public List<string> GetMistakes() {
+        string[] files = Directory.GetFiles(path);
+        int length = files.Length;
+        List<string> mistakes = new List<string>();
+
+        //Debug.Log(length);
+
+        for(int i = 0; i < length; i++) {
+            Decision data = SaveSystem.Load(i);
+            if(data != null)
+                if(data.isMistake)
+                    mistakes.Add(data.decisionId);
+        }
+
+        mistakes = mistakes.Distinct().ToList();
+
+        return mistakes;
+    }
+
+    public List<string> GetHits() {
+        string[] files = Directory.GetFiles(path);
+        int length = files.Length;
+        List<string> hits = new List<string>();
+
+        //Debug.Log(length);
+
+        for(int i = 0; i < length; i++) {
+            Decision data = SaveSystem.Load(i);
+            if(data != null)
+                if(!data.isMistake)
+                    hits.Add(data.decisionId);
+        }
+
+        hits = hits.Distinct().ToList();
+
+        return hits;
+    }
+
+    public List<int> GetGeneralStats() {
+        GeneralInfo groupData = SaveSystem.LoadGeneralInfo();
+        return new List<int>() {
+            groupData.timeouts,
+            groupData.teamMeetingMistakes,
+            groupData.clientMeetingMistakes,
+            groupData.developmentMistakes,
+            groupData.teamMeetingHits,
+            groupData.clientMeetingHits,
+            groupData.developmentHits
+        };
+    }
+
+    public List<string> GetGeneralMistakes() {
+        GeneralInfo groupData = SaveSystem.LoadGeneralInfo();
+        List<string> mistakes = new List<string>();
+
+        //Debug.Log(groupData.timeouts);
+
+        if(groupData.timeouts != 0)
+            mistakes.Add("O grupo demorou para realizar as ações.\n");
+
+        if(groupData.clientMeetingMistakes != 0)
+            mistakes.Add("Erros na comunicação com o cliente.\n");
+
+        if(groupData.teamMeetingMistakes != 0)
+            mistakes.Add("Erros na comunicação com a equipe.\n");
+
+        if(groupData.developmentMistakes != 0)
+            mistakes.Add("Erros no desenvolvimento.\n");
+
+        return mistakes;
+    }
+
+    public List<string> GetGeneralHits() {
+        GeneralInfo groupData = SaveSystem.LoadGeneralInfo();
+        List<string> hits = new List<string>();
+
+        if(groupData.clientMeetingHits != 0)
+            hits.Add("Sua comunicação com o cliente foi boa.\n");
+
+        if(groupData.teamMeetingHits != 0)
+            hits.Add("Sua comunicação com a equipe foi boa.\n");
+
+        if(groupData.developmentHits != 0)
+            hits.Add("O desenvolvimento foi adequado.\n");
+
+        return hits;
     }
 }

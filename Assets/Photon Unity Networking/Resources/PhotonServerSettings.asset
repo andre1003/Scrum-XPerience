@@ -60,4 +60,5 @@ MonoBehaviour:
   - IncreaseScenesForAll
   - SetScenesToZero
   - CheckRoundEnd
+  - CheckTurnsEnd
   DisableAutoOpenWizard: 1

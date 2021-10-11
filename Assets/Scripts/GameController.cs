@@ -32,6 +32,10 @@ public class GameController : Photon.MonoBehaviour {
         Cursor.lockState = CursorLockMode.Confined;
         gameCanvas.SetActive(true);
         choiceController.SetFunction(PlayerPrefs.GetString("player_function"));
+
+        if(PlayerPrefs.GetInt("post_processing") == 1)
+            postProcessing.SetActive(true);
+        
         SaveGroup();
     }
 
