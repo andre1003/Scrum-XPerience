@@ -25,6 +25,8 @@ public class FeedbackManager : MonoBehaviour {
     public GameObject passwordCanvas;
     public Text infoText;
 
+    public Toggle formsToggle;
+
     private string mistakeFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\mistakes.txt";
     private string individualFeedbackFilePath = Directory.GetCurrentDirectory() + @"\Assets\Data\individual_feedback.txt";
     private string[] lines;
@@ -58,6 +60,8 @@ public class FeedbackManager : MonoBehaviour {
     private int clientMeetingHits = 0;
     private int developmentHits = 0;
 
+    private string individualStats;
+
     private void Awake() {
         path = Application.persistentDataPath + "/player_data/";
     }
@@ -66,7 +70,7 @@ public class FeedbackManager : MonoBehaviour {
     void Start() {
         decisionsPath = Application.persistentDataPath + "/player_data/";
         passwordCanvas.SetActive(true);
-        //ShowIndividualStats();
+        individualStats = GetIndividualFeedback();
     }
 
     private void Update() {
@@ -86,25 +90,36 @@ public class FeedbackManager : MonoBehaviour {
         }
     }
 
+    private string GetIndividualFeedback() {
+        List<int> mistakes = GetIndividualStats();
+
+        if(mistakes[0] != 0)
+            individualFeedback += timeoutText + "\n";
+
+        if(mistakes[1] != 0)
+            individualFeedback += teamMeetingText + "\n";
+
+        if(mistakes[2] != 0)
+            individualFeedback += clientMeetingText + "\n";
+
+        if(mistakes[3] != 0)
+            individualFeedback += developmentRoomText + "\n";
+
+        return "Erros em Reuniao de Equipe: " + mistakes[1] + "\nErros em Reuniao com Cliente: " + mistakes[2] + "\nErros de Desenvolvimento: " + mistakes[3];
+    }
+
     public void Login() {
         password = passwordInputField.text;
-        ShowIndividualStats();
+        SendDataToDatabase();
     }
 
     private void SendDataToDatabase() {
-        //////
-        /// TEST NEEDED
-        //////
-
-        //string username = PlayerPrefs.GetString("username");
-        //string password = PlayerPrefs.GetString("password");
-        //string role = PlayerPrefs.GetString("player_function");
-        //int hits = errorManager.GetAllHits();
-        //int mistakes = errorManager.GetAllMistakes();
-        //string group = PlayerPrefs.GetString("room");
-
         string username = PlayerPrefs.GetString("username");
-        string role = "Product Owner";
+        string role = PlayerPrefs.GetString("player_function");
+        string group = PlayerPrefs.GetString("group");
+        //string username = "andre.aragao";
+        //string role = "Scrum Master";
+        //string group = "Tigers";
 
         List<Decision> decisions = SaveSystem.LoadAll();
         int hits = 0;
@@ -115,8 +130,6 @@ public class FeedbackManager : MonoBehaviour {
             else
                 hits++;
         }
-
-        string group = PlayerPrefs.GetString("group");
 
         SaveSystem.InfoFile("starting", username, role, hits.ToString(), mistakes.ToString(), individualFeedback, group, "");
 
@@ -158,35 +171,22 @@ public class FeedbackManager : MonoBehaviour {
                 }
 
                 SaveSystem.InfoFile("done", username, role, hits.ToString(), mistakes.ToString(), individualFeedback, group, matchId);
+                
             }
+            ShowIndividualStats(individualStats);
         }
         else {
             UnityEngine.Debug.Log(response);
+            ShowIndividualStats(individualStats);
         }
+
+        
     }
 
-    public void ShowIndividualStats() {
-        passwordCanvas.SetActive(true);
-
+    public void ShowIndividualStats(string stats) {
         titleText.text = "Estatísticas Individuais";
         canContinue = false;
-        List<int> mistakes = GetIndividualStats();
-        string stats = "Erros em Reuniao de Equipe: " + mistakes[1] + "\nErros em Reuniao com Cliente: " + mistakes[2] + "\nErros de Desenvolvimento: " + mistakes[3] + "\nTempo Esgotado: " + mistakes[0];
         StartCoroutine(TypewriterEffect(stats, feedbackText));
-
-        if(mistakes[0] != 0)
-            individualFeedback += timeoutText + "\n";
-
-        if(mistakes[1] != 0)
-            individualFeedback += teamMeetingText + "\n";
-
-        if(mistakes[2] != 0)
-            individualFeedback += clientMeetingText + "\n";
-
-        if(mistakes[3] != 0)
-            individualFeedback += developmentRoomText + "\n";
-
-        SendDataToDatabase();
     }
 
     private void ShowIndividualHitsAndMistakes() {
@@ -237,7 +237,7 @@ public class FeedbackManager : MonoBehaviour {
         feedbackText.text = "";
         mistakesAndHitsCanvas.SetActive(false);
         List<int> mistakes = GetGeneralStats();
-        string stats = "Erros em Reuniao de Equipe: " + mistakes[1] + "\nErros em Reuniao com Cliente: " + mistakes[2] + "\nErros de Desenvolvimento: " + mistakes[3] + "\nTempo Esgotado: " + mistakes[0];
+        string stats = "Erros em Reuniao de Equipe: " + mistakes[1] + "\nErros em Reuniao com Cliente: " + mistakes[2] + "\nErros de Desenvolvimento: " + mistakes[3];
         StartCoroutine(TypewriterEffect(stats, feedbackText));
 
 
@@ -283,6 +283,8 @@ public class FeedbackManager : MonoBehaviour {
     }
 
     public void EndGame() {
+        if(formsToggle.isOn)
+            Process.Start(SaveSystem.formsUrl);
         Application.Quit();
     }
 

@@ -7,6 +7,8 @@ public class NewTimer : MonoBehaviour {
     public Text timeText;
     public Text choiceTimeText;
     public Text roundText;
+    public Text choiceRoundText;
+    public Text stageText;
 
     public ChoiceController choiceController;
     public GameObject gameOver;
@@ -27,10 +29,18 @@ public class NewTimer : MonoBehaviour {
 
     private bool isRoundEnded = true;
 
+    private Color green = new Color(0.1512582f, 1f, 0f);
+    private Color yellow = new Color(0.93859f, 1f, 0f);
+    private Color orange = new Color(1f, 0.6900075f, 0f);
+    private Color red = new Color(1f, 0.1877369f, 0f);
+
     // Start is called before the first frame update
     void Start() {
         SetTimer();
         roundText.text = "Turno: " + turn.ToString() + "\nRodada: " + round.ToString();
+        choiceRoundText.text = "Turno: " + turn.ToString() + "\nRodada: " + round.ToString();
+        stageText.text = "Início do Incremento";
+        stageText.color = green;
     }
 
     // Update is called once per frame
@@ -80,12 +90,35 @@ public class NewTimer : MonoBehaviour {
 
     [PunRPC]
     void CheckTurnsEnd() {
+        if(round == maxRound) {
+            round = 1;
+            turn++;
+        }
+
         if(turn == maxTurn) {
             choiceController.EndGame();
         }
-        else if(round == maxRound) {
-            round = 1;
-            turn++;
+
+        switch(round) {
+            case 1:
+                stageText.text = "Início do Incremento";
+                stageText.color = green;
+                break;
+
+            case 2:
+                stageText.text = "Primeira Metade do Incremento";
+                stageText.color = yellow;
+                break;
+
+            case 3:
+                stageText.text = "Segunda Metade do Incremento";
+                stageText.color = orange;
+                break;
+
+            case 4:
+                stageText.text = "Final do Incremento";
+                stageText.color = red;
+                break;
         }
     }
 
@@ -97,6 +130,7 @@ public class NewTimer : MonoBehaviour {
     [PunRPC]
     void EndRound() {
         roundText.text = "Turno: " + turn.ToString() + "\nRodada: " + round.ToString();
+        choiceRoundText.text = "Turno: " + turn.ToString() + "\nRodada: " + round.ToString();
     }
 
     public void GameOver() {

@@ -1426,7 +1426,7 @@ MonoBehaviour:
   infoController: {fileID: 1189377623}
   photonView: {fileID: 1174733645}
   maxMethodVotes: 2
-  maxFunctionVotes: 2
+  maxFunctionVotes: 3
 --- !u!4 &1174733644
 Transform:
   m_ObjectHideFlags: 0
@@ -1613,7 +1613,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 112.647}
-  m_SizeDelta: {x: 688.2803, y: 185.6722}
+  m_SizeDelta: {x: 706.8687, y: 185.6722}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1242344520
 MonoBehaviour:
@@ -1637,7 +1637,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: a836b3abe3242bb42a59a1bb4dfdfacf, type: 3}
-    m_FontSize: 10
+    m_FontSize: 9
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1

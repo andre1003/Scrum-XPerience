@@ -12,6 +12,7 @@ public static class SaveSystem {
     public static string matchRegisterUrl = "https://www.dcce.ibilce.unesp.br/sxp/match-register/";
     public static string decisionRegisterUrl = "https://www.dcce.ibilce.unesp.br/sxp/decision-register/";
     public static string homeUrl = "https://www.dcce.ibilce.unesp.br/sxp/";
+    public static string formsUrl = "https://forms.gle/geW298StZGuc1yiB8";
 
     private static string path = Application.persistentDataPath;
     private static string decisionsPath = Directory.GetCurrentDirectory();
@@ -88,6 +89,13 @@ public static class SaveSystem {
         Decision data = new Decision(decisionId, decisionDescription, scenery, output, isMistake);
         binaryFormatter.Serialize(stream, data);
         stream.Close();
+    }
+
+    public static void DeleteFromDB(string scenery, string role, string turn, string round) {
+        string file = decisionsPath + "/data/mistakes1/" + scenery + "/" + role + "/decision_" + turn + "_" + round + ".sxp";
+        if(File.Exists(file)) {
+            File.Delete(file);
+        }
     }
 
     public static Decision Load(int index) {

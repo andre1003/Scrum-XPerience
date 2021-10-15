@@ -71,7 +71,7 @@ public class OptionsController : MonoBehaviour {
         scrumVoteCount++;
         UnityEngine.Debug.Log(scrumVoteCount);
 
-        votingStatus.text = "Votes: " + scrumVoteCount + " Scrum / " + xpVoteCount + " XP.";
+        votingStatus.text = "Votos: " + scrumVoteCount + " Scrum / " + xpVoteCount + " XP.";
 
         if(scrumVoteCount >= maxMethodVotes) {
             scrumFunctionCanvas.SetActive(true);

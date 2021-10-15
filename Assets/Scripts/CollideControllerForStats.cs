@@ -9,7 +9,7 @@ public class CollideControllerForStats : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if(other.GetComponent<PhotonView>().isMine) {
             string function = PlayerPrefs.GetString("player_function");
-            if(function.Equals("Scrum Master") || function.Equals("Product Owner") || function.Equals("Gerente de Projetos")) {
+            if(function.Equals("Product Owner") || function.Equals("Gerente de Projetos")) {
                 choiceController.LockOrUnlockPlayer();
                 choiceController.GetStats();
                 canvas.SetActive(true);
