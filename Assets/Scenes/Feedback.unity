@@ -3184,7 +3184,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Estatisticas Individuais
+  m_Text: "Estat\xEDsticas Individuais"
 --- !u!222 &1801208491
 CanvasRenderer:
   m_ObjectHideFlags: 0

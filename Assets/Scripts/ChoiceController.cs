@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class ChoiceController : MonoBehaviour {
     public string scene;
@@ -29,6 +30,8 @@ public class ChoiceController : MonoBehaviour {
     public GameObject outputCanvas;
 
     public NewTimer timeController;
+
+    public int numberOfPlayers = 3;
 
     private MovementController movementController;
     private MouseController mouseController;
@@ -64,6 +67,9 @@ public class ChoiceController : MonoBehaviour {
     private int allScenesPassed = 0;
 
     private List<Decision> data;
+    private bool teamComplete = false;
+
+    private int index = -1;
 
     private void Awake() {
         individualHits = 0;
@@ -92,21 +98,39 @@ public class ChoiceController : MonoBehaviour {
     private void Update() {
         photonView.RPC("CheckGameOver", PhotonTargets.AllBuffered);
 
-        //if(Input.GetKeyDown(KeyCode.Space))
-        //    GetStats();
-        //else if(Input.GetKeyDown(KeyCode.P))
-        //    EndGame();
+        if(PhotonNetwork.playerList.Length == numberOfPlayers) {
+            teamComplete = true;
+        }
+
+        if(PhotonNetwork.connectedAndReady == false || (PhotonNetwork.playerList.Length != numberOfPlayers && teamComplete)) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+
+            File.Create(Directory.GetCurrentDirectory() + "/disconnected.sxp");
+
+            string username = PlayerPrefs.GetString("username");
+            string role = PlayerPrefs.GetString("player_function");
+            string group = PlayerPrefs.GetString("group");
+            List<Decision> decisions = SaveSystem.LoadAll();
+            int hits = 0;
+            int mistakes = 0;
+            foreach(Decision decision in decisions) {
+                if(decision.isMistake == true)
+                    mistakes++;
+                else
+                    hits++;
+            }
+
+            mistakes += 40 - (hits + mistakes);
+
+            SaveSystem.InfoFile("starting", username, role, hits.ToString(), mistakes.ToString(), "Você e seu grupo não terminaram a partida, portanto nenhum feedback foi gerado.", group, "");
+
+            LoadMainMenuScene();
+        }
     }
 
     public bool GetChoices() {
         mistake1 = false;
-
-        //if(!scene.Equals("Reuniao Cliente") && !passedInClientMeetingRoom && round == 1) {
-        //    return true;
-        //}
-        //else if(scene.Equals("Reuniao Cliente")) {
-        //    passedInClientMeetingRoom = true;
-        //}
 
         data = SaveSystem.LoadFromDatabase(scene, function, turn.ToString(), round.ToString());
 
@@ -312,7 +336,17 @@ public class ChoiceController : MonoBehaviour {
     }
 
     public void LoadMainMenuScene() {
+        PhotonNetwork.Disconnect();
         SceneManager.LoadScene(0);
+    }
+
+    public void ExitGame() {
+        PhotonNetwork.Disconnect();
+
+        if(File.Exists(Directory.GetCurrentDirectory() + "/disconnected.sxp"))
+            File.Delete(Directory.GetCurrentDirectory() + "/disconnected.sxp");
+
+        Application.Quit();
     }
 
     public void GetStats() {

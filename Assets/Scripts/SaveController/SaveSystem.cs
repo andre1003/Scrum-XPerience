@@ -12,7 +12,7 @@ public static class SaveSystem {
     public static string matchRegisterUrl = "https://www.dcce.ibilce.unesp.br/sxp/match-register/";
     public static string decisionRegisterUrl = "https://www.dcce.ibilce.unesp.br/sxp/decision-register/";
     public static string homeUrl = "https://www.dcce.ibilce.unesp.br/sxp/";
-    public static string formsUrl = "https://forms.gle/geW298StZGuc1yiB8";
+    public static string formsUrl = "https://forms.gle/gJcvL78JERLhGsig8";
 
     private static string path = Application.persistentDataPath;
     private static string decisionsPath = Directory.GetCurrentDirectory();
@@ -234,7 +234,7 @@ public static class SaveSystem {
             var request = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(data) };
             var response = client.SendAsync(request).Result;
             string statusCode = response.StatusCode.ToString();
-
+            
             if(statusCode.Equals("OK")) {
                 var content = response.Content.ReadAsStringAsync().Result;
 

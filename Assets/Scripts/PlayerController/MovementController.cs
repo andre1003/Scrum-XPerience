@@ -38,7 +38,7 @@ public class MovementController : MonoBehaviour {
         float z = Input.GetAxis("Vertical");
 
         if(x != 0 || z != 0) {
-            HeadMovement();
+            //HeadMovement();
             animator.SetBool("isMoving", true);
         }
         else {

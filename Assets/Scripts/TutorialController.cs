@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class TutorialController : MonoBehaviour {
     public MovementController movementController;
@@ -179,6 +180,8 @@ public class TutorialController : MonoBehaviour {
             currentPhase++;
         }
         else if(currentPhase == 11) {
+            if(!File.Exists(Application.persistentDataPath + "/first_time.sxp"))
+                File.Create(Application.persistentDataPath + "/first_time.sxp");
             SceneManager.LoadScene(0);
         }
         else {

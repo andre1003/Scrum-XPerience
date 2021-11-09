@@ -61,4 +61,7 @@ MonoBehaviour:
   - SetScenesToZero
   - CheckRoundEnd
   - CheckTurnsEnd
+  - NotEnoughPlayer
+  - Spawned
+  - IncreaseIndex
   DisableAutoOpenWizard: 1

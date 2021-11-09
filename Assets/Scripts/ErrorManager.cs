@@ -51,7 +51,7 @@ public class ErrorManager : MonoBehaviour {
 
         outputText.text = decision.output;
 
-        SaveSystem.Save(decision.decisionId, decision.decisionDescription, decision.scenery, "", decision.isMistake, index);
+        SaveSystem.Save(decision.decisionId, decision.decisionDescription, decision.scenery, decision.output, decision.isMistake, index);
         photonView.RPC("SaveGeneralInfo", PhotonTargets.AllBuffered, decision.scenery, decision.isMistake);
         
         outputCanvas.SetActive(true);

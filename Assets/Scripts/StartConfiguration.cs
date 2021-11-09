@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,10 +9,20 @@ public class StartConfiguration : MonoBehaviour {
     public InputField passwordInputField;
     public GameObject passwordCanvas;
     public GameObject playButton;
+    public GameObject startGameButton;
+    public GameObject disconnectionCanvas;
     public Text infoText;
+
+    private void Awake() {
+        if(!File.Exists(Application.persistentDataPath + "/first_time.sxp"))
+            startGameButton.SetActive(false);
+    }
 
     // Start is called before the first frame update
     void Start() {
+        if(File.Exists(Directory.GetCurrentDirectory() + "/disconnected.sxp"))
+            disconnectionCanvas.SetActive(true);
+
         HttpClient client = new HttpClient();
         string serverStatus = SaveSystem.Get(SaveSystem.homeUrl, client);
         if(serverStatus.Equals("Connection Failed")) {
@@ -23,9 +34,9 @@ public class StartConfiguration : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-
+    public void CleanDisconnection() {
+        if(File.Exists(Directory.GetCurrentDirectory() + "/disconnected.sxp"))
+            File.Delete(Directory.GetCurrentDirectory() + "/disconnected.sxp");
     }
 
     private void CheckSentDecisions() {
@@ -52,7 +63,8 @@ public class StartConfiguration : MonoBehaviour {
         data.Add("username", info.username);
         data.Add("password", password);
 
-        SaveSystem.Post(SaveSystem.loginUrl, data, client);
+        string resp = SaveSystem.Post(SaveSystem.loginUrl, data, client);
+        data.Clear();
 
         if(info.status.Equals("starting")) {
             // Create match and send decisions
@@ -76,6 +88,7 @@ public class StartConfiguration : MonoBehaviour {
                     data.Add("scenery", decision.scenery);
                     data.Add("is_mistake", decision.isMistake.ToString());
                     SaveSystem.Post(SaveSystem.decisionRegisterUrl + matchId + "/", data, client);
+                    
                     data.Clear();
                 }
             }

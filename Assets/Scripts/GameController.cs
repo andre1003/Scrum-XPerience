@@ -8,7 +8,7 @@ using Methods;
 public class GameController : Photon.MonoBehaviour {
     public GameObject playerPrefab;
     public GameObject gameCanvas;
-    public GameObject spawnSpot;
+    public List<GameObject> spawnSpot;
     public GameObject postProcessing;
 
     public GameObject mapCanvas;
@@ -22,6 +22,9 @@ public class GameController : Photon.MonoBehaviour {
     public ChoiceController choiceController;
 
     private bool isPaused = false;
+    private bool isSpawned = false;
+
+    private int index = 0;
 
     private void Awake() {
         GameObject[] musicObjects = GameObject.FindGameObjectsWithTag("Music");
@@ -61,10 +64,19 @@ public class GameController : Photon.MonoBehaviour {
     }
 
     public void SpawnPlayer() {
-        System.Random random = new System.Random();
-        float z = random.Next(-3, 3);
-        float x = random.Next(-3, 3);
-        Vector3 spawnPosition = new Vector3(spawnSpot.transform.position.x + x, spawnSpot.transform.position.y, spawnSpot.transform.position.z + z);
+        // Set spawn location
+        //int index;
+        //var players = GameObject.FindGameObjectsWithTag("Player");
+        //Debug.Log(players.Length);
+        //if(players.Length == 0)
+        //    index = 0;
+        //else if(players.Length == 1)
+        //    index = 1;
+        //else
+        //    index = 2;
+        index = PhotonNetwork.player.ID - 1;
+
+        Vector3 spawnPosition = new Vector3(spawnSpot[index].transform.position.x, spawnSpot[index].transform.position.y, spawnSpot[index].transform.position.z);
 
         GameObject spawnedPlayerGO = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity, 0);
 
@@ -79,7 +91,12 @@ public class GameController : Photon.MonoBehaviour {
         Cursor.visible = false;
 
         gameCanvas.SetActive(false);
+
+        
+        Debug.Log("Player ID: " + PhotonNetwork.player.ID);
     }
+
+    
 
     public void PauseMenu(bool isPaused) {
         this.isPaused = isPaused;
