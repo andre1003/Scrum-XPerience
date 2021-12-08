@@ -28,7 +28,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 <!---Estes são apenas requisitos de exemplo. Adicionar, duplicar ou remover conforme necessário--->
 * Você possui o software Unity instalado na versão `2020.3.0.0f1 ou superior`
-* Você tem uma máquina `<Windows (10 ou superior) / Linux / Mac>`. Obs.: Para melhor performance, utilize Windows
+* Você tem uma máquina `Windows (10 ou superior) / Linux / Mac`. Obs.: Para melhor performance, utilize Windows
 
 ## 🚀 Instalando o Scrum XPerience
 
