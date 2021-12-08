@@ -41,6 +41,6 @@ Para usar Scrum XPerience, siga estas etapas:
 1. Abra o software com o Unity
 2. Acesse a aba `File` e clique em `Build and Run`
 
-Pronto! Você já está rodando a aplicação. Você também pode obtê-la aqui.
+Pronto! Você já está rodando a aplicação. Você também pode obtê-la [aqui](https://www.dcce.ibilce.unesp.br/sxp).
 
 [⬆ Voltar ao topo](#scrum-xperience)<br>
