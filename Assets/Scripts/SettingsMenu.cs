@@ -56,6 +56,11 @@ public class SettingsMenu : MonoBehaviour {
             PlayerPrefs.SetInt("post_processing", 0);
     }
 
+    public void SetMouseSensitivity(float sensitivity) {
+        MouseController controller = (MouseController)FindObjectOfType(typeof(MouseController));
+        controller.SetSensitivity(sensitivity);
+    }
+
     public void ExitGame() {
         Application.Quit();
     }
