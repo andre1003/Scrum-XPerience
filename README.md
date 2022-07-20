@@ -32,7 +32,20 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 ## 🚀 Instalando o Scrum XPerience
 
-Para instalar o Scrum XPerience, basta baixar o código e adicioná-lo ao Unity HUB. Com a versão correta do software, você poderá abrir o projeto sem problemas.
+Para instalar o Scrum XPerience, basta baixar o código e adicioná-lo ao Unity HUB. Com a versão correta do software, você poderá abrir o projeto sem problemas. No entanto, antes de utilizar o Scrum XPerience é necessário realizar algumas configurações de conexão com o site. Para isso, você deve editar o arquivo ```Scripts/SaveController/SaveSystem.cs``` da seguinte forma:
+
+```cs
+public static string groupRegisterUrl = "URL de cadastro de grupo";
+public static string loginUrl = "URL de login do jogo";
+public static string matchRegisterUrl = "URL de cadastro de partida";
+public static string decisionRegisterUrl = "URL de cadastro de decisão";
+public static string homeUrl = "URL da página principal do site";
+public static string formsUrl = "URL do formulário avaliativo";
+```
+
+O código do site do Scrum XPerience, assim como o passo a passo de como configurá-lo pode ser acessado [aqui](https://github.com/andre1003/GameWebsite).
+
+Após isso, o Scrum XPerience pode ser utilizado, conforme os passos descritos na seção a seguir.
 
 ## ☕ Usando o Scrum XPerience
 
